@@ -3,5 +3,13 @@
     "about": "About",
     "projects": "Projects",
     "contact": "Contact"
+  },
+  "hero": {
+    "badge": "v2.0 Portfolio",
+    "title_part1": "Crafting high-impact",
+    "title_highlight": "digital experiences",
+    "description": "I'm Felipe Giacomini, a Full Stack Developer dedicated to building scalable solutions where technical performance meets intuitive design.",
+    "cta_projects": "View Projects",
+    "cta_github": "GitHub"
   }
 }

@@ -3,5 +3,13 @@
     "about": "Sobre",
     "projects": "Projetos",
     "contact": "Contato"
+  },
+  "hero": {
+    "badge": "v2.0 Portfolio",
+    "title_part1": "Construindo experiências digitais",
+    "title_highlight": "incríveis",
+    "description": "Sou Felipe Giacomini, um desenvolvedor Full Stack focado em criar soluções escaláveis, combinando performance técnica e design intuitivo.",
+    "cta_projects": "Ver Projetos",
+    "cta_github": "GitHub"
   }
 }
