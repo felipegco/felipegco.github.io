@@ -43,7 +43,7 @@ export default function Hero({dict, lang}) {
                             onClick={handleScroll}
                             className="cursor-pointer rounded-lg border border-white bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-transparent hover:text-white"
                         >
-                            Ver Projetos
+                            {dict.cta_projects}
                         </a>
 
                         <a
