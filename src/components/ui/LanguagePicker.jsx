@@ -9,7 +9,11 @@ export default function LanguagePicker({ lang }) {
     const redirectedPathname = (locale) => {
         if (!pathname) return "/";
         const segments = pathname.split("/");
-        segments[1] = locale;
+
+        const isGithubPages = segments[1] === "portifolio-v2";
+        const localeIndex = isGithubPages ? 2 : 1;
+
+        segments[localeIndex] = locale;
         return segments.join("/");
     };
 
