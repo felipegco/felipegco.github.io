@@ -13,8 +13,11 @@ export default function SpotlightCard({ children, className = '' }) {
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        div.style.setProperty('--mouse-x', `${x}px`);
-        div.style.setProperty('--mouse-y', `${y}px`);
+        // Usamos requestAnimationFrame para uma performance mais fluida
+        window.requestAnimationFrame(() => {
+            div.style.setProperty('--mouse-x', `${x}px`);
+            div.style.setProperty('--mouse-y', `${y}px`);
+        });
     };
 
     return (
@@ -28,7 +31,7 @@ export default function SpotlightCard({ children, className = '' }) {
       `}
         >
             <div
-                className="pointer-events-none absolute rounded-full -translate-x-1/2 -translate-y-1/2 w-0 h-0 group-hover:w-150 group-hover:h-150 transition-all duration-300 ease-out"
+                className="pointer-events-none absolute rounded-full -translate-x-1/2 -translate-y-1/2 w-0 h-0 group-hover:w-150 group-hover:h-150 transition-[width,height] duration-300 ease-out"
                 style={{
                     left: 'var(--mouse-x)',
                     top: 'var(--mouse-y)',
