@@ -59,8 +59,8 @@ export default function Projects({dict}) {
 
         {
             id: "scripts",
-            title: "Scripts & Automação",
-            description: dict.scripts.title,
+            title: dict.scripts.title,
+            description: dict.scripts.description,
             projects: [
                 {
                     icon: Terminal,

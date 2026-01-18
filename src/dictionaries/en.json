@@ -39,7 +39,8 @@
       "clinicare_frontend": "Website with a complete landing page featuring services and specialists, as well as a dynamic and secure user authentication system for employees."
     },
     "scripts": {
-      "title": "CLI tools and infrastructure automation to optimize workflows.",
+      "title": "Scripts & Automation",
+      "description": "CLI tools and infrastructure automation to optimize workflows.",
       "port_scanner": "A simple TCP port scanner for when you need to know which ports on your server are open."
     },
     "badges": {
