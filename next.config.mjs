@@ -2,13 +2,11 @@
 const nextConfig = {
   output: "export",
   distDir: 'dist',
+  basePath: "/portifolio-v2",
   reactCompiler: true,
-  async redirects() { return [
-    {
-      source: '/',
-      destination: '/en',
-      permanent: true
-    }
-  ] }
+  images: {
+    unoptimized: true,
+  },
 };
+
 export default nextConfig;
