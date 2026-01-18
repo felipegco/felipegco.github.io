@@ -10,10 +10,8 @@ export default function LanguagePicker({ lang }) {
         if (!pathname) return "/";
         const segments = pathname.split("/");
 
-        const isGithubPages = segments[1] === "portifolio-v2";
-        const localeIndex = isGithubPages ? 2 : 1;
-
-        segments[localeIndex] = locale;
+        // No novo domínio raiz (fecocco.github.io), o locale é sempre o índice 1
+        segments[1] = locale;
         return segments.join("/");
     };
 
@@ -22,7 +20,7 @@ export default function LanguagePicker({ lang }) {
             href={redirectedPathname(lang === "pt" ? "en" : "pt")}
             className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-bold"
             style={{
-                borderColor: 'var(--border)',
+                borderColor: 'var(--border-color)', // Ajustado para bater com seu globals.css
                 backgroundColor: 'rgba(255, 255, 255, 0.05)',
                 color: 'var(--text-secondary)'
             }}
@@ -33,7 +31,7 @@ export default function LanguagePicker({ lang }) {
             }}
             onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.borderColor = 'var(--border-color)';
                 e.currentTarget.style.color = 'var(--text-secondary)';
             }}
         >

@@ -2,7 +2,7 @@
 const nextConfig = {
   output: "export",
   distDir: 'dist',
-  basePath: "/portifolio-v2",
+  basePath: "",
   reactCompiler: true,
   images: {
     unoptimized: true,
