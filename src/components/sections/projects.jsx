@@ -80,8 +80,8 @@ export default function Projects({dict}) {
 
             <div className="mb-12">
                 <div className="flex items-center gap-4 mb-4">
-                    <h2 className="text-3xl font-extrabold text-[#ededed]">{dict.title}</h2>
-                    <div className="h-px flex-1 bg-linear-to-r from-neutral-800 to-transparent"></div>
+                    <h2 className="text-3xl font-extrabold text-text-primary">{dict.title}</h2>
+                    <div className="h-px flex-1 bg-linear-to-r from-border to-transparent"></div>
                 </div>
             </div>
 
@@ -90,8 +90,8 @@ export default function Projects({dict}) {
                     <div key={category.id} className="flex flex-col">
 
                         <div className="mb-8 border-l-2 border-blue-500 pl-4">
-                            <h3 className="text-xl font-bold text-white mb-1">{category.title}</h3>
-                            <p className="text-sm text-[#a1a1a1]">{category.description}</p>
+                            <h3 className="text-xl font-bold text-text-primary mb-1">{category.title}</h3>
+                            <p className="text-sm text-text-secondary">{category.description}</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">

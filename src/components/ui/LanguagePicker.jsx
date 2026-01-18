@@ -20,7 +20,22 @@ export default function LanguagePicker({ lang }) {
     return (
         <Link
             href={redirectedPathname(lang === "pt" ? "en" : "pt")}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all text-xs font-bold text-[#a1a1a1] hover:text-[#ededed]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-bold"
+            style={{
+                borderColor: 'var(--border)',
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                color: 'var(--text-secondary)'
+            }}
+            onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+                e.currentTarget.style.color = 'var(--text-primary)';
+            }}
+            onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+                e.currentTarget.style.borderColor = 'var(--border)';
+                e.currentTarget.style.color = 'var(--text-secondary)';
+            }}
         >
             <i className="fa-solid fa-globe text-blue-500"></i>
             {lang === "pt" ? "EN" : "PT"}

@@ -1,6 +1,6 @@
 'use client';
 
-export default function Hero({dict, lang}) {
+export default function Hero({dict}) {
 
     const handleScroll = (e) => {
         e.preventDefault();
@@ -11,12 +11,15 @@ export default function Hero({dict, lang}) {
     };
 
     return (
-        <section className="relative flex items-center overflow-hidden bg-[#0a0a0a] text-[#ededed] mt-36">
+        <section className="relative flex items-center bg-background text-text-primary mt-36 pb-32">
 
-            <div className="absolute right-[10%] top-[20%] h-75 w-75 rounded-full bg-blue-500 opacity-15 blur-[150px]"></div>
+            <div
+                className="absolute right-[10%] top-[20%] h-75 w-75 rounded-full bg-blue-500 blur-[150px] transition-opacity duration-300 pointer-events-none"
+                style={{ opacity: 'var(--glow-hero, 0.15)' }}
+            ></div>
 
             {/* Container Principal */}
-            <div className="mx-auto w-full max-w-275 px-8">
+            <div className="mx-auto w-full max-w-275 px-8 relative z-10">
 
                 {/* Hero Content */}
                 <div className="max-w-175">
@@ -28,11 +31,11 @@ export default function Hero({dict, lang}) {
 
                     {/* Título com Gradiente */}
                     <h1 className="mb-6 text-[4rem] font-extrabold leading-[1.1] tracking-tighter sm:text-5xl md:text-7xl">
-                        {dict.title_part1} <span className="bg-linear-to-r from-white to-blue-500 bg-clip-text text-transparent">{dict.title_highlight}</span>.
+                        {dict.title_part1} <span className="bg-linear-to-r from-text-primary to-blue-500 bg-clip-text text-transparent">{dict.title_highlight}</span>.
                     </h1>
 
                     {/* Parágrafo */}
-                    <p className="mb-10 max-w-125 text-lg text-neutral-400">
+                    <p className="mb-10 max-w-125 text-lg text-text-secondary">
                         {dict.description}
                     </p>
 
@@ -41,7 +44,7 @@ export default function Hero({dict, lang}) {
                         <a
                             href="#projects"
                             onClick={handleScroll}
-                            className="cursor-pointer rounded-lg border border-white bg-white px-6 py-3 font-semibold text-black transition-all duration-300 hover:bg-transparent hover:text-white"
+                            className="cursor-pointer rounded-lg border border-text-primary bg-text-primary px-6 py-3 font-semibold text-background transition-all duration-300 hover:bg-transparent hover:text-text-primary"
                         >
                             {dict.cta_projects}
                         </a>
@@ -49,7 +52,7 @@ export default function Hero({dict, lang}) {
                         <a
                             href="https://github.com/FeCocco"
                             target="_blank"
-                            className="flex items-center gap-2 rounded-lg border border-neutral-800 bg-transparent px-6 py-3 font-semibold text-white transition-all duration-300 hover:border-white"
+                            className="flex items-center gap-2 rounded-lg border border-border bg-transparent px-6 py-3 font-semibold text-text-primary transition-all duration-300 hover:border-text-primary hover:bg-card-hover"
                         >
                             <i className="fa-brands fa-github"></i> GitHub
                         </a>

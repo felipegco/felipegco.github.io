@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import ClientWrapper from "@/components/ClientWrapper";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,14 +24,24 @@ export default async function RootLayout({ children, params }) {
     const { lang } = await params;
 
     return (
-        <html lang={lang}>
+        <html lang={lang} suppressHydrationWarning>
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        try {
+                            const theme = localStorage.getItem('theme') || 'dark';
+                            document.documentElement.setAttribute('data-theme', theme);
+                        } catch (e) {}
+                    `,
+                }}
+            />
         </head>
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-        {children}
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+        <ClientWrapper>
+            {children}
+        </ClientWrapper>
         </body>
         </html>
     );

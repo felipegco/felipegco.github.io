@@ -10,7 +10,7 @@ export default async function Home({ params }) {
     const dict = await getDictionary(lang);
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] font-sans">
+        <div className="min-h-screen bg-background text-text-primary font-sans transition-colors duration-300">
             <Header dict={dict.header} lang={lang} />
             <main className="flex flex-col w-full">
                 <Hero dict={dict.hero} />
