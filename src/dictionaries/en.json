@@ -1,0 +1,52 @@
+{
+  "header": {
+    "about": "About",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "hero": {
+    "badge": "v2.0 Portfolio",
+    "title_part1": "Crafting high-impact",
+    "title_highlight": "digital experiences",
+    "description": "I'm Felipe Giacomini, a Full Stack Developer dedicated to building scalable solutions where technical performance meets intuitive design.",
+    "cta_projects": "View Projects"
+  },
+  "about": {
+    "aboutTitle": "About & Tech",
+    "profileJson": {
+      "name": "name",
+      "degreeTitle": "degree",
+      "degree": "Systems Information - FHO",
+      "goal": "goal",
+      "place": "Brazil",
+      "bio": "Combining academic background with practical experience."
+    },
+    "tools": "Tools & Data"
+  },
+  "projects": {
+    "title": "Projects",
+    "backend": {
+      "title": "High-performance systems, data modeling, and complex business logic.",
+      "e_move_backend": {
+        "description": "Intelligent charging platform and route optimizer for electric vehicles. Focus on sustainability and efficiency."
+      },
+      "clinicare_backend": {
+        "description": "RESTful API for patient management and clinical appointments. Layered architecture and integrated security."
+      }
+    },
+    "frontend": {
+      "title": "Applications focused on user experience.",
+      "clinicare_frontend": "Website with a complete landing page featuring services and specialists, as well as a dynamic and secure user authentication system for employees."
+    },
+    "scripts": {
+      "title": "CLI tools and infrastructure automation to optimize workflows.",
+      "port_scanner": "A simple TCP port scanner for when you need to know which ports on your server are open."
+    },
+    "badges": {
+      "concluded": "Concluded",
+      "developing": "Developing",
+      "updating": "Updating",
+      "archived": "Archived"
+    }
+  }
+}

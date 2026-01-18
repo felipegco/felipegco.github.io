@@ -3,18 +3,21 @@ import Projects from "@/components/sections/projects";
 import Hero from "@/components/sections/hero";
 import AboutSection from "@/components/sections/about/AboutSection";
 import Footer from "@/components/sections/footer";
+import { getDictionary } from "@/lib/get-dictionary";
 
-export default function Home() {
+export default async function Home({ params }) {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+
     return (
         <div className="min-h-screen bg-[#0a0a0a] text-[#ededed] font-sans">
-
-            <Header />
+            <Header dict={dict.header} lang={lang} />
             <main className="flex flex-col w-full">
-                <Hero />
-                <AboutSection />
-                <Projects />
+                <Hero dict={dict.hero} />
+                <AboutSection dict={dict.about} />
+                <Projects dict={dict.projects} />
             </main>
-            <Footer />
+            <Footer dict={dict.footer} />
         </div>
     );
 }

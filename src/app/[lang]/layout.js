@@ -1,5 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -15,9 +15,15 @@ export const metadata = {
     title: "Felipe.dev"
 };
 
-export default function RootLayout({ children }) {
+export async function generateStaticParams() {
+    return [{ lang: 'pt' }, { lang: 'en' }];
+}
+
+export default async function RootLayout({ children, params }) {
+    const { lang } = await params;
+
     return (
-        <html lang="pt-BR">
+        <html lang={lang}>
         <head>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
         </head>
