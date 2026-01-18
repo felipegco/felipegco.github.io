@@ -9,7 +9,38 @@
     "title_part1": "Construindo experiências digitais",
     "title_highlight": "incríveis",
     "description": "Sou Felipe Giacomini, um desenvolvedor Full Stack focado em criar soluções escaláveis, combinando performance técnica e design intuitivo.",
-    "cta_projects": "Ver Projetos",
-    "cta_github": "GitHub"
+    "cta_projects": "Ver Projetos"
+  },
+  "about": {
+    "aboutTitle": "Sobre & Tech",
+    "profileJson": {
+      "name": "nome",
+      "degreeTitle": "formacao",
+      "degree": "Sistemas de Informacao - FHO",
+      "goal": "Foco",
+      "place": "Brasil",
+      "bio": "Unindo a base acadêmica com experiência prática."
+    },
+    "tools": "Ferramentas & Dados"
+  },
+  "projects": {
+    "title": "Projetos",
+    "backend": {
+      "title": "Sistemas de alta performance, modelagem de dados e regras de negócio complexas.",
+      "e_move_backend": {
+        "description": "Plataforma inteligente de recarga e otimizador de trajeto para veículos elétricos. Foco em sustentabilidade e eficiência."
+      },
+      "clinicare_backend": {
+        "description": "API RESTful para gestão de pacientes e consultas clínicas. Arquitetura em camadas e segurança integrada."
+      }
+    },
+    "frontend": {
+      "title": "Aplicações com foco em experiência do usuário.",
+      "clinicare_frontend": "Uma landing page completa com informações sobre serviços e especialistas, bem como um sistema de autenticação de usuário dinâmico e abrangente para os funcionários."
+    },
+    "scripts": {
+      "title": "Ferramentas CLI e automações de infraestrutura para otimizar fluxos de trabalho.",
+      "port_scanner": "Um scanner de porta TCP simples para quando você precisa saber quais portas do seu servidor estão abertas."
+    }
   }
 }

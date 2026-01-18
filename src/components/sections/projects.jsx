@@ -1,18 +1,18 @@
 import ProjetoCard from "@/components/ui/projetoCard";
 import {TruckElectric, CalendarCheck, Terminal, LayoutTemplate} from "lucide-react";
 
-export default function Projects() {
+export default function Projects({dict, lang}) {
 
     const projectCategories = [
         {
             id: "backend",
             title: "Backend & APIs",
-            description: "Sistemas de alta performance, modelagem de dados e regras de negócio complexas.",
+            description: dict.backend.title,
             projects: [
                 {
                     icon: TruckElectric,
                     title: "e-Move",
-                    description: "Plataforma inteligente de recarga e otimizador de trajeto para veículos elétricos. Foco em sustentabilidade e eficiência.",
+                    description: dict.backend.e_move_backend.description,
                     techs: ["Spring Boot", "Java", "Maven", "Spring Data JPA", "Hibernate", "MariaDB/MySQL", "Spring Security", "JWT", "Password Encoding", "Lombok", "Bean Validation"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/e-move-frontend.git",
@@ -21,7 +21,7 @@ export default function Projects() {
                 {
                     icon: CalendarCheck,
                     title: "Clinicare",
-                    description: "API RESTful para gestão de pacientes e consultas clínicas. Arquitetura em camadas e segurança integrada.",
+                    description: dict.backend.clinicare_backend.description,
                     techs: ["Java", "Spring Boot", "Spring Web", "Spring Data JPA", "MariaDB", "Swagger", "Lombok", "JWT"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/sistema-agendamentos",
@@ -33,12 +33,12 @@ export default function Projects() {
         {
             id: "frontend",
             title: "Frontend",
-            description: "Aplicações com foco em experiência do usuário.",
+            description: dict.frontend.title,
             projects: [
                 {
                     icon: TruckElectric,
                     title: "e-Move",
-                    description: "Plataforma inteligente de recarga e otimizador de trajeto para veículos elétricos. Foco em sustentabilidade e eficiência.",
+                    description: dict.backend.e_move_backend.description,
                     techs: ["Next.js", "JavaScript", "Zod", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Chart.js", "Recharts"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/e-move-frontend.git",
@@ -47,7 +47,7 @@ export default function Projects() {
                 {
                     icon: LayoutTemplate,
                     title: "Clinicare Website",
-                    description: "Uma landing page completa com informações sobre serviços e especialistas, bem como um sistema de autenticação de usuário dinâmico e abrangente para os funcionários.",
+                    description: dict.frontend.clinicare_frontend,
                     techs: ["React", "Vite", "JavaScript", "CSS3"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/portfolio-v2",
@@ -60,12 +60,12 @@ export default function Projects() {
         {
             id: "scripts",
             title: "Scripts & Automação",
-            description: "Ferramentas CLI e automações de infraestrutura para otimizar fluxos de trabalho.",
+            description: dict.scripts.title,
             projects: [
                 {
                     icon: Terminal,
                     title: "Port Scanner",
-                    description: "Um scanner de porta TCP simples para quando você precisa saber quais portas do seu servidor estão abertas.",
+                    description: dict.scripts.port_scanner,
                     techs: ["Python"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/port-scanner.git",
@@ -78,14 +78,11 @@ export default function Projects() {
     return (
         <section id="projects" className="py-20 w-full max-w-275 mx-auto px-8">
 
-            <div className="mb-16">
+            <div className="mb-12">
                 <div className="flex items-center gap-4 mb-4">
-                    <h2 className="text-3xl font-extrabold text-[#ededed]">Meus Projetos</h2>
+                    <h2 className="text-3xl font-extrabold text-[#ededed]">{dict.title}</h2>
                     <div className="h-px flex-1 bg-linear-to-r from-neutral-800 to-transparent"></div>
                 </div>
-                <p className="text-[#a1a1a1] max-w-150">
-                    Uma seleção dos trabalhos que desenvolvi, divididos por área de atuação.
-                </p>
             </div>
 
             <div className="flex flex-col gap-24">

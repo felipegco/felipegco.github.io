@@ -2,7 +2,7 @@ import SpotlightCard from '../../ui/SpotlightCard';
 import TechBadge from '../../ui/TechBadge';
 import CodeProfile from '../about/CodeProfile';
 
-export default function AboutSection() {
+export default function AboutSection({dict, lang}) {
     const frontendTechs = ['JavaScript', 'Next.js', 'React', 'HTML', 'CSS', 'Tailwind'];
     const backendTechs = ['Java', 'PHP', 'C/C++', 'Node.js', 'Python', 'Swift'];
     const infraTechs = ['SQL', 'Git', 'Linux', 'Docker', 'AWS'];
@@ -13,14 +13,14 @@ export default function AboutSection() {
 
                 {/* Cabeçalho da Seção */}
                 <div className="mb-12 flex items-center gap-4">
-                    <h2 className="text-3xl font-extrabold text-[#ededed]">Sobre & Tech</h2>
+                    <h2 className="text-3xl font-extrabold text-[#ededed]">{dict.aboutTitle}</h2>
                     <div className="h-px flex-1 bg-linear-to-r from-neutral-800 to-transparent"></div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                     {/* Card 1: Perfil (Ocupa 2 colunas em telas médias/grandes) */}
                     <SpotlightCard className="md:col-span-2">
-                        <CodeProfile />
+                        <CodeProfile dict={dict} lang={lang} />
                     </SpotlightCard>
 
                     {/* Card 2: Frontend */}
@@ -38,7 +38,7 @@ export default function AboutSection() {
                     {/* Card 3: Ferramentas e Dados */}
                     <SpotlightCard className="flex flex-col justify-between">
                         <div>
-                            <h4 className="mb-4 text-xl font-bold text-[#ededed]">Ferramentas & Dados</h4>
+                            <h4 className="mb-4 text-xl font-bold text-[#ededed]">{dict.tools}</h4>
                             <div className="flex flex-wrap gap-2">
                                 {infraTechs.map((tech) => (
                                     <TechBadge key={tech} name={tech} />
