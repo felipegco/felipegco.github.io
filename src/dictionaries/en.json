@@ -41,6 +41,12 @@
     "scripts": {
       "title": "CLI tools and infrastructure automation to optimize workflows.",
       "port_scanner": "A simple TCP port scanner for when you need to know which ports on your server are open."
+    },
+    "badges": {
+      "concluded": "Concluded",
+      "developing": "Developing",
+      "updating": "Updating",
+      "archived": "Archived"
     }
   }
 }

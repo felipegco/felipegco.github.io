@@ -1,7 +1,7 @@
 import ProjetoCard from "@/components/ui/projetoCard";
 import {TruckElectric, CalendarCheck, Terminal, LayoutTemplate} from "lucide-react";
 
-export default function Projects({dict, lang}) {
+export default function Projects({dict}) {
 
     const projectCategories = [
         {
@@ -16,7 +16,7 @@ export default function Projects({dict, lang}) {
                     techs: ["Spring Boot", "Java", "Maven", "Spring Data JPA", "Hibernate", "MariaDB/MySQL", "Spring Security", "JWT", "Password Encoding", "Lombok", "Bean Validation"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/e-move-frontend.git",
-                    status: "Em Atualização"
+                    status: dict.badges.updating
                 },
                 {
                     icon: CalendarCheck,
@@ -26,7 +26,7 @@ export default function Projects({dict, lang}) {
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/sistema-agendamentos",
                     deployUrl: null,
-                    status: "Em Desenvolvimento"
+                    status: dict.badges.developing
                 }
             ]
         },
@@ -42,7 +42,7 @@ export default function Projects({dict, lang}) {
                     techs: ["Next.js", "JavaScript", "Zod", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Chart.js", "Recharts"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/e-move-frontend.git",
-                    status: "Concluído"
+                    status: dict.badges.concluded
                 },
                 {
                     icon: LayoutTemplate,
@@ -52,7 +52,7 @@ export default function Projects({dict, lang}) {
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/portfolio-v2",
                     deployUrl: "https://fecocco.github.io/clinicare-frontend/",
-                    status: "Em Desenvolvimento"
+                    status: dict.badges.developing
                 }
             ]
         },
@@ -69,7 +69,7 @@ export default function Projects({dict, lang}) {
                     techs: ["Python"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/port-scanner.git",
-                    status: "Concluído"
+                    status: dict.badges.concluded
                 }
             ]
         }
@@ -106,6 +106,7 @@ export default function Projects({dict, lang}) {
                                     githubUrl={project.githubUrl}
                                     deployUrl={project.deployUrl}
                                     status={project.status}
+                                    dict={dict}
                                 />
                             ))}
                         </div>

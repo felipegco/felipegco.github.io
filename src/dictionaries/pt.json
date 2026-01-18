@@ -41,6 +41,12 @@
     "scripts": {
       "title": "Ferramentas CLI e automações de infraestrutura para otimizar fluxos de trabalho.",
       "port_scanner": "Um scanner de porta TCP simples para quando você precisa saber quais portas do seu servidor estão abertas."
+    },
+    "badges": {
+      "concluded": "Concluído",
+      "developing": "Em Desenvolvimento",
+      "updating": "Em Atualização",
+      "archived": "Arquivado"
     }
   }
 }
