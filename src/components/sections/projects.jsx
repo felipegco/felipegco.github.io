@@ -72,6 +72,23 @@ export default function Projects({dict}) {
                     status: dict.badges.concluded
                 }
             ]
+        },
+
+        {
+            id: "contribution",
+            title: dict.contributions.title,
+            description: dict.contributions.description,
+            projects: [
+                {
+                    icon: "https://github.com/Ebullioscopic/Atoll/blob/main/.github/assets/atoll-logo.png?raw=true",
+                    title: "Atoll",
+                    description: dict.contributions.atoll,
+                    techs: ["Swift"],
+                    data: "2026",
+                    githubUrl: "https://github.com/Ebullioscopic/Atoll.git",
+                    status: dict.badges.developing
+                }
+            ]
         }
     ];
 

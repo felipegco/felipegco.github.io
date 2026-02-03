@@ -2,7 +2,12 @@ import TechBadge from "@/components/ui/TechBadge";
 import StatusBadge from "@/components/ui/StatusBadge";
 import { ExternalLink } from "lucide-react";
 
-export default function ProjetoCard({ icon: Icon, title, description, techs, data, githubUrl, deployUrl, status, dict }) {
+export default function ProjetoCard({ icon, title, description, techs, data, githubUrl, deployUrl, status, dict }) {
+
+    const isImageUrl = typeof icon === 'string';
+    let IconComponent;
+    IconComponent = icon;
+
     return (
         <div
             className="flex flex-col rounded-2xl border overflow-hidden transition-all group h-full hover:border-blue-500/30"
@@ -18,7 +23,17 @@ export default function ProjetoCard({ icon: Icon, title, description, techs, dat
 
                     {/* Ícone do Projeto */}
                     <div className="text-blue-500 bg-blue-500/10 p-3 rounded-lg w-fit">
-                        {Icon && <Icon size={24} strokeWidth={2.5} />}
+                        {isImageUrl ? (
+                            /* Se for URL, renderiza imagem */
+                            <img
+                                src={icon}
+                                alt={title}
+                                className="w-6 h-6 object-contain"
+                            />
+                        ) : (
+                            /* Se for Componente (Lucide), renderiza como tag */
+                            IconComponent && <IconComponent size={24} strokeWidth={2.5} />
+                        )}
                     </div>
 
                     <StatusBadge status={status} dict={dict}/>
