@@ -42,6 +42,7 @@ export default function Projects({dict}) {
                     techs: ["Next.js", "JavaScript", "Zod", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Chart.js", "Recharts"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/e-move-frontend.git",
+                    deployUrl: "https://e-move-frontend.vercel.app/",
                     status: dict.badges.concluded
                 },
                 {
