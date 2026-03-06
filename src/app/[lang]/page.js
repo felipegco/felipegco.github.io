@@ -4,6 +4,7 @@ import Hero from "@/components/sections/hero";
 import AboutSection from "@/components/sections/about/AboutSection";
 import Footer from "@/components/sections/footer";
 import { getDictionary } from "@/lib/get-dictionary";
+import ExperienceSection from "@/components/sections/experience";
 
 export default async function Home({ params }) {
     const { lang } = await params;
@@ -15,6 +16,7 @@ export default async function Home({ params }) {
             <main className="flex flex-col w-full">
                 <Hero dict={dict.hero} />
                 <AboutSection dict={dict.about} />
+                <ExperienceSection dict={dict.experience} />
                 <Projects dict={dict.projects} />
             </main>
             <Footer dict={dict.footer} />

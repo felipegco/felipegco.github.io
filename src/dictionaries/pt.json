@@ -23,10 +23,46 @@
     },
     "tools": "Ferramentas & Dados"
   },
+  "experience": {
+    "title": "Experiência",
+    "items": [
+      {
+        "role": "Desenvolvedor Freelance",
+        "company": "Autônomo",
+        "period": "Jan/2026 – Presente",
+        "bullets": [
+          "Desenvolvimento web Full Stack sob demanda, do levantamento de requisitos à entrega.",
+          "Arquitetura e implementação de sistemas utilizando Spring Boot e Next.js.",
+          "Gestão autônoma de clientes, definição de escopo e tomada de decisões técnicas."
+        ],
+        "techs": ["Spring Boot", "Next.js", "Java", "React"]
+      },
+      {
+        "role": "Estagiário de TI",
+        "company": "Brascabos Componentes Eletroeletrônicos",
+        "period": "Out/2024 – Jan/2026",
+        "bullets": [
+          "Suporte a usuários e manutenção da infraestrutura Windows/Linux.",
+          "Desenvolvimento de automações internas para otimização de processos do negócio."
+        ],
+        "techs": ["Linux", "Windows Server", "Automação"]
+      },
+      {
+        "role": "Suporte Técnico",
+        "company": "Marino Equipamentos para Informática",
+        "period": "Mar/2024 – Out/2024",
+        "bullets": [
+          "Manutenção e reparo de hardware.",
+          "Desenvolvimento de sistema de gestão interno em PHP com PostgreSQL."
+        ],
+        "techs": ["PHP", "PostgreSQL", "Hardware"]
+      }
+    ]
+  },
   "projects": {
     "title": "Projetos",
     "backend": {
-      "title": "Sistemas de alta performance, modelagem de dados e regras de negócio complexas.",
+      "title": "Sistemas de alta performance, modelagem de dados e regras de negócio complexas.",
       "e_move_backend": {
         "description": "Plataforma inteligente de recarga e otimizador de trajeto para veículos elétricos. Foco em sustentabilidade e eficiência."
       },

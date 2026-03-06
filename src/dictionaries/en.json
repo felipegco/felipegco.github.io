@@ -23,6 +23,42 @@
     },
     "tools": "Tools & Data"
   },
+  "experience": {
+    "title": "Experience",
+    "items": [
+      {
+        "role": "Freelance Developer",
+        "company": "Independent",
+        "period": "Jan/2026 – Present",
+        "bullets": [
+          "Full Stack web development on demand, from requirements gathering to delivery.",
+          "Architecture and implementation of systems using Spring Boot and Next.js.",
+          "Autonomous client management, scope definition and technical decision-making."
+        ],
+        "techs": ["Spring Boot", "Next.js", "Java", "React"]
+      },
+      {
+        "role": "IT Intern",
+        "company": "Brascabos Componentes Eletroeletrônicos",
+        "period": "Oct/2024 – Jan/2026",
+        "bullets": [
+          "User support and maintenance of Windows/Linux infrastructure.",
+          "Development of internal automations to optimize business processes."
+        ],
+        "techs": ["Linux", "Windows Server", "Automation"]
+      },
+      {
+        "role": "Technical Support",
+        "company": "Marino Equipamentos para Informática",
+        "period": "Mar/2024 – Oct/2024",
+        "bullets": [
+          "Hardware maintenance and repair.",
+          "Development of internal management system in PHP with PostgreSQL."
+        ],
+        "techs": ["PHP", "PostgreSQL", "Hardware"]
+      }
+    ]
+  },
   "projects": {
     "title": "Projects",
     "backend": {
