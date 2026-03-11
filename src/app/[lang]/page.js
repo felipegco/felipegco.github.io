@@ -5,6 +5,7 @@ import AboutSection from "@/components/sections/about/AboutSection";
 import Footer from "@/components/sections/footer";
 import { getDictionary } from "@/lib/get-dictionary";
 import ExperienceSection from "@/components/sections/experience";
+import Education from "@/components/sections/education";
 
 export default async function Home({ params }) {
     const { lang } = await params;
@@ -17,6 +18,7 @@ export default async function Home({ params }) {
                 <Hero dict={dict.hero} />
                 <AboutSection dict={dict.about} />
                 <ExperienceSection dict={dict.experience} />
+                <Education dict={dict.education} />
                 <Projects dict={dict.projects} />
             </main>
             <Footer dict={dict.footer} />

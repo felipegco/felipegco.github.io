@@ -59,6 +59,42 @@
       }
     ]
   },
+  "education": {
+    "title": "Formação",
+    "semesterLabel": "{n}º semestre de {total}",
+    "currentSemLabel": "Semestre atual",
+    "daysLeftLabel": "Dias restantes",
+    "remainingSemsLabel": "Semestres restantes",
+    "degree": {
+      "degree": "Sistemas de Informação",
+      "institution": "FHO – Fundação Hermínio Ometto",
+      "period": "2024 – Dez/2027",
+      "description": "Graduação com ênfase em engenharia de software, bancos de dados, redes de computadores e análise de sistemas. Atualmente no 5º semestre, com foco em desenvolvimento Full Stack e entrega de projetos práticos."
+    },
+    "certifications": [
+      {
+        "name": "Linux Essentials",
+        "issuer": "Red Hat Academy",
+        "iconKey": "redhat",
+        "year": "2024",
+        "description": "Fundamentos do Linux: sistema de arquivos, shell scripting, permissões e gerenciamento de processos."
+      },
+      {
+        "name": "Cybersecurity Essentials",
+        "issuer": "Cisco Networking Academy",
+        "iconKey": "cisco",
+        "year": "2024",
+        "description": "Conceitos essenciais de cibersegurança: análise de ameaças, segurança de redes, criptografia e avaliação de vulnerabilidades."
+      },
+      {
+        "name": "Desenvolvimento Web Completo",
+        "issuer": "Udemy",
+        "iconKey": "udemy",
+        "year": "2023",
+        "description": "Curso completo de desenvolvimento web com HTML, CSS, JavaScript, Node.js e frameworks modernos."
+      }
+    ]
+  },
   "projects": {
     "title": "Projetos",
     "backend": {

@@ -59,6 +59,42 @@
       }
     ]
   },
+  "education": {
+    "title": "Education",
+    "semesterLabel": "Semester {n} of {total}",
+    "currentSemLabel": "Current semester",
+    "daysLeftLabel": "Days left",
+    "remainingSemsLabel": "Semesters left",
+    "degree": {
+      "degree": "Information Systems",
+      "institution": "FHO – Fundação Hermínio Ometto",
+      "period": "2024 – Dec/2027",
+      "description": "Undergraduate program covering software engineering, databases, computer networks, and systems analysis. Currently in the 5th semester, with a focus on Full Stack development and practical project delivery."
+    },
+    "certifications": [
+      {
+        "name": "Linux Essentials",
+        "issuer": "Red Hat Academy",
+        "iconKey": "redhat",
+        "year": "2024",
+        "description": "Fundamentals of Linux: file system, shell scripting, permissions, and process management."
+      },
+      {
+        "name": "Cybersecurity Essentials",
+        "issuer": "Cisco Networking Academy",
+        "iconKey": "cisco",
+        "year": "2024",
+        "description": "Core cybersecurity concepts: threat analysis, network security, cryptography, and vulnerability assessment."
+      },
+      {
+        "name": "Web Development Bootcamp",
+        "issuer": "Udemy",
+        "iconKey": "udemy",
+        "year": "2023",
+        "description": "Complete web development course covering HTML, CSS, JavaScript, Node.js, and modern frameworks."
+      }
+    ]
+  },
   "projects": {
     "title": "Projects",
     "backend": {
