@@ -18,7 +18,7 @@ export default function Hero({ dict }) {
             <div className="hidden md:flex absolute right-0 md:right-[5%] top-1/2 left-[65%] -translate-y-1/2 z-10 w-full md:w-[45%] lg:w-[40%] max-w-125 h-[40vh] md:h-[55vh] items-center justify-center pointer-events-none select-none">
 
                 {/* LUZ AZUL */}
-                <div className="absolute right-[15%] top-[20%] md:w-112.5 md:h-112.5 bg-blue-600/50 rounded-full blur-[100px] -z-10 animate-pulse-slow"></div>
+                <div className="absolute right top-[20%] md:w-112.5 md:h-112.5 bg-blue-600/50 rounded-full blur-[100px] -z-10 animate-pulse-slow"></div>
 
                 <div className="relative w-full h-full mask-[linear-gradient(to_bottom,black_60%,transparent_85%)]">
                     <Image
