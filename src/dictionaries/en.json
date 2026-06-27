@@ -114,8 +114,8 @@
     },
     "nativeApps": {
       "title": "Native Apps",
-      "description": "CLI tools and infrastructure automation to optimize workflows.",
-      "port_scanner": "A simple TCP port scanner for when you need to know which ports on your server are open."
+      "description": "Native desktop applications built with a focus on high performance, fluid user experience, and deep operating system integration.",
+      "simpleNotch": "Inspired by other great open-source notch projects, the core idea here is extreme minimalism. It does exactly what it is supposed to do: perfectly mimic the native, compact, and non-intrusive behavior of the iOS Dynamic Island on your Mac, without the bloat."
     },
     "contributions": {
       "title": "Contributions",
