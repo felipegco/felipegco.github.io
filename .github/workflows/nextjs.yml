@@ -38,14 +38,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
           static_site_generator: next
 
-      # 3. Cache ajustado para pnpm-lock.yaml
       - name: Restore cache
         uses: actions/cache@v4
         with:
