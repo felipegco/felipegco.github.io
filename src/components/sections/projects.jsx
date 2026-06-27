@@ -65,12 +65,12 @@ export default function Projects({dict}) {
             projects: [
                 {
                     icon: Terminal,
-                    title: "Port Scanner",
-                    description: dict.nativeApps.port_scanner,
-                    techs: ["Python"],
-                    data: "2025",
-                    githubUrl: "https://github.com/FeCocco/port-scanner.git",
-                    status: dict.badges.concluded
+                    title: "Simple Notch",
+                    description: dict.nativeApps.simpleNotch,
+                    techs: ["Swift"],
+                    data: "2026",
+                    githubUrl: "https://github.com/felipegco/simple-notch.git",
+                    status: dict.badges.developing
                 }
             ]
         },
