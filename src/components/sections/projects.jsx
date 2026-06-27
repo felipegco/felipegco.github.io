@@ -59,14 +59,14 @@ export default function Projects({dict}) {
         },
 
         {
-            id: "scripts",
-            title: dict.scripts.title,
-            description: dict.scripts.description,
+            id: "nativeApps",
+            title: dict.nativeApps.title,
+            description: dict.nativeApps.description,
             projects: [
                 {
                     icon: Terminal,
                     title: "Port Scanner",
-                    description: dict.scripts.port_scanner,
+                    description: dict.nativeApps.port_scanner,
                     techs: ["Python"],
                     data: "2025",
                     githubUrl: "https://github.com/FeCocco/port-scanner.git",
