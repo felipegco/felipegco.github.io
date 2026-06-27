@@ -30,22 +30,18 @@ jobs:
       # 1. Instala o PNPM
       - name: Install pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       # 2. Configura o Node com cache para pnpm
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: "pnpm"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
           static_site_generator: next
 
-      # 3. Cache ajustado para pnpm-lock.yaml
       - name: Restore cache
         uses: actions/cache@v4
         with:
