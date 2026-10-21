@@ -1,61 +1,2044 @@
 @import "tailwindcss";
 
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --border-color: #262626;
-  --text-primary: #ededed;
-  --text-secondary: #a1a1a1;
-  --text-tertiary: #525252;
-  --card-bg: #141414;
-  --card-bg-secondary: #1a1a1a;
-  --card-border: #262626;
-  --card-hover: #1f1f1f;
-  --azul: #205099;
-  --azul-light: #3b82f6;
-  --glow-primary: rgba(59, 130, 246, 0.15);
-  --glow-hero: rgba(59, 130, 246, 0.15);
+  --ground: #0a0a0a;
+  --paper: #141416;
+  --ink: #ededed;
+  --muted: #a1a1aa;
+  --accent: #3b82f6;
+  --on-accent: #0a0a0a;
+  --code-ground: #050506;
+  --code-ink: #dbeafe;
+  --sheet: #f4f4f2;
+  --sheet-ink: #111113;
+  --sheet-muted: #4b4b52;
+
+  /* the 3D scene reads these, so it shares the page's palette */
+  --scene-floor: #0f0f11;
+  --scene-body: #34343b;
+  --scene-dim: #4a4a53;
+
+  --m: clamp(16px, 2.2vw, 32px);
+  --gap-section: clamp(120px, 14vw, 200px);
+
+  --step-small: 0.9375rem;
+  --step-body: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+  --step-lead: clamp(1.375rem, 1.2rem + 0.6vw, 1.75rem);
+  --step-display: clamp(2.5rem, 1.2rem + 3.9vw, 4.5rem);
+  --step-hero: clamp(2.75rem, 0.6rem + 5.4vw, 6.25rem);
+  --step-monument: 14.5vw;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --t-press: 140ms;
+  --t-hover: 180ms;
+  --t-ui: 240ms;
+  --t-reveal: 1300ms;
 }
 
-[data-theme="light"] {
-  --background: #f5f5f5;
-  --foreground: #1a1a1a;
-  --border-color: #d4d4d4;
-  --text-primary: #1a1a1a;
-  --text-secondary: #525252;
-  --text-tertiary: #737373;
-  --card-bg: #fafafa;
-  --card-bg-secondary: #f0f0f0;
-  --card-border: #e0e0e0;
-  --card-hover: #f7f7f7;
-  --azul: #205099;
-  --azul-light: #2563eb;
-  --glow-primary: rgba(32, 80, 153, 0.08);
-  --glow-hero: rgba(32, 80, 153, 0.12);
+/* ── Base ───────────────────────────────────────────────────────────────── */
+/* dark only: the browser's own scrollbars and form controls follow it too */
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  background: var(--ground);
+}
+
+html.lenis {
+  scroll-behavior: auto;
+  /* the pages move in fixed steps: the browser must not nudge the scroll when content above resizes */
+  overflow-anchor: none;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-size: var(--step-body);
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  overflow-x: clip;
 }
 
-html {
-  scroll-behavior: smooth;
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition: color var(--t-hover) ease, text-decoration-color var(--t-hover) ease;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-accent: var(--azul);
-  --color-border: var(--border-color);
-  --color-text-primary: var(--text-primary);
-  --color-text-secondary: var(--text-secondary);
-  --color-text-tertiary: var(--text-tertiary);
-  --color-card: var(--card-bg);
-  --color-card-secondary: var(--card-bg-secondary);
-  --color-card-border: var(--card-border);
-  --color-card-hover: var(--card-hover);
+a:hover {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+code,
+pre {
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 28px;
+  border: 0;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-hover) ease;
+}
+
+.button:hover {
+  color: var(--on-accent);
+  background: #60a5fa;
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* ── 3D scenes: the intro and the e-Move request share one stage ────────── */
+.topbar {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 20px var(--m);
+  font-size: var(--step-small);
+}
+
+.topbar a {
+  text-decoration: none;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 28px;
+  margin-left: auto;
+}
+
+.topbar nav a:hover {
+  text-decoration: underline;
+}
+
+.wordmark {
+  font-size: var(--step-lead);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.wordmark span {
+  color: var(--accent);
+}
+
+.topbar-tools {
+  display: flex;
+  gap: 8px;
+}
+
+.tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+
+.tool:hover {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.tool:active {
+  transform: scale(0.95);
+}
+
+/* Finished composition: no script, reduced motion or no WebGL */
+.scene3d-canvas {
+  display: none;
+}
+
+.scene3d-beats {
+  padding: clamp(48px, 10vw, 140px) var(--m) 0;
+}
+
+.scene3d-beat + .scene3d-beat {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--m);
+  align-items: start;
+  margin-top: 120px;
+}
+
+.scene3d-copy {
+  grid-column: 1 / span 5;
+}
+
+.scene3d-beat .code-block {
+  grid-column: 7 / -1;
+}
+
+.scene3d-copy .lead {
+  margin-bottom: 20px;
+}
+
+.scene3d-copy p {
+  margin: 0;
+  max-width: 46ch;
+}
+
+.scene3d-copy .button {
+  margin-top: 32px;
+}
+
+.scene3d-route {
+  display: none;
+}
+
+.scene3d-hint {
+  display: none;
+}
+
+.scene3d {
+  padding-bottom: var(--gap-section);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: var(--step-hero);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  font-weight: 700;
+}
+
+.hero-title .line {
+  display: block;
+  padding-bottom: 0.06em;
+}
+
+.hero-title .line + .line {
+  color: var(--accent);
+}
+
+.hero-sentence {
+  max-width: 44ch;
+  margin: 36px 0 0;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  margin-top: 36px;
+}
+
+.hero-status {
+  display: grid;
+  margin: 0;
+  font-size: var(--step-small);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.hero-status > span:first-child {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hero-status > span:last-child {
+  font-weight: 600;
+}
+
+.hero-cta {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+
+.hero-arrow {
+  display: inline-block;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.hero-status:hover .hero-cta {
+  text-decoration-color: currentColor;
+}
+
+.hero-status:hover .hero-arrow {
+  transform: translateX(4px);
+}
+
+/* The picture behind the 3D until the scene is ready (also the view transition's landing) */
+.scene3d-backdrop {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
+    display: block;
+    position: absolute;
+    inset: 0;
+    transition: opacity 1800ms var(--ease-out);
+  }
+
+  html.js .scene3d.is-ready .scene3d-backdrop {
+    opacity: 0;
+  }
+
+  .scene3d-backdrop img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
+    bottom: 50%;
+  }
+}
+
+/* Live: the stage holds for five screens while the request travels */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .scene3d:not(.is-rest) {
+    height: calc((var(--hold) + 1) * 100svh);
+    padding-bottom: 0;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-canvas {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1800ms var(--ease-out);
+  }
+
+  html.js .scene3d.is-ready .scene3d-canvas {
+    opacity: 1;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beats {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    padding: 0 var(--m) 72px;
+    pointer-events: none;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat {
+    grid-area: 1 / 1;
+    display: block;
+    margin: 0;
+    width: min(600px, 42vw);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(28px);
+    transition: opacity 320ms var(--ease-out), transform 480ms var(--ease-out), visibility 0s linear 320ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 900ms var(--ease-out) 80ms, transform 1200ms var(--ease-expo) 80ms, visibility 0s;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-hero {
+    width: min(760px, 54vw);
+    padding: 0;
+    background: none;
+  }
+
+  /* the words sit on a flat field of the ground, so the route never runs through them */
+  html.js .scene3d:not(.is-rest) .scene3d-beat:not(.scene3d-hero) {
+    padding: 32px;
+    margin-left: -32px;
+    background: var(--ground);
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat .code-block {
+    margin-top: 28px;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-hint {
+    display: block;
+    margin: 48px 0 0;
+    max-width: 36ch;
+    font-size: var(--step-small);
+    color: var(--muted);
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-route {
+    display: block;
+    position: absolute;
+    z-index: 3;
+    left: var(--m);
+    right: var(--m);
+    bottom: 24px;
+  }
+
+  .scene3d-route ol {
+    display: flex;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .scene3d-route a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    background: var(--paper);
+    color: var(--muted);
+    font-size: var(--step-small);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+  }
+
+  .scene3d-route a:hover {
+    color: var(--ink);
+  }
+
+  .scene3d-route a:active {
+    transform: scale(0.96);
+  }
+
+  .scene3d-route a[aria-current] {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+}
+
+/* Project and signature details inside the scenes */
+.project-title {
+  margin: 0;
+  font-size: var(--step-display);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 700;
+}
+
+.project-meta {
+  margin: 12px 0 24px !important;
+  color: var(--accent);
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+.scene3d-copy .project-stack {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.project-links {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px !important;
+  font-weight: 600;
+}
+
+.intro-end {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.intro-sign {
+  display: grid;
+  margin: 0;
+}
+
+.intro-sign strong {
+  font-size: var(--step-lead);
+  letter-spacing: -0.02em;
+}
+
+.intro-sign span {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.scene3d mark {
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0 0.15em;
+}
+
+/* ── Work: big names, 3D preview ────────────────────────────────────────── */
+.work {
+  padding: var(--gap-section) var(--m);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--m);
+}
+
+/* In slides the projects fill one screen, centred, so the stop frames the title and the buttons */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1025px) {
+  html.js .work {
+    min-height: 100svh;
+    padding-block: 56px;
+    align-content: center;
+  }
+}
+
+.work > .lead {
+  grid-column: 1 / -1;
+  margin-bottom: 48px;
+}
+
+.work-list {
+  grid-column: 1 / span 7;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.work-name {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  width: 100%;
+  padding: 10px 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: color var(--t-hover) ease, transform var(--t-ui) var(--ease-out);
+}
+
+.work-name strong {
+  font-size: var(--step-display);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.work-name span {
+  font-size: var(--step-small);
+  white-space: nowrap;
+}
+
+.work-name[aria-pressed="true"],
+.work-name[aria-current] {
+  color: var(--ink);
+  transform: translateX(14px);
+}
+
+.work-name[aria-pressed="true"] span,
+.work-name[aria-current] span {
+  color: var(--accent);
+}
+
+.work-name:hover {
+  color: var(--ink);
+}
+
+.work-aside {
+  grid-column: 8 / -1;
+  position: sticky;
+  top: 12vh;
+  align-self: start;
+}
+
+.frame3d {
+  perspective: 1400px;
+}
+
+.frame-rig {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  transform-style: preserve-3d;
+  transform: rotateY(var(--fy, -12deg)) rotateX(var(--fx, 4deg));
+  transition: transform 1100ms var(--ease-out);
+}
+
+.frame-item {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--paper);
+  opacity: 0;
+  transform: rotateY(38deg) translateZ(-140px) translateX(18%);
+  transition: opacity 800ms ease, transform 1400ms var(--ease-expo);
+  pointer-events: none;
+}
+
+.frame-item.is-before {
+  transform: rotateY(-38deg) translateZ(-140px) translateX(-18%);
+}
+
+.frame-item.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.frame-item img,
+.frame-item video,
+.media-shot img,
+.media-shot video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.media-logo {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--paper);
+}
+
+.media-logo img {
+  width: 42%;
+  height: auto;
+  object-fit: contain;
+}
+
+.work-detail {
+  margin-top: 64px;
+  min-height: 15rem;
+}
+
+.work-detail p {
+  margin: 0 0 14px;
+  max-width: 60ch;
+}
+
+.work-detail .stack {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin-top: 18px;
+  font-weight: 600;
+}
+
+.work-links .private {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.work-mobile {
+  display: none;
+}
+
+/* Interface fragments drawn in HTML */
+.ui-chat {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  padding: 6%;
+  background: #0b141a;
+  color: #e9edef;
+  font-size: clamp(0.8125rem, 0.6rem + 0.45vw, 1rem);
+}
+
+.ui-chat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ui-chat-msg {
+  flex: 1;
+  padding: 10px 14px;
+  background: #202c33;
+  border-radius: 0 10px 10px 10px;
+}
+
+.ui-chat-tag {
+  flex: none;
+  padding: 6px 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.ui-chat-row:nth-child(3) .ui-chat-tag {
+  background: #fbbf24;
+}
+
+.ui-notch {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #1c2a3a;
+  overflow: hidden;
+}
+
+.ui-notch-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9%;
+  background: #cfd8e3;
+}
+
+.ui-notch-island {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 46%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px 18px;
+  background: #000;
+  color: #fff;
+  border-radius: 0 0 26px 26px;
+  font-size: clamp(0.8125rem, 0.6rem + 0.4vw, 1rem);
+  line-height: 1.3;
+}
+
+.ui-notch-art {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+}
+
+.ui-notch-island small {
+  display: block;
+  color: #a1a1aa;
+}
+
+.ui-notch-wave {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 22px;
+  margin-left: auto;
+}
+
+.ui-notch-wave i {
+  width: 4px;
+  background: var(--accent);
+  animation: wave 1s ease-in-out infinite alternate;
+}
+
+.ui-notch-wave i:nth-child(1) { height: 40%; }
+.ui-notch-wave i:nth-child(2) { height: 90%; animation-delay: -0.3s; }
+.ui-notch-wave i:nth-child(3) { height: 60%; animation-delay: -0.6s; }
+.ui-notch-wave i:nth-child(4) { height: 80%; animation-delay: -0.15s; }
+
+@keyframes wave {
+  to { transform: scaleY(0.35); }
+}
+
+/* Names that open a project page */
+a.work-name {
+  text-decoration: none;
+}
+
+/* ── Curtain: the projects rise over the pinned intro ──────────────────── */
+/* the intro's bar and words fade at the pace of the rising projects, so nothing readable is covered */
+.intro .scene3d-stage > .topbar,
+.intro .scene3d-beats {
+  opacity: calc(1 - var(--outro, 0) * 1.6);
+}
+
+.work {
+  position: relative;
+  z-index: 2;
+  background: var(--ground);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .intro:not(.is-rest) + .work {
+    margin-top: -100svh;
+  }
+}
+
+/* ── Project page ───────────────────────────────────────────────────────── */
+.project-back {
+  padding: 120px var(--m);
+}
+
+.project-back a {
+  font-size: var(--step-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.project-back a:hover {
+  color: var(--accent);
+}
+
+/* ── View transition: the e-Move frame grows into its page ──────────────── */
+@view-transition {
+  navigation: auto;
+}
+
+.frame-item.is-active[data-project="emove"],
+.media-shot[data-project="emove"],
+.project-page .scene3d-backdrop {
+  view-transition-name: emove-media;
+}
+
+::view-transition-group(emove-media) {
+  animation-duration: 850ms;
+  animation-timing-function: var(--ease-expo);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+}
+
+/* ── Console: the live e-Move request ───────────────────────────────────── */
+.console {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--m);
+  padding: var(--gap-section) var(--m) 140px;
+  background: var(--paper);
+}
+
+.console-copy {
+  grid-column: 1 / span 5;
+}
+
+.console-copy .lead {
+  margin-bottom: 24px;
+}
+
+.console-copy > p {
+  margin: 0 0 40px;
+  max-width: 46ch;
+}
+
+.field {
+  display: block;
+  margin-bottom: 28px;
+}
+
+.field-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: var(--step-small);
+  font-weight: 600;
+}
+
+.field select {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+
+.field input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+  height: 32px;
+  cursor: pointer;
+}
+
+.console-figure {
+  margin: 0 0 40px;
+}
+
+.console-figure strong {
+  display: block;
+  font-size: var(--step-display);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.console-figure span {
+  color: var(--muted);
+}
+
+.console-code {
+  grid-column: 7 / -1;
+  align-self: center;
+  perspective: 1400px;
+}
+
+.code-rig {
+  transform: rotateY(-8deg) rotateX(4deg);
+  transform-style: preserve-3d;
+  transition: transform 700ms var(--ease-out);
+}
+
+.console-code:hover .code-rig {
+  transform: rotateY(-2deg) rotateX(1deg);
+}
+
+.code-block {
+  max-width: 100%;
+  margin: 0;
+  padding: 28px 32px;
+  background: var(--code-ground);
+  color: var(--code-ink);
+  font-size: var(--step-small);
+  line-height: 1.65;
+  overflow-x: auto;
+}
+
+.code-block + .code-block {
+  transform: translateZ(40px) translateX(-6%);
+  margin-top: -8px;
+}
+
+.code-title {
+  display: block;
+  margin-bottom: 12px;
+  color: #93c5fd;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+}
+
+.code-block .k { color: #60a5fa; }
+.code-block .s { color: #fde68a; }
+.code-block .n { color: #86efac; }
+
+/* ── Intro windows: the tool of each phase under its card ───────────────── */
+.scene3d-beat .api-console {
+  grid-column: 7 / -1;
+}
+
+.term-line {
+  display: block;
+  width: max-content;
+}
+
+.term-out {
+  margin-top: 10px;
+  color: #86efac;
+}
+
+.api-console {
+  background: var(--code-ground);
+  color: var(--code-ink);
+  font-size: var(--step-small);
+}
+
+.api-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.api-method,
+.api-url {
+  font-family: var(--font-geist-mono), ui-monospace, monospace; /* taste-skill-ignore: the request line is code */
+}
+
+.api-method {
+  padding: 8px 10px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  color: #86efac;
+  font-weight: 600;
+}
+
+.api-url {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+
+.api-url:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.api-host {
+  color: #93c5fd;
+}
+
+.api-url select {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px 8px 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.api-url option {
+  background: var(--code-ground);
+}
+
+.api-run {
+  padding: 8px 14px;
+  border: 1px solid #60a5fa;
+  background: none;
+  color: #60a5fa;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+
+.api-run:hover:not(:disabled) {
+  background: #60a5fa;
+  color: var(--code-ground);
+}
+
+.api-run:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.api-run:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.api-out {
+  margin: 0;
+  padding: 18px 20px 22px;
+  height: calc(10 * 1.65em + 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.api-out:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.api-out .k { color: #93c5fd; }
+.api-out .s { color: #fde68a; }
+.api-out .n { color: #86efac; }
+
+.api-status {
+  display: block;
+  margin-bottom: 6px;
+  color: #86efac;
+}
+
+.api-hint {
+  color: var(--muted);
+}
+
+.api-caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Live: the window slides in after its card, then the lines type themselves */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .api-console {
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 200ms var(--ease-out), transform 0s linear 300ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .api-console {
+    opacity: 1;
+    transform: none;
+    transition: opacity 700ms var(--ease-out) 250ms, transform 1000ms var(--ease-expo) 250ms;
+  }
+
+  /* the signature closes the intro a beat after the console */
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .intro-end {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 200ms var(--ease-out), transform 0s linear 300ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .intro-end {
+    opacity: 1;
+    transform: none;
+    transition: opacity 700ms var(--ease-out) 450ms, transform 1000ms var(--ease-expo) 450ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .term-line {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0s linear 400ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .is-on .term-line {
+    clip-path: inset(0 -1ch 0 0);
+    transition: clip-path calc(var(--n) * 16ms) steps(var(--n)) var(--d);
+  }
+
+  html.js .scene3d:not(.is-rest) .is-on .term-out {
+    transition: clip-path 400ms var(--ease-out) var(--d);
+  }
+}
+
+/* Phone: the 3D keeps the top half, so the last card drops the signature and the console tightens */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .intro:not(.is-rest) .intro-sign {
+    display: none;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .api-console {
+    margin-top: 20px;
+  }
+
+  .api-console {
+    font-size: 0.8125rem;
+  }
+
+  .api-bar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .api-host {
+    display: none;
+  }
+
+  .intro-end {
+    margin-top: 20px;
+  }
+
+  .api-out {
+    height: calc(8 * 1.55em + 28px);
+    padding: 12px 14px 16px;
+    line-height: 1.55;
+  }
+}
+
+/* ── Journey: printed sheet on the neon field ───────────────────────────── */
+.journey {
+  padding: clamp(64px, 7vw, 112px) var(--m);
+  background: var(--accent);
+}
+
+.journey-sheet {
+  position: relative;
+  /* taste-skill-ignore: mask shape for the scalloped edge, not a visible gradient */
+  --scallop: radial-gradient(circle at 10px 0, #0000 8px, #000 8.5px) top / 20px 51% repeat-x, /* taste-skill-ignore */
+    radial-gradient(circle at 10px 100%, #0000 8px, #000 8.5px) bottom / 20px 51% repeat-x; /* taste-skill-ignore: mask shape for the scalloped edge, not a visible gradient */
+  width: min(680px, 100%);
+  margin: 0 auto;
+  padding: 72px clamp(24px, 5vw, 64px) 64px;
+  background: var(--sheet);
+  color: var(--sheet-ink);
+  text-align: center;
+  -webkit-mask: var(--scallop);
+  mask: var(--scallop);
+}
+
+.journey-sheet h2 {
+  margin: 0;
+  font-size: var(--step-display);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.journey-note {
+  margin: 14px 0 0;
+  color: var(--sheet-muted);
+  font-size: var(--step-small);
+}
+
+.journey-group {
+  margin-top: 56px;
+}
+
+.journey-group h3 {
+  margin: 0 0 22px;
+  font-size: var(--step-lead);
+  letter-spacing: -0.02em;
+}
+
+.journey-group ul {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 480px;
+  text-align: left;
+}
+
+.journey-group li + li {
+  margin-top: 18px;
+}
+
+.journey-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-weight: 600;
+}
+
+.journey-row span:last-child {
+  flex: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-desc {
+  margin: 4px 0 0;
+  color: var(--sheet-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.journey-tools {
+  margin: 6px 0 0;
+  color: var(--sheet-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.journey-details summary {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.journey-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.journey-details summary:hover {
+  color: var(--accent);
+}
+
+.journey-details ul {
+  max-width: none;
+  margin: 10px 0 0;
+  padding-left: 1.1em;
+  list-style: disc;
+}
+
+.journey-details li {
+  color: var(--sheet-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.journey-group .journey-details li + li {
+  margin-top: 6px;
+}
+
+/* the receipt's foot: totals, then the barcode that downloads the résumé */
+.journey-total {
+  max-width: 480px;
+  margin: 56px auto 0;
+  padding-top: 36px;
+  border-top: 2px dashed var(--sheet-muted);
+  text-align: left;
+}
+
+.journey-total h3 {
+  margin: 0 0 18px;
+  font-size: var(--step-lead);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.journey-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.journey-line > span:first-child {
+  flex: none;
+}
+
+.journey-line > span:last-child {
+  margin-left: auto;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-dots {
+  flex: 1;
+  min-width: 16px;
+  border-bottom: 2px dotted var(--sheet-muted);
+}
+
+.journey-meter {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 10px;
+  margin-left: 4px;
+  border: 1.5px solid currentColor;
+}
+
+.journey-meter::after {
+  content: "";
+  position: absolute;
+  inset: 1px auto 1px 1px;
+  width: calc(var(--done) * (100% - 2px));
+  background: currentColor;
+}
+
+.journey-download {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.journey-barcode {
+  width: min(300px, 100%);
+  height: 56px;
+  fill: currentColor;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.journey-download span {
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.journey-download:hover {
+  color: var(--accent);
+}
+
+.journey-download:hover .journey-barcode {
+  transform: scaleY(1.06);
+}
+
+.journey-download:active .journey-barcode {
+  transform: scaleY(0.96);
+}
+
+/* The printer: only while the receipt prints (journey.jsx decides it fits the screen) */
+.journey-printer {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .journey.is-printing {
+    height: calc(3 * 100svh);
+    padding: 0;
+  }
+
+  html.js .journey.is-printing .journey-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  html.js .journey.is-printing .journey-printer {
+    display: block;
+    position: relative;
+    z-index: 2;
+    flex: none;
+    width: min(760px, calc(100% - 2 * var(--m)));
+    height: 64px;
+    margin-bottom: 20px;
+    background: var(--sheet-ink);
+    box-shadow: 0 -14px 24px -12px rgb(0 0 0 / 0.5);
+  }
+
+  .journey-slot {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    top: 12px;
+    height: 6px;
+    background: #000;
+  }
+
+  .journey-led {
+    position: absolute;
+    bottom: 14px;
+    right: 28px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #86efac;
+  }
+
+  html.js .journey.is-printing .journey-feed {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    margin-bottom: -15px;
+    overflow: hidden;
+  }
+
+  /* a bit tighter while printing, so a block fits a 768px laptop between the top and the slot */
+  html.js .journey.is-printing .journey-sheet {
+    padding-top: 40px;
+    will-change: transform;
+  }
+
+  html.js .journey.is-printing .journey-sheet h2 {
+    font-size: calc(var(--step-display) * 0.85);
+  }
+
+  html.js .journey.is-printing .journey-group {
+    margin-top: 32px;
+  }
+
+  html.js .journey.is-printing .journey-group h3 {
+    margin-bottom: 16px;
+  }
+}
+
+/* ── Contact: one field ─────────────────────────────────────────────────── */
+.contact {
+  width: min(560px, calc(100% - 2 * var(--m)));
+  margin: 0 auto;
+  padding: var(--gap-section) 0;
+}
+
+/* In slides the contact and the footer share the last screen */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .contact {
+    min-height: calc(100svh - var(--footer-h, 0px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 0;
+  }
+}
+
+.contact h2 span {
+  display: block;
+}
+
+.contact h2 span:first-child {
+  color: var(--muted);
+}
+
+.contact form {
+  position: relative;
+  margin-top: 28px;
+}
+
+.contact input {
+  width: 100%;
+  height: 64px;
+  padding: 0 72px 0 20px;
+  border: 0;
+  background: var(--ink);
+  color: var(--ground);
+  font: inherit;
+}
+
+.contact input::placeholder {
+  color: var(--muted);
+}
+
+.contact input:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px var(--accent); /* taste-skill-ignore: focus ring */
+}
+
+.contact .send {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  width: 44px;
+  height: 44px;
+  min-height: 0;
+  padding: 0;
+}
+
+.contact-after {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+
+.contact dl {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px 24px;
+  margin: 56px 0 0;
+}
+
+.contact dt {
+  color: var(--muted);
+}
+
+.contact dd {
+  margin: 0;
+}
+
+/* ── Footer: name across the neon field ─────────────────────────────────── */
+/* footer.jsx sizes the name to the full width and reports its height as --footer-h */
+.footer {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.footer-name {
+  margin: 0;
+  padding: 28px var(--m) 0;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 11vw;
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+}
+
+.footer-name span {
+  display: inline-block;
+  padding-bottom: 0.16em;
+  white-space: nowrap;
+}
+
+/* the name rises into the band when the last slide arrives */
+html.js .footer-name[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .footer-name[data-reveal] span {
+  transform: translateY(105%);
+  transition: transform 1400ms var(--ease-expo) 200ms;
+}
+
+html.js .footer-name[data-reveal].in span {
+  transform: none;
+}
+
+.footer-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px 32px;
+  padding: 18px var(--m) 22px;
+  border-top: 1px solid rgb(0 0 0 / 0.18);
+  font-size: var(--step-small);
+}
+
+.footer-bar ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.footer-bar small {
+  margin-left: auto;
+  font-size: inherit;
+}
+
+.footer a:hover {
+  color: var(--paper);
+}
+
+.footer-up {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Phone and tablet: the scene takes the top half, the words sit below it on the ground */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .scene3d:not(.is-rest) {
+    height: calc((var(--hold-stacked) + 1) * 100svh);
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-canvas {
+    height: 50%;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beats {
+    align-items: end;
+    padding: 0 var(--m) 28px;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat,
+  html.js .scene3d:not(.is-rest) .scene3d-hero {
+    width: 100%;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat:not(.scene3d-hero) {
+    padding: 0;
+    margin-left: 0;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-hint,
+  html.js .scene3d:not(.is-rest) .scene3d-route {
+    display: none;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat .code-block {
+    margin-top: 20px;
+    padding: 18px 20px;
+    font-size: 0.8125rem;
+  }
+
+  .scene3d-copy .lead {
+    margin-bottom: 12px;
+  }
+
+  .scene3d-copy .button {
+    margin-top: 20px;
+  }
+}
+
+/* ── Motion: entrances that never hide content without script ───────────── */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity var(--t-reveal) var(--ease-expo), transform var(--t-reveal) var(--ease-expo);
+  transition-delay: calc(var(--i, 0) * 140ms);
+}
+
+html.js [data-reveal].in {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .hero-title .line {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(40%);
+  animation: rise 1600ms var(--ease-expo) forwards;
+}
+
+html.js .hero-title .line + .line {
+  animation-delay: 200ms;
+}
+
+@keyframes rise {
+  to {
+    clip-path: inset(0 0 -20% 0);
+    transform: none;
+  }
+}
+
+/* ── Phone ──────────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .ui-chat {
+    padding: 16px;
+  }
+
+  .ui-chat-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+
+  .ui-chat-msg {
+    flex: none;
+  }
+
+  .work-mobile .media-shot:has(.ui-chat) {
+    aspect-ratio: auto;
+  }
+
+  .topbar {
+    gap: 16px;
+  }
+
+  .topbar nav {
+    display: none;
+  }
+
+  .topbar-tools {
+    margin-left: auto;
+  }
+
+  .scene3d-beat + .scene3d-beat {
+    display: block;
+  }
+
+  .scene3d-beat .code-block {
+    margin-top: 28px;
+  }
+
+  .hero-actions .button {
+    flex: 1 1 100%;
+  }
+
+  .work {
+    display: block;
+  }
+
+  .work-aside {
+    display: none;
+  }
+
+  .work-list li + li {
+    margin-top: 72px;
+  }
+
+  .work-name {
+    flex-direction: column;
+    gap: 6px;
+    color: var(--ink);
+    padding: 16px 0 0;
+    cursor: default;
+  }
+
+  .work-name[aria-pressed="true"],
+  .work-name[aria-current] {
+    transform: none;
+  }
+
+  .work-name strong {
+    font-size: 10vw;
+    white-space: normal;
+  }
+
+  .work-name span {
+    color: var(--accent);
+  }
+
+  .work-mobile {
+    display: block;
+  }
+
+  .work-mobile .media-shot {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .work-mobile .work-detail {
+    margin-top: 14px;
+    min-height: 0;
+  }
+
+  .console {
+    display: block;
+  }
+
+  .console-code {
+    margin-top: 56px;
+  }
+
+  .code-rig,
+  .console-code:hover .code-rig {
+    transform: none;
+  }
+
+  .code-block + .code-block {
+    transform: none;
+    margin-top: 8px;
+  }
+
+  .journey {
+    padding-inline: 10px;
+  }
+
+  .footer-bar {
+    flex-wrap: wrap;
+  }
+
+  .footer-bar small {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+  }
+
+}
+
+/* ── Phone: the projects turn into a sideways carousel, one slide whatever their count ── */
+.work-dots {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .work {
+    padding-inline: 0;
+  }
+
+  .work > .lead {
+    margin-bottom: 24px;
+    padding-inline: var(--m);
+  }
+
+  .work-list {
+    display: flex;
+    gap: 16px;
+    padding: 0 var(--m);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--m);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .work-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* the next card peeks in from the right, so the swipe explains itself */
+  .work-list > li {
+    flex: 0 0 min(86%, 520px);
+    scroll-snap-align: start;
+  }
+
+  .work-list li + li {
+    margin-top: 0;
+  }
+
+  .work-name strong {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .work-mobile .work-detail p:first-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .work-dots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+    padding-inline: var(--m);
+  }
+
+  .work-count {
+    color: var(--muted);
+    font-size: var(--step-small);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-dots div {
+    display: flex;
+  }
+
+  .work-dots button {
+    position: relative;
+    width: 24px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .work-dots button::after {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--muted);
+    opacity: 0.5;
+    transition: width var(--t-ui) var(--ease-out), left var(--t-ui) var(--ease-out), opacity var(--t-ui) ease, background-color var(--t-ui) ease;
+  }
+
+  .work-dots button[aria-current]::after {
+    left: 3px;
+    width: 18px;
+    background: var(--accent);
+    opacity: 1;
+  }
+}
+
+/* In slides the carousel is one screen; vertical swipes on it still turn the page */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .work {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 56px 32px;
+  }
+
+  html.js .work-list {
+    touch-action: pan-x;
+  }
+}
+
+/* Cards share one frame size, and short phones drop the stack line so a card still fits */
+@media (max-width: 1024px) {
+  .work-list .work-mobile .media-shot:has(.ui-chat) {
+    aspect-ratio: 16 / 10;
+  }
+
+  .work-list .ui-chat {
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px;
+    font-size: 0.75rem;
+  }
+
+  .work-list .ui-chat-row:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) and (max-height: 760px) {
+  html.js .work {
+    padding-block: 28px 12px;
+  }
+
+  html.js .work > .lead {
+    margin-bottom: 16px;
+  }
+
+  html.js .work-mobile .stack {
+    display: none;
+  }
+
+  html.js .work-dots {
+    margin-top: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  html.js [data-reveal],
+  html.js .hero-title .line {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  .frame-rig {
+    transform: none;
+  }
 }
