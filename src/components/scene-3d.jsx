@@ -10,12 +10,20 @@ const WORLDS = {
 
 // Uma cena de rolagem: o palco fica preso na tela enquanto a seção passa,
 // o mundo 3D segue o progresso e o texto de cada parada aparece quando a cena para nela.
-// Cada parada é um ímã: no mouse e no trackpad a página desliza até ela e segura um instante;
-// no toque, pontos de encaixe nativos (scroll-snap-stop) fazem o mesmo.
+// Cada parada tem um ímã leve: perto dela a roda e o trackpad ficam mais pesados
+// (amortecimento) e, se a página parar entre dois cards, ela desliza devagar até um deles,
+// a favor do gesto. Um gesto forte atravessa; qualquer rolada interrompe o encaixe.
 // Sem script, sem WebGL ou com movimento reduzido, as paradas viram uma lista comum.
 
-// Quanto a página fica parada numa parada antes de aceitar a próxima rolada
-const HOLD_MS = 420;
+// Até que distância (em paradas) o freio age
+const PULL = 0.7;
+// Quanto da rolada sobra bem em cima de uma parada: subir freia menos que descer
+const BRAKE_DOWN = 0.1;
+const BRAKE_UP = 0.1;
+// Quanto é preciso andar a partir de um card para a página seguir até o próximo
+const ADVANCE_DOWN = 0.25;
+const ADVANCE_UP = 0.2;
+
 // outro: telas depois da última parada em que o palco continua preso
 // (a introdução usa uma para a seção de projetos subir por cima dela).
 // backdrop: o que aparece atrás do 3D até ele ficar pronto.
@@ -38,9 +46,8 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
         let motion = null;
         let lenis = null;
         let disposed = false;
-        let lastS = null;
         let idle = 0;
-        let release = 0;
+        let removeDamper = null;
         const beats = [...section.querySelectorAll('.scene3d-beat')];
         const stops = [...section.querySelectorAll('.scene3d-route a')];
 
@@ -66,67 +73,47 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
         const yAt = (k) => trigger.start + (k / total) * (trigger.end - trigger.start);
         const sAt = (y) => ((y - trigger.start) / (trigger.end - trigger.start)) * total;
 
-        // Desliza até a parada e segura: durante o deslize e logo depois, a roda não mexe a página,
-        // então a inércia do trackpad não atravessa o card
+        // Encaixe sem trava: a página desliza até a parada, mas qualquer rolada assume o controle
         // As telas de saída (a cortina dos projetos) andam mais devagar: é a troca de capítulo
-        const settle = (k, duration = k > last ? 1.5 : 0.85) => settleAt(yAt(k), duration);
-        const settleAt = (y, duration) => {
+        const settle = (k, duration = k > last ? 1.5 : 1.1) => {
             clearTimeout(idle);
-            motion.glideTo(y, {
-                duration,
-                lock: true,
-                onComplete: () => {
-                    lastS = sAt(window.scrollY);
-                    if (!lenis) return;
-                    lenis.stop();
-                    clearTimeout(release);
-                    release = setTimeout(() => lenis.start(), HOLD_MS);
-                },
-            });
+            motion.glideTo(yAt(k), { duration });
         };
 
+        // Distância (em paradas, com sinal) da posição até a parada mais próxima
+        const nearest = (s) => {
+            const k = Math.min(Math.max(Math.round(s), 0), total);
+            return { k, d: s - k };
+        };
+
+        // Freio: perto de uma parada a rolada encolhe; longe dela passa inteira
+        const damper = (deltaY) => {
+            if (!trigger || motion.state.auto) return 1;
+            const s = sAt(lenis.targetScroll);
+            if (s < -PULL || s > total + PULL) return 1;
+            const d = Math.abs(nearest(s).d);
+            if (d >= PULL) return 1;
+            const t = d / PULL;
+            const floor = deltaY > 0 ? BRAKE_DOWN : BRAKE_UP;
+            return floor + (1 - floor) * t * t * (3 - 2 * t);
+        };
+
+        // Parou entre dois cards: segue até o próximo se o gesto andou o bastante, senão volta
         const onLenisScroll = ({ scroll, direction }) => {
             if (!trigger) return;
-            const s = sAt(scroll);
             clearTimeout(idle);
-            if (motion.state.auto || lenis.isStopped) {
-                lastS = s;
-                return;
-            }
-            // Passou por uma parada rolando a roda ou o trackpad (mesmo num movimento rápido): volta e para nela.
-            // Arrastar a barra de rolagem ou usar Home/End é rolagem nativa e não é segurado.
-            if (lastS !== null && direction && lenis.isScrolling === 'smooth') {
-                const k = direction > 0 ? Math.ceil(lastS + 0.001) : Math.floor(lastS - 0.001);
-                const crossed = direction > 0 ? s >= k : s <= k;
-                if (k >= 0 && k <= total && crossed) {
-                    lastS = s;
-                    settle(k);
-                    return;
-                }
-            }
-            lastS = s;
-            // Parou na tela de entrada da cena (a anterior saindo, esta chegando):
-            // termina de entrar ou volta uma tela, a favor do movimento
-            const entry = yAt(0) - window.innerHeight;
-            if (scroll > entry && scroll < yAt(0) && entry > 0) {
-                idle = setTimeout(() => {
-                    if (motion.state.auto) return;
-                    const frac = (scroll - entry) / window.innerHeight;
-                    const forward = direction > 0 ? frac > 0.12 : frac > 0.88;
-                    settleAt(forward ? yAt(0) : entry, 0.85);
-                }, 180);
-            }
-            // Parou entre duas paradas: encaixa na mais próxima, a favor do movimento
-            if (s > 0 && s < total) {
-                idle = setTimeout(() => {
-                    if (motion.state.auto) return;
-                    const base = Math.floor(s);
-                    const frac = s - base;
-                    if (frac < 0.01 || frac > 0.99) return;
-                    const forward = direction > 0 ? frac > 0.12 : frac > 0.88;
-                    settle(forward ? base + 1 : base);
-                }, 180);
-            }
+            if (motion.state.auto) return;
+            const s = sAt(scroll);
+            if (s <= 0 || s >= total) return;
+            idle = setTimeout(() => {
+                if (motion.state.auto) return;
+                const now = sAt(window.scrollY);
+                const base = Math.floor(now);
+                const frac = now - base;
+                if (frac < 0.01 || frac > 0.99) return;
+                const forward = direction < 0 ? 1 - frac > ADVANCE_UP : frac > ADVANCE_DOWN;
+                settle(direction < 0 ? (forward ? base : base + 1) : (forward ? base + 1 : base));
+            }, 220);
         };
 
         const onStopClick = (e) => {
@@ -172,8 +159,10 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
                 instance.setProgress(trigger.progress);
                 showBeat(trigger.progress);
                 window.addEventListener('pointermove', onPointer, { passive: true });
-                lastS = sAt(window.scrollY);
-                lenis?.on('scroll', onLenisScroll);
+                if (lenis) {
+                    lenis.on('scroll', onLenisScroll);
+                    removeDamper = motion.addDamper(damper);
+                }
             } catch {
                 section.classList.remove('is-live');
                 section.classList.add('is-rest');
@@ -185,7 +174,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             stops.forEach((el) => el.removeEventListener('click', onStopClick));
             window.removeEventListener('pointermove', onPointer);
             clearTimeout(idle);
-            clearTimeout(release);
+            removeDamper?.();
             lenis?.off('scroll', onLenisScroll);
             trigger?.kill();
             instance?.dispose();

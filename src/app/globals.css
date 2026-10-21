@@ -305,8 +305,8 @@ pre {
   font-weight: 600;
 }
 
-/* Magnets for touch: one native snap point per stop, and a swipe never skips one.
-   The mouse and the trackpad get the same hold from the script (scene-3d.jsx). */
+/* Light magnets for touch: one native snap point per stop, used only when the swipe ends near it.
+   The mouse and the trackpad get a soft brake near each stop from the script (scene-3d.jsx). */
 .scene3d-snaps {
   display: none;
 }
@@ -335,7 +335,6 @@ pre {
     height: 100svh;
     top: calc(var(--k) / (var(--beats) - 1) * var(--hold) * 100svh);
     scroll-snap-align: start;
-    scroll-snap-stop: always;
   }
 }
 

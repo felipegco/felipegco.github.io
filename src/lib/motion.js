@@ -15,11 +15,32 @@ export function loadMotion() {
             const state = { auto: false };
             let lenis = null;
 
+            // Freios das cenas: cada uma devolve quanto da rolada deixa passar (0 a 1)
+            const dampers = new Set();
+            const addDamper = (fn) => {
+                dampers.add(fn);
+                return () => dampers.delete(fn);
+            };
+
             // Rolagem com peso no mouse e no trackpad; o toque e o movimento reduzido ficam nativos
             const touch = window.matchMedia('(pointer: coarse)').matches;
             const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (!touch && !reduced) {
-                lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.8, smoothWheel: true, autoRaf: false });
+                lenis = new Lenis({
+                    lerp: 0.1,
+                    wheelMultiplier: 0.9,
+                    smoothWheel: true,
+                    autoRaf: false,
+                    // Toda rolada do usuário passa por aqui: ela tira a página de um deslize
+                    // automático e encolhe perto das paradas das cenas
+                    virtualScroll: (data) => {
+                        state.auto = false;
+                        let factor = 1;
+                        dampers.forEach((fn) => { factor = Math.min(factor, fn(data.deltaY)); });
+                        data.deltaY *= factor;
+                        return true;
+                    },
+                });
                 lenis.on('scroll', ScrollTrigger.update);
                 gsap.ticker.add((t) => lenis.raf(t * 1000));
                 gsap.ticker.lagSmoothing(0);
@@ -56,7 +77,7 @@ export function loadMotion() {
                 });
             }
 
-            return { gsap, ScrollTrigger, lenis, state, glideTo };
+            return { gsap, ScrollTrigger, lenis, state, glideTo, addDamper };
         },
     );
     return loading;
