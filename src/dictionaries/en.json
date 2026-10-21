@@ -20,17 +20,6 @@
     "barLeft": "Open to junior roles and internships",
     "barRight": "São Paulo, Brazil"
   },
-  "about": {
-    "title": "From hardware to APIs",
-    "paragraphs": [
-      "I started in IT with hardware. At Marino I built and repaired machines, and that is where I wrote my first real system: an internal management tool in PHP with PostgreSQL.",
-      "Then came the servers. At Brascabos I spent over a year between Linux, Windows Server and Active Directory, reading incident logs and writing scripts that took repetitive tasks off the team's hands.",
-      "That changed how I write code. When I build an API in Spring Boot, I think about how it will run on the server: configuration through environment variables, Docker, errors whose message explains the problem.",
-      "Since January 2026 I have been working with freelance clients, and I am in the 6th semester of Information Systems at FHO. I am studying AWS and automated testing, and looking for my first role as a back-end developer."
-    ],
-    "mark": "how it will run on the server",
-    "role": "Back-end developer"
-  },
   "work": {
     "title": "Projects",
     "code": "Code",
@@ -264,6 +253,27 @@
         "title": "200 OK on the way back",
         "text": "The VeiculoDTO comes back as JSON and the e-Move screen shows the new range. Further down, you can send this request yourself with another car.",
         "link": "Try the API"
+      }
+    ]
+  },
+  "intro": {
+    "label": "Introduction: from hardware to APIs",
+    "hint": "Scroll to see how I got here.",
+    "role": "Back-end developer",
+    "next": "Follow a request",
+    "stops": [
+      {
+        "title": "I started with hardware",
+        "text": "At Marino I built and repaired machines. That is where I wrote my first real system: an internal management tool in PHP with PostgreSQL."
+      },
+      {
+        "title": "Then came the servers",
+        "text": "I spent over a year between Linux, Windows Server and Active Directory, reading incident logs and taking repetitive tasks off the team's hands with scripts."
+      },
+      {
+        "title": "Today, APIs that run well",
+        "text": "When I build an API in Spring Boot, I think about how it will run on the server. Since January 2026 I have worked with freelance clients, and I study Information Systems at FHO.",
+        "mark": "how it will run on the server"
       }
     ]
   }

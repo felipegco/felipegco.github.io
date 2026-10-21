@@ -20,17 +20,6 @@
     "barLeft": "Aberto a vagas júnior e estágio",
     "barRight": "São Paulo, Brasil"
   },
-  "about": {
-    "title": "Do hardware à API",
-    "paragraphs": [
-      "Comecei na TI pelo hardware. Na Marino eu montava e consertava máquinas, e foi lá que escrevi o primeiro sistema de verdade: uma gestão interna em PHP com PostgreSQL.",
-      "Depois vieram os servidores. Na Brascabos passei mais de um ano entre Linux, Windows Server e Active Directory, lendo logs de incidentes e escrevendo scripts para tirar tarefas repetidas das mãos da equipe.",
-      "Isso mudou o jeito como eu programo. Quando escrevo uma API em Spring Boot, penso em como ela vai rodar no servidor: configuração por variável de ambiente, Docker, erros com mensagem que explica o problema.",
-      "Desde janeiro de 2026 atendo clientes como freelancer, e estou no 6º semestre de Sistemas de Informação na FHO. Estudo AWS e testes automatizados, e procuro minha primeira vaga como desenvolvedor back-end."
-    ],
-    "mark": "como ela vai rodar no servidor",
-    "role": "Desenvolvedor back-end"
-  },
   "work": {
     "title": "Projetos",
     "code": "Código",
@@ -264,6 +253,27 @@
         "title": "200 OK de volta",
         "text": "O VeiculoDTO volta como JSON e a tela do e-Move mostra a nova autonomia. Mais abaixo, você mesmo manda essa requisição com outro carro.",
         "link": "Testar a API"
+      }
+    ]
+  },
+  "intro": {
+    "label": "Introdução: do hardware à API",
+    "hint": "Role para ver como cheguei até aqui.",
+    "role": "Desenvolvedor back-end",
+    "next": "Seguir uma requisição",
+    "stops": [
+      {
+        "title": "Comecei pelo hardware",
+        "text": "Na Marino eu montava e consertava máquinas. Foi lá que escrevi meu primeiro sistema de verdade: uma gestão interna em PHP com PostgreSQL."
+      },
+      {
+        "title": "Depois vieram os servidores",
+        "text": "Passei mais de um ano entre Linux, Windows Server e Active Directory, lendo logs de incidentes e tirando tarefas repetidas das mãos da equipe com scripts."
+      },
+      {
+        "title": "Hoje, APIs que rodam bem",
+        "text": "Quando escrevo uma API em Spring Boot, penso em como ela vai rodar no servidor. Desde janeiro de 2026 atendo clientes como freelancer, e curso Sistemas de Informação na FHO.",
+        "mark": "como ela vai rodar no servidor"
       }
     ]
   }
