@@ -140,7 +140,7 @@
             "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega."
           },
           {
-            "name": "Estagiário de TI, Brascabos",
+            "name": "TI, Brascabos",
             "when": "out/2024 – jan/2026",
             "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas."
           },
@@ -228,7 +228,7 @@
         "id": "container",
         "name": "Container",
         "title": "Um container em Linux",
-        "text": "O PUT /api/veiculos/1/bateria entra pela porta 8080 de um container Amazon Corretto 17 em Alpine, que roda sem root. Aprendi a montar servidores assim cuidando de infraestrutura Linux na Brascabos."
+        "text": "O PUT /api/veiculos/1/bateria entra pela porta 8080 de um container Amazon Corretto 17 em Alpine, que roda sem root."
       },
       {
         "id": "controller",
@@ -265,18 +265,94 @@
     "stops": [
       {
         "title": "Comecei pelo hardware",
-        "text": "Inicialmente eu montava e consertava máquinas. Foi lá que escrevi meu primeiro sistema de verdade: uma gestão interna em PHP com PostgreSQL."
+        "text": "Inicialmente eu montava e consertava máquinas. Foi lá que escrevi meu primeiro sistema de verdade: uma gestão interna em PHP com PostgreSQL.",
+        "out": "→ 3 linhas"
       },
       {
         "title": "Depois vieram os servidores",
-        "text": "Passei mais de um ano entre Linux, Windows Server e Active Directory, lendo logs de incidentes e tirando tarefas repetidas das mãos da equipe com scripts."
+        "text": "Passei mais de um ano entre Linux, Windows Server e Active Directory, lendo logs de incidentes e tirando tarefas repetidas das mãos da equipe com scripts.",
+        "out": "✓ conta criada em 4s (antes: 15 min à mão)"
       },
       {
         "title": "Hoje, APIs que rodam bem",
         "text": "Quando escrevo uma API em Spring Boot, penso em como ela vai rodar no servidor. Desde janeiro de 2026 atendo clientes como freelancer, e curso Sistemas de Informação na FHO.",
         "mark": "como ela vai rodar no servidor"
       }
-    ]
+    ],
+    "console": {
+      "label": "Console da API: escolha um endpoint e execute",
+      "endpoint": "Endpoint",
+      "run": "Executar",
+      "running": "Executando…",
+      "hint": "$ Escolha um endpoint e clique em Executar…",
+      "endpoints": [
+        {
+          "path": "/api/sobre",
+          "body": {
+            "nome": "Felipe Giacomini Cocco",
+            "cargo": "Desenvolvedor back-end",
+            "local": "São Paulo, Brasil",
+            "freelance_desde": "2026-01",
+            "disponivel": true
+          }
+        },
+        {
+          "path": "/api/stack",
+          "body": {
+            "back_end": [
+              "Java 17",
+              "Spring Boot (Web, Data JPA, Security, Validation)",
+              "APIs REST",
+              "JWT",
+              "Maven",
+              "Lombok",
+              "Python (Django REST Framework)"
+            ],
+            "banco_de_dados": [
+              "SQL",
+              "PostgreSQL",
+              "MariaDB/MySQL"
+            ],
+            "infra_devops": [
+              "Linux",
+              "Docker",
+              "Docker Compose",
+              "Git/GitHub",
+              "Bash",
+              "PowerShell",
+              "Windows Server",
+              "Active Directory"
+            ],
+            "front_end": [
+              "JavaScript",
+              "React",
+              "Next.js",
+              "Tailwind CSS"
+            ]
+          }
+        },
+        {
+          "path": "/api/formacao",
+          "body": {
+            "curso": "Sistemas de Informação",
+            "instituicao": "FHO",
+            "conclusao": "2027-12",
+            "estudando": [
+              "AWS Cloud Practitioner",
+              "JUnit e Mockito"
+            ]
+          }
+        },
+        {
+          "path": "/api/contato",
+          "body": {
+            "email": "fgiacominicocco@gmail.com",
+            "linkedin": "linkedin.com/in/felipegcocco",
+            "github": "github.com/felipegco"
+          }
+        }
+      ]
+    }
   },
   "project": {
     "back": "Voltar para todos os projetos",

@@ -98,6 +98,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
                 });
                 // A altura muda quando a cena fica viva: os outros gatilhos precisam medir de novo
                 motion.ScrollTrigger.refresh();
+                motion.followHash();
                 instance.setProgress(trigger.progress);
                 showBeat(trigger.progress);
                 window.addEventListener('pointermove', onPointer, { passive: true });
@@ -105,6 +106,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             } catch {
                 section.classList.remove('is-live');
                 section.classList.add('is-rest');
+                motion?.followHash();
             }
         })();
 

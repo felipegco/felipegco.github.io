@@ -57,6 +57,8 @@ html {
 
 html.lenis {
   scroll-behavior: auto;
+  /* the pages move in fixed steps: the browser must not nudge the scroll when content above resizes */
+  overflow-anchor: none;
 }
 
 body {
@@ -494,9 +496,18 @@ pre {
   font-weight: 600;
 }
 
+.intro-end {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+}
+
 .intro-sign {
   display: grid;
-  margin-top: 28px !important;
+  margin: 0;
 }
 
 .intro-sign strong {
@@ -973,6 +984,228 @@ a.work-name {
 .code-block .k { color: #60a5fa; }
 .code-block .s { color: #fde68a; }
 .code-block .n { color: #86efac; }
+
+/* ── Intro windows: the tool of each phase under its card ───────────────── */
+.scene3d-beat .api-console {
+  grid-column: 7 / -1;
+}
+
+.term-line {
+  display: block;
+  width: max-content;
+}
+
+.term-out {
+  margin-top: 10px;
+  color: #86efac;
+}
+
+.api-console {
+  background: var(--code-ground);
+  color: var(--code-ink);
+  font-size: var(--step-small);
+}
+
+.api-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+
+.api-method,
+.api-url {
+  font-family: var(--font-geist-mono), ui-monospace, monospace; /* taste-skill-ignore: the request line is code */
+}
+
+.api-method {
+  padding: 8px 10px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+  color: #86efac;
+  font-weight: 600;
+}
+
+.api-url {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  border: 1px solid rgb(255 255 255 / 0.12);
+}
+
+.api-url:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.api-host {
+  color: #93c5fd;
+}
+
+.api-url select {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px 8px 0;
+  border: 0;
+  outline: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.api-url option {
+  background: var(--code-ground);
+}
+
+.api-run {
+  padding: 8px 14px;
+  border: 1px solid #60a5fa;
+  background: none;
+  color: #60a5fa;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
+}
+
+.api-run:hover:not(:disabled) {
+  background: #60a5fa;
+  color: var(--code-ground);
+}
+
+.api-run:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.api-run:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.api-out {
+  margin: 0;
+  padding: 18px 20px 22px;
+  height: calc(10 * 1.65em + 40px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+.api-out:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.api-out .k { color: #93c5fd; }
+.api-out .s { color: #fde68a; }
+.api-out .n { color: #86efac; }
+
+.api-status {
+  display: block;
+  margin-bottom: 6px;
+  color: #86efac;
+}
+
+.api-hint {
+  color: var(--muted);
+}
+
+.api-caret {
+  display: inline-block;
+  width: 0.6ch;
+  height: 1.1em;
+  vertical-align: text-bottom;
+  background: currentColor;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Live: the window slides in after its card, then the lines type themselves */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .api-console {
+    margin-top: 28px;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 200ms var(--ease-out), transform 0s linear 300ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .api-console {
+    opacity: 1;
+    transform: none;
+    transition: opacity 700ms var(--ease-out) 250ms, transform 1000ms var(--ease-expo) 250ms;
+  }
+
+  /* the signature closes the intro a beat after the console */
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .intro-end {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 200ms var(--ease-out), transform 0s linear 300ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on > .intro-end {
+    opacity: 1;
+    transform: none;
+    transition: opacity 700ms var(--ease-out) 450ms, transform 1000ms var(--ease-expo) 450ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .term-line {
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path 0s linear 400ms;
+  }
+
+  html.js .scene3d:not(.is-rest) .is-on .term-line {
+    clip-path: inset(0 -1ch 0 0);
+    transition: clip-path calc(var(--n) * 16ms) steps(var(--n)) var(--d);
+  }
+
+  html.js .scene3d:not(.is-rest) .is-on .term-out {
+    transition: clip-path 400ms var(--ease-out) var(--d);
+  }
+}
+
+/* Phone: the 3D keeps the top half, so the last card drops the signature and the console tightens */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .intro:not(.is-rest) .intro-sign {
+    display: none;
+  }
+
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .term,
+  html.js .scene3d:not(.is-rest) .scene3d-beat > .api-console {
+    margin-top: 20px;
+  }
+
+  .api-console {
+    font-size: 0.8125rem;
+  }
+
+  .api-bar {
+    padding: 10px 12px;
+    gap: 8px;
+  }
+
+  .api-host {
+    display: none;
+  }
+
+  .intro-end {
+    margin-top: 20px;
+  }
+
+  .api-out {
+    height: calc(8 * 1.55em + 28px);
+    padding: 12px 14px 16px;
+    line-height: 1.55;
+  }
+}
 
 /* ── Journey: printed sheet on the neon field ───────────────────────────── */
 .journey {
