@@ -96,6 +96,8 @@ export function loadMotion() {
 
                         if (event.type === 'wheel') {
                             if (Math.abs(deltaX) > Math.abs(deltaY)) return true;
+                            // Caixas com rolagem própria (a resposta do console) rolam por dentro
+                            if (event.target.closest?.('[data-lenis-prevent]')) return true;
                             if (event.cancelable) event.preventDefault();
                             const now = performance.now();
                             if (now - lastWheel > QUIET) { armed = true; acc = 0; }
@@ -155,7 +157,30 @@ export function loadMotion() {
                 });
             }
 
-            return { gsap, ScrollTrigger, lenis, glideTo, addStops };
+            // Chegando por um link com âncora (/pt#projects), o navegador pula antes de a cena
+            // ganhar a altura dela e ainda reaplica a âncora até a página terminar de carregar.
+            // Quando a cena fica pronta, refaz o pulo agora e mais uma vez depois do load.
+            let hashDone = false;
+            const followHash = () => {
+                if (hashDone || !window.location.hash) return;
+                hashDone = true;
+                const el = document.getElementById(decodeURIComponent(window.location.hash.slice(1)));
+                if (!el) return;
+                const jump = () => {
+                    window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+                    lenis?.resize();
+                };
+                jump();
+                const start = window.scrollY;
+                const later = () => requestAnimationFrame(() => {
+                    // só corrige se ninguém rolou desde o pulo
+                    if (Math.abs(window.scrollY - start) < 80) jump();
+                });
+                if (document.readyState === 'complete') later();
+                else window.addEventListener('load', later, { once: true });
+            };
+
+            return { gsap, ScrollTrigger, lenis, glideTo, addStops, followHash };
         },
     );
     return loading;

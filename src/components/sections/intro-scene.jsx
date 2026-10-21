@@ -1,5 +1,10 @@
 import Scene3D from '@/components/scene-3d';
 import Topbar from '@/components/ui/Topbar';
+import IntroWindow from '@/components/sections/intro-window';
+import IntroConsole from '@/components/sections/intro-console';
+
+// A ferramenta de cada fase, embaixo do card: SQL, PowerShell e, por fim, a API
+const WINDOWS = ['hardware', 'servers'];
 
 function withMark(text, mark) {
     const at = text.indexOf(mark);
@@ -44,16 +49,21 @@ export default function IntroScene({ dict, lang }) {
                     <div className="scene3d-copy">
                         <h2 className="lead">{stop.title}</h2>
                         <p>{stop.mark ? withMark(stop.text, stop.mark) : stop.text}</p>
-                        {i === last && (
-                            <>
+                    </div>
+                    {WINDOWS[i] && <IntroWindow id={WINDOWS[i]} out={stop.out} />}
+                    {i === last && (
+                        <>
+                            <IntroConsole dict={intro.console} />
+                            {/* A assinatura fecha a introdução, embaixo do console */}
+                            <div className="intro-end">
                                 <p className="intro-sign">
                                     <strong>Felipe Giacomini Cocco</strong>
                                     <span>{intro.role}</span>
                                 </p>
                                 <a href="#projects" className="button">{intro.next}</a>
-                            </>
-                        )}
-                    </div>
+                            </div>
+                        </>
+                    )}
                 </article>
             ))}
         </Scene3D>
