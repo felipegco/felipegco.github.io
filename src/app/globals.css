@@ -305,6 +305,46 @@ pre {
   font-weight: 600;
 }
 
+/* Magnets for touch: one native snap point per stop, and a swipe never skips one.
+   The mouse and the trackpad get the same hold from the script (scene-3d.jsx). */
+.scene3d-snaps {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) and (pointer: coarse) {
+  html.js {
+    scroll-snap-type: y proximity;
+  }
+
+  html.js .scene3d.is-live {
+    position: relative;
+  }
+
+  html.js .scene3d.is-live .scene3d-snaps {
+    display: block;
+  }
+
+  html.js .scene3d.is-live .scene3d-snaps {
+    pointer-events: none;
+  }
+
+  .scene3d-snaps span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100svh;
+    top: calc(var(--k) / (var(--beats) - 1) * var(--hold) * 100svh);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (pointer: coarse) and (max-width: 1024px) {
+  .scene3d-snaps span {
+    top: calc(var(--k) / (var(--beats) - 1) * var(--hold-stacked) * 100svh);
+  }
+}
+
 /* Live: the stage holds for five screens while the request travels */
 @media (prefers-reduced-motion: no-preference) {
   html.js .scene3d:not(.is-rest) {
