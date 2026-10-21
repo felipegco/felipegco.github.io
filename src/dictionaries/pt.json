@@ -9,15 +9,16 @@
     "themeDark": "Usar tema escuro",
     "themeLight": "Usar tema claro",
     "switchLang": "Read in English",
-    "langShort": "EN"
+    "langShort": "EN",
+    "label": "Principal",
+    "about": "Sobre"
   },
   "hero": {
     "title": "Felipe Cocco, back-end Java",
     "sentence": "Escrevo APIs REST em Java e Spring Boot e sei como elas rodam no servidor: antes do código, foram quase dois anos cuidando de infraestrutura Linux.",
     "cta": "Ver projetos",
     "barLeft": "Aberto a vagas júnior e estágio",
-    "barRight": "São Paulo, Brasil",
-    "portraitAlt": "Felipe Giacomini Cocco, de terno escuro, sorrindo"
+    "barRight": "São Paulo, Brasil"
   },
   "about": {
     "title": "Do hardware à API",
@@ -110,9 +111,18 @@
       }
     ],
     "triage": [
-      { "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã", "label": "Confirmar" },
-      { "msg": "Oi, não vou conseguir ir, depois eu remarco", "label": "Cancelar" },
-      { "msg": "A consulta é com a mesma doutora da última vez?", "label": "Dúvida, vai para uma pessoa" }
+      {
+        "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã",
+        "label": "Confirmar"
+      },
+      {
+        "msg": "Oi, não vou conseguir ir, depois eu remarco",
+        "label": "Cancelar"
+      },
+      {
+        "msg": "A consulta é com a mesma doutora da última vez?",
+        "label": "Dúvida, vai para uma pessoa"
+      }
     ],
     "notchSong": "Tocando agora",
     "notchArtist": "Simple Notch"
@@ -134,27 +144,58 @@
       {
         "name": "Experiência",
         "items": [
-          { "name": "Desenvolvedor freelance", "when": "jan/2026 – hoje", "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega." },
-          { "name": "Estagiário de TI, Brascabos", "when": "out/2024 – jan/2026", "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas." },
-          { "name": "Suporte técnico, Marino", "when": "mar/2024 – out/2024", "desc": "Manutenção de hardware e um sistema de gestão interno em PHP com PostgreSQL." }
+          {
+            "name": "Desenvolvedor freelance",
+            "when": "jan/2026 – hoje",
+            "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega."
+          },
+          {
+            "name": "Estagiário de TI, Brascabos",
+            "when": "out/2024 – jan/2026",
+            "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas."
+          },
+          {
+            "name": "Suporte técnico, Marino",
+            "when": "mar/2024 – out/2024",
+            "desc": "Manutenção de hardware e um sistema de gestão interno em PHP com PostgreSQL."
+          }
         ]
       },
       {
         "name": "Formação",
         "items": [
-          { "name": "Sistemas de Informação, FHO", "when": "2024 – dez/2027", "desc": "{n}º de {total} semestres. Engenharia de software, bancos de dados e redes." }
+          {
+            "name": "Sistemas de Informação, FHO",
+            "when": "2024 – dez/2027",
+            "desc": "{n}º de {total} semestres. Engenharia de software, bancos de dados e redes."
+          }
         ]
       },
       {
         "name": "Cursos",
         "items": [
-          { "name": "Linux Essentials", "when": "2024", "desc": "Red Hat Academy: sistema de arquivos, shell, permissões e processos." },
-          { "name": "Cybersecurity Essentials", "when": "2024", "desc": "Cisco Networking Academy: ameaças, segurança de redes e criptografia." },
-          { "name": "Desenvolvimento Web Completo", "when": "2023", "desc": "Udemy: HTML, CSS, JavaScript e Node.js." }
+          {
+            "name": "Linux Essentials",
+            "when": "2024",
+            "desc": "Red Hat Academy: sistema de arquivos, shell, permissões e processos."
+          },
+          {
+            "name": "Cybersecurity Essentials",
+            "when": "2024",
+            "desc": "Cisco Networking Academy: ameaças, segurança de redes e criptografia."
+          },
+          {
+            "name": "Desenvolvimento Web Completo",
+            "when": "2023",
+            "desc": "Udemy: HTML, CSS, JavaScript e Node.js."
+          }
         ]
       }
     ],
-    "closing": ["Estudando agora: AWS Cloud Practitioner", "e testes com JUnit e Mockito"]
+    "closing": [
+      "Estudando agora: AWS Cloud Practitioner",
+      "e testes com JUnit e Mockito"
+    ]
   },
   "contact": {
     "title": "Contato",
@@ -173,6 +214,57 @@
     "projects": "Projetos",
     "journey": "Trajetória",
     "contact": "Contato",
-    "rights": "Felipe Giacomini Cocco. Código no GitHub."
+    "rights": "Felipe Giacomini Cocco. Código no GitHub.",
+    "status": "Aberto a vagas júnior e estágio em back-end. São Paulo, Brasil."
+  },
+  "request": {
+    "label": "A viagem de uma requisição do e-Move",
+    "hint": "Role para seguir uma requisição real do e-Move, do navegador ao banco e de volta.",
+    "route": "Caminho da requisição",
+    "screen": {
+      "list": "Meus veículos",
+      "battery": "Bateria",
+      "range": "Autonomia estimada",
+      "save": "Salvar",
+      "saved": "Salvo",
+      "decimal": ","
+    },
+    "stops": [
+      {
+        "id": "browser",
+        "name": "Navegador"
+      },
+      {
+        "id": "container",
+        "name": "Container",
+        "title": "Um container em Linux",
+        "text": "O PUT /api/veiculos/1/bateria entra pela porta 8080 de um container Amazon Corretto 17 em Alpine, que roda sem root. Aprendi a montar servidores assim cuidando de infraestrutura Linux na Brascabos."
+      },
+      {
+        "id": "controller",
+        "name": "Controller",
+        "title": "Filtro e controller",
+        "text": "O Spring Security confere a origem pelo CORS antes de liberar a rota. O VeiculoController lê o token JWT para saber quem está pedindo e responde 401 quando ele falta."
+      },
+      {
+        "id": "service",
+        "name": "Service",
+        "title": "A regra de negócio",
+        "text": "O VeiculoService recusa níveis fora de 0 a 100 e calcula a autonomia. Um Tesla Model 3 faz 491 km com a bateria cheia; com 80%, sobram 392,8 km."
+      },
+      {
+        "id": "database",
+        "name": "Banco",
+        "title": "Gravado numa transação",
+        "text": "Com @Transactional, o repositório JPA busca a ligação entre usuário e veículo no MariaDB e grava o novo nível. Se algo falhar no meio, nada fica salvo pela metade."
+      },
+      {
+        "id": "response",
+        "name": "Resposta",
+        "title": "200 OK de volta",
+        "text": "O VeiculoDTO volta como JSON e a tela do e-Move mostra a nova autonomia. Mais abaixo, você mesmo manda essa requisição com outro carro.",
+        "link": "Testar a API"
+      }
+    ]
   }
 }

@@ -9,15 +9,16 @@
     "themeDark": "Use dark theme",
     "themeLight": "Use light theme",
     "switchLang": "Ler em português",
-    "langShort": "PT"
+    "langShort": "PT",
+    "label": "Main",
+    "about": "About"
   },
   "hero": {
     "title": "Felipe Cocco, back-end Java",
     "sentence": "I write REST APIs in Java and Spring Boot and I know how they run on a server: before the code came almost two years looking after Linux infrastructure.",
     "cta": "See projects",
     "barLeft": "Open to junior roles and internships",
-    "barRight": "São Paulo, Brazil",
-    "portraitAlt": "Felipe Giacomini Cocco in a dark suit, smiling"
+    "barRight": "São Paulo, Brazil"
   },
   "about": {
     "title": "From hardware to APIs",
@@ -110,9 +111,18 @@
       }
     ],
     "triage": [
-      { "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã", "label": "Confirm" },
-      { "msg": "Oi, não vou conseguir ir, depois eu remarco", "label": "Cancel" },
-      { "msg": "A consulta é com a mesma doutora da última vez?", "label": "Question, goes to a person" }
+      {
+        "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã",
+        "label": "Confirm"
+      },
+      {
+        "msg": "Oi, não vou conseguir ir, depois eu remarco",
+        "label": "Cancel"
+      },
+      {
+        "msg": "A consulta é com a mesma doutora da última vez?",
+        "label": "Question, goes to a person"
+      }
     ],
     "notchSong": "Now playing",
     "notchArtist": "Simple Notch"
@@ -134,27 +144,58 @@
       {
         "name": "Experience",
         "items": [
-          { "name": "Freelance developer", "when": "Jan 2026 – now", "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery." },
-          { "name": "IT intern, Brascabos", "when": "Oct 2024 – Jan 2026", "desc": "Windows and Linux infrastructure, user support and internal automation." },
-          { "name": "Technical support, Marino", "when": "Mar 2024 – Oct 2024", "desc": "Hardware maintenance and an internal management system in PHP with PostgreSQL." }
+          {
+            "name": "Freelance developer",
+            "when": "Jan 2026 – now",
+            "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery."
+          },
+          {
+            "name": "IT intern, Brascabos",
+            "when": "Oct 2024 – Jan 2026",
+            "desc": "Windows and Linux infrastructure, user support and internal automation."
+          },
+          {
+            "name": "Technical support, Marino",
+            "when": "Mar 2024 – Oct 2024",
+            "desc": "Hardware maintenance and an internal management system in PHP with PostgreSQL."
+          }
         ]
       },
       {
         "name": "Education",
         "items": [
-          { "name": "Information Systems, FHO", "when": "2024 – Dec 2027", "desc": "Semester {n} of {total}. Software engineering, databases and networks." }
+          {
+            "name": "Information Systems, FHO",
+            "when": "2024 – Dec 2027",
+            "desc": "Semester {n} of {total}. Software engineering, databases and networks."
+          }
         ]
       },
       {
         "name": "Courses",
         "items": [
-          { "name": "Linux Essentials", "when": "2024", "desc": "Red Hat Academy: file system, shell, permissions and processes." },
-          { "name": "Cybersecurity Essentials", "when": "2024", "desc": "Cisco Networking Academy: threats, network security and cryptography." },
-          { "name": "Complete Web Development", "when": "2023", "desc": "Udemy: HTML, CSS, JavaScript and Node.js." }
+          {
+            "name": "Linux Essentials",
+            "when": "2024",
+            "desc": "Red Hat Academy: file system, shell, permissions and processes."
+          },
+          {
+            "name": "Cybersecurity Essentials",
+            "when": "2024",
+            "desc": "Cisco Networking Academy: threats, network security and cryptography."
+          },
+          {
+            "name": "Complete Web Development",
+            "when": "2023",
+            "desc": "Udemy: HTML, CSS, JavaScript and Node.js."
+          }
         ]
       }
     ],
-    "closing": ["Studying now: AWS Cloud Practitioner", "and testing with JUnit and Mockito"]
+    "closing": [
+      "Studying now: AWS Cloud Practitioner",
+      "and testing with JUnit and Mockito"
+    ]
   },
   "contact": {
     "title": "Contact",
@@ -173,6 +214,57 @@
     "projects": "Projects",
     "journey": "Track record",
     "contact": "Contact",
-    "rights": "Felipe Giacomini Cocco. Source on GitHub."
+    "rights": "Felipe Giacomini Cocco. Source on GitHub.",
+    "status": "Open to junior and internship back-end roles. São Paulo, Brazil."
+  },
+  "request": {
+    "label": "The journey of an e-Move request",
+    "hint": "Scroll to follow a real e-Move request from the browser to the database and back.",
+    "route": "Request path",
+    "screen": {
+      "list": "My vehicles",
+      "battery": "Battery",
+      "range": "Estimated range",
+      "save": "Save",
+      "saved": "Saved",
+      "decimal": "."
+    },
+    "stops": [
+      {
+        "id": "browser",
+        "name": "Browser"
+      },
+      {
+        "id": "container",
+        "name": "Container",
+        "title": "A container on Linux",
+        "text": "PUT /api/veiculos/1/bateria arrives on port 8080 of an Amazon Corretto 17 container on Alpine, running without root. I learned to set servers up like this running Linux infrastructure at Brascabos."
+      },
+      {
+        "id": "controller",
+        "name": "Controller",
+        "title": "Filter and controller",
+        "text": "Spring Security checks the origin against CORS before letting the route through. VeiculoController reads the JWT to know who is asking, and answers 401 when it is missing."
+      },
+      {
+        "id": "service",
+        "name": "Service",
+        "title": "The business rule",
+        "text": "VeiculoService rejects levels outside 0 to 100 and works out the range. A Tesla Model 3 does 491 km on a full battery; at 80%, 392.8 km are left."
+      },
+      {
+        "id": "database",
+        "name": "Database",
+        "title": "Saved in one transaction",
+        "text": "With @Transactional, the JPA repository finds the user-vehicle link in MariaDB and saves the new level. If anything fails halfway, nothing is half-saved."
+      },
+      {
+        "id": "response",
+        "name": "Response",
+        "title": "200 OK on the way back",
+        "text": "The VeiculoDTO comes back as JSON and the e-Move screen shows the new range. Further down, you can send this request yourself with another car.",
+        "link": "Try the API"
+      }
+    ]
   }
 }

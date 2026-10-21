@@ -12,7 +12,7 @@ export default function EmoveConsole({ dict }) {
     const km = String(Math.round(dto.autonomiaEstimada * 10) / 10).replace('.', dict.decimal);
 
     return (
-        <section className="console" aria-labelledby="console-title">
+        <section id="console" className="console" aria-labelledby="console-title">
             <div className="console-copy">
                 <h2 id="console-title" className="lead" data-reveal>{dict.title}</h2>
                 <p data-reveal style={{ '--i': 1 }}>{dict.lead}</p>
