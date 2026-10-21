@@ -25,7 +25,7 @@ export default async function EmovePage({ params }) {
             <main className="project-page">
                 <RequestScene dict={dict} header={<Topbar nav={dict.nav} lang={lang} />} />
                 <EmoveConsole dict={dict.console} />
-                <nav className="project-back" aria-label={dict.project.backLabel}>
+                <nav className="project-back" data-slide aria-label={dict.project.backLabel}>
                     <a href={`/${lang}#projects`}>{dict.project.back}</a>
                 </nav>
             </main>

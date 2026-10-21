@@ -18,7 +18,7 @@ export default function Journey({ dict }) {
     const semester = useCurrentSemester();
 
     return (
-        <section id="journey" className="journey" aria-labelledby="journey-title">
+        <section id="journey" className="journey" data-slide aria-labelledby="journey-title">
             <div className="journey-sheet" data-reveal>
                 <h2 id="journey-title">{dict.title}</h2>
                 <p className="journey-note">{dict.note}</p>

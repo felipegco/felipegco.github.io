@@ -126,7 +126,7 @@ export default function Work({ dict, lang }) {
     const current = projects[active];
 
     return (
-        <section id="projects" className="work" ref={sectionRef} aria-labelledby="projects-title">
+        <section id="projects" className="work" data-slide ref={sectionRef} aria-labelledby="projects-title">
             <h2 id="projects-title" className="lead" data-reveal>{dict.title}</h2>
 
             <ul className="work-list">

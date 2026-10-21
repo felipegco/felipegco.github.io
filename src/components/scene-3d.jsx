@@ -1,6 +1,6 @@
 'use client';
 
-import { Children, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { loadMotion } from '@/lib/motion';
 
 const WORLDS = {
@@ -10,19 +10,8 @@ const WORLDS = {
 
 // Uma cena de rolagem: o palco fica preso na tela enquanto a seção passa,
 // o mundo 3D segue o progresso e o texto de cada parada aparece quando a cena para nela.
-// Cada parada tem um ímã leve: perto dela a roda e o trackpad ficam mais pesados
-// (amortecimento) e, se a página parar entre dois cards, ela desliza devagar até um deles,
-// a favor do gesto. Um gesto forte atravessa; qualquer rolada interrompe o encaixe.
+// Cada parada é um slide: a página anda de uma em uma (o paginador fica em motion.js).
 // Sem script, sem WebGL ou com movimento reduzido, as paradas viram uma lista comum.
-
-// Até que distância (em paradas) o freio age
-const PULL = 0.3;
-// Quanto da rolada sobra bem em cima de uma parada: subir freia menos que descer
-const BRAKE_DOWN = 0.8;
-const BRAKE_UP = 0.8;
-// Quanto é preciso andar a partir de um card para a página seguir até o próximo
-const ADVANCE_DOWN = 0.1;
-const ADVANCE_UP = 0.1;
 
 // outro: telas depois da última parada em que o palco continua preso
 // (a introdução usa uma para a seção de projetos subir por cima dela).
@@ -44,10 +33,8 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
         let instance = null;
         let trigger = null;
         let motion = null;
-        let lenis = null;
         let disposed = false;
-        let idle = 0;
-        let removeDamper = null;
+        let removeStops = null;
         const beats = [...section.querySelectorAll('.scene3d-beat')];
         const stops = [...section.querySelectorAll('.scene3d-route a')];
 
@@ -59,7 +46,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
         const showBeat = (p) => {
             const s = p * total;
             const near = Math.round(s);
-            const next = near <= last && Math.abs(s - near) < 0.32 ? near : -1;
+            const next = near <= last && Math.abs(s - near) < 0.12 ? near : -1;
             if (next === shown) return;
             shown = next;
             beats.forEach((el, i) => el.classList.toggle('is-on', i === next));
@@ -69,58 +56,14 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             });
         };
 
-        // Posição da rolagem de cada parada, e a parada (com fração) de uma posição
+        // Posição da rolagem de cada parada
         const yAt = (k) => trigger.start + (k / total) * (trigger.end - trigger.start);
-        const sAt = (y) => ((y - trigger.start) / (trigger.end - trigger.start)) * total;
-
-        // Encaixe sem trava: a página desliza até a parada, mas qualquer rolada assume o controle
-        // As telas de saída (a cortina dos projetos) andam mais devagar: é a troca de capítulo
-        const settle = (k, duration = k > last ? 2.5 : 2.0) => {
-            clearTimeout(idle);
-            motion.glideTo(yAt(k), { duration });
-        };
-
-        // Distância (em paradas, com sinal) da posição até a parada mais próxima
-        const nearest = (s) => {
-            const k = Math.min(Math.max(Math.round(s), 0), total);
-            return { k, d: s - k };
-        };
-
-        // Freio: perto de uma parada a rolada encolhe; longe dela passa inteira
-        const damper = (deltaY) => {
-            if (!trigger || motion.state.auto) return 1;
-            const s = sAt(lenis.targetScroll);
-            if (s < -PULL || s > total + PULL) return 1;
-            const d = Math.abs(nearest(s).d);
-            if (d >= PULL) return 1;
-            const t = d / PULL;
-            const floor = deltaY > 0 ? BRAKE_DOWN : BRAKE_UP;
-            return floor + (1 - floor) * t * t * (3 - 2 * t);
-        };
-
-        // Parou entre dois cards: segue até o próximo se o gesto andou o bastante, senão volta
-        const onLenisScroll = ({ scroll, direction }) => {
-            if (!trigger) return;
-            clearTimeout(idle);
-            if (motion.state.auto) return;
-            const s = sAt(scroll);
-            if (s <= 0 || s >= total) return;
-            idle = setTimeout(() => {
-                if (motion.state.auto) return;
-                const now = sAt(window.scrollY);
-                const base = Math.floor(now);
-                const frac = now - base;
-                if (frac < 0.01 || frac > 0.99) return;
-                const forward = direction < 0 ? 1 - frac > ADVANCE_UP : frac > ADVANCE_DOWN;
-                settle(direction < 0 ? (forward ? base : base + 1) : (forward ? base + 1 : base));
-            }, 220);
-        };
 
         const onStopClick = (e) => {
             const i = stops.indexOf(e.currentTarget);
             if (i < 0 || !trigger) return;
             e.preventDefault();
-            settle(i, 1.4);
+            motion.glideTo(yAt(i), { duration: 1.8 });
         };
         stops.forEach((el) => el.addEventListener('click', onStopClick));
 
@@ -141,7 +84,6 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
                 });
                 if (!instance) throw new Error('WebGL indisponível');
 
-                lenis = motion.lenis;
                 section.classList.add('is-live');
                 trigger = motion.ScrollTrigger.create({
                     trigger: section,
@@ -159,10 +101,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
                 instance.setProgress(trigger.progress);
                 showBeat(trigger.progress);
                 window.addEventListener('pointermove', onPointer, { passive: true });
-                if (lenis) {
-                    lenis.on('scroll', onLenisScroll);
-                    removeDamper = motion.addDamper(damper);
-                }
+                removeStops = motion.addStops(() => Array.from({ length: total + 1 }, (_, k) => yAt(k)));
             } catch {
                 section.classList.remove('is-live');
                 section.classList.add('is-rest');
@@ -173,15 +112,11 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             disposed = true;
             stops.forEach((el) => el.removeEventListener('click', onStopClick));
             window.removeEventListener('pointermove', onPointer);
-            clearTimeout(idle);
-            removeDamper?.();
-            lenis?.off('scroll', onLenisScroll);
+            removeStops?.();
             trigger?.kill();
             instance?.dispose();
         };
     }, [world, labels, outro]);
-
-    const count = Children.count(children);
 
     return (
         <section
@@ -190,11 +125,9 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             data-scene={world}
             ref={ref}
             aria-label={label}
-            style={{ '--hold': hold, '--hold-stacked': holdStacked ?? hold, '--beats': count }}
+            data-slide
+            style={{ '--hold': hold, '--hold-stacked': holdStacked ?? hold }}
         >
-            <div className="scene3d-snaps" aria-hidden="true">
-                {Array.from({ length: count }, (_, k) => <span key={k} style={{ '--k': k }} />)}
-            </div>
             <div className="scene3d-stage">
                 {backdrop && <div className="scene3d-backdrop">{backdrop}</div>}
                 <canvas className="scene3d-canvas" ref={canvasRef} aria-hidden="true" />
