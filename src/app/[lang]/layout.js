@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google"; // taste-skill-ignore
 import "../globals.css";
-import ClientWrapper from "@/components/ClientWrapper";
 import { getDictionary } from "@/lib/get-dictionary";
 
 const geistSans = Geist({
@@ -33,22 +32,11 @@ export default async function RootLayout({ children, params }) {
     return (
         <html lang={lang} suppressHydrationWarning>
         <head>
-            <script
-                dangerouslySetInnerHTML={{
-                    __html: `
-                        document.documentElement.classList.add('js');
-                        try {
-                            const theme = localStorage.getItem('theme') || 'dark';
-                            document.documentElement.setAttribute('data-theme', theme);
-                        } catch (e) {}
-                    `,
-                }}
-            />
+            {/* Liga as animações de entrada antes da pintura; sem script, tudo aparece parado */}
+            <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');" }} />
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`} /* taste-skill-ignore */ suppressHydrationWarning>
-        <ClientWrapper>
-            {children}
-        </ClientWrapper>
+        {children}
         </body>
         </html>
     );
