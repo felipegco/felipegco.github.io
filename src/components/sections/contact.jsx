@@ -46,6 +46,8 @@ export default function Contact({ dict }) {
                 <dd><a href="https://www.linkedin.com/in/felipegcocco/" target="_blank" rel="noopener noreferrer">linkedin.com/in/felipegcocco</a></dd>
                 <dt>{dict.github}</dt>
                 <dd><a href="https://github.com/felipegco" target="_blank" rel="noopener noreferrer">github.com/felipegco</a></dd>
+                <dt>{dict.resume}</dt>
+                <dd><a href="/resume.pdf" download>{dict.resumeLink}</a></dd>
             </dl>
         </section>
     );

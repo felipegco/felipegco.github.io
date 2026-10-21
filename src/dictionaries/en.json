@@ -228,15 +228,18 @@
     "subject": "Contact from your portfolio",
     "email": "Email",
     "linkedin": "LinkedIn",
-    "github": "GitHub"
+    "github": "GitHub",
+    "resume": "Résumé",
+    "resumeLink": "Download PDF"
   },
   "footer": {
     "about": "About",
     "projects": "Projects",
     "journey": "Track record",
     "contact": "Contact",
-    "rights": "Felipe Giacomini Cocco. Source on GitHub.",
-    "status": "Open to junior and internship back-end roles. São Paulo, Brazil."
+    "rights": "Felipe Giacomini Cocco",
+    "top": "Back to top",
+    "code": "Source on GitHub"
   },
   "request": {
     "label": "The journey of an e-Move request",

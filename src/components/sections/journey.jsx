@@ -13,8 +13,8 @@ const IT_SINCE = new Date('2024-03-01');
 // Espaço em branco que sai junto com cada bloco, entre a última linha e a fenda
 const MARGIN = 32;
 
-// O código de barras do cupom baixa o currículo (public/resume)
-const RESUME = '/resume/curriculo-felipe-giacomini.pdf';
+// O código de barras do cupom baixa o currículo (public/resume.pdf)
+const RESUME = '/resume.pdf';
 
 function useCurrentSemester() {
     return useMemo(() => {
