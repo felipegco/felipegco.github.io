@@ -47,7 +47,7 @@ function build({ scene, mats }) {
             at: new Vector3(...at),
             loose: new Vector3(...at).add(new Vector3(...loose)),
             turn: new Vector3(...turn),
-            delay: i * 0.035,
+            delay: Math.max(0, i - 5) * 0.02,
             phase: i * 1.7,
         };
     });
@@ -110,10 +110,13 @@ function build({ scene, mats }) {
     const ahead = new Vector3();
 
     function update(s, time) {
-        // 0 → 1: as peças se encaixam, uma depois da outra
+        // Os cards aparecem a ±0,32 de cada parada; tudo se move só no intervalo entre eles,
+        // então cada card mostra a cena parada.
+        // 0 → 1: depois que a abertura some, as peças se encaixam uma depois da outra
+        // e estão todas no lugar antes de "Comecei pelo hardware" aparecer
         let floating = false;
         parts.forEach((p) => {
-            const f = smooth(span(s, 0.15 + p.delay, 0.75 + p.delay));
+            const f = smooth(span(s, 0.34 + p.delay, 0.54 + p.delay));
             const loose = 1 - f;
             if (loose > 0.001) floating = true;
             p.mesh.position.lerpVectors(p.loose, p.at, f);
@@ -125,29 +128,30 @@ function build({ scene, mats }) {
             );
         });
 
-        // 1 → 2: a tampa fecha, o gabinete deita e o rack desliza em volta dele
-        const fLid = smooth(span(s, 1.05, 1.35));
-        lid.visible = s > 1.02;
+        // 1 → 2: com o card do hardware fora da tela, a tampa aparece e fecha,
+        // o gabinete deita e o rack desliza em volta dele
+        const fLid = smooth(span(s, 1.34, 1.46));
+        lid.visible = s > 1.34;
         lid.position.lerpVectors(lidFrom, lidAt, fLid);
 
-        const fTurn = smooth(span(s, 1.25, 1.7));
+        const fTurn = smooth(span(s, 1.4, 1.58));
         machine.quaternion.slerpQuaternions(upright, lying, fTurn);
         machine.scale.setScalar(1 - fTurn * 0.5);
         machine.position.y = TOWER_Y + (SLOT_Y - TOWER_Y) * fTurn;
 
-        const fRack = smooth(span(s, 1.45, 1.95));
-        rack.visible = s > 1.3;
+        const fRack = smooth(span(s, 1.46, 1.66));
+        rack.visible = s > 1.44;
         rack.position.z = -9 * (1 - fRack);
 
         // 2 → 3: os servidores acendem e a requisição sai pelo cabo
-        leds.forEach((led, i) => { led.material = s > 2.1 + i * 0.08 ? mats.accent : mats.led; });
-        machineLed.material = s > 2.05 ? mats.accent : mats.led;
+        leds.forEach((led, i) => { led.material = s > 2.36 + i * 0.03 ? mats.accent : mats.led; });
+        machineLed.material = s > 2.34 ? mats.accent : mats.led;
 
-        const fCable = smooth(span(s, 2.2, 2.85));
-        cableBase.visible = s > 2.05;
+        const fCable = smooth(span(s, 2.4, 2.6));
+        cableBase.visible = s > 2.34;
         cableLit.geometry.setDrawRange(0, Math.floor(fCable * TUBE) * RADIAL * 6);
-        const fPacket = smooth(span(s, 2.35, 3.0));
-        packet.visible = s > 2.3 && fPacket < 0.97;
+        const fPacket = smooth(span(s, 2.44, 2.66));
+        packet.visible = s > 2.44 && fPacket < 0.97;
         packet.position.copy(cable.getPoint(fPacket));
         ahead.copy(cable.getPoint(Math.min(fPacket + 0.01, 1))).sub(packet.position);
         if (ahead.lengthSq() > 1e-8) packet.lookAt(tmp.copy(packet.position).add(ahead));
@@ -169,6 +173,8 @@ function build({ scene, mats }) {
             key(4, [0.7, 2.25, 2.4], [0.5, 2.15, 0]),
         ],
         stackedZoom: 0.95,
+        // A câmera também só anda entre os cards
+        holdWindow: [0.34, 0.66],
         shadow: { center: new Vector3(2, 0, 0), size: 12 },
         update,
     };

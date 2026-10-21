@@ -55,14 +55,14 @@ export function readTokens() {
 }
 
 // keys: [{ s, pos, look, hold }] em ordem de s. Entre duas paradas (hold) a câmera
-// espera um pouco em cada ponta; nos trechos livres ela anda o tempo todo.
-function cameraAt(keys, s, pos, look) {
+// só anda dentro de window (fração do trecho); nos trechos livres ela anda o tempo todo.
+function cameraAt(keys, s, pos, look, [from, to] = [0.1, 0.9]) {
     let i = 0;
     while (i < keys.length - 2 && s > keys[i + 1].s) i++;
     const a = keys[i];
     const b = keys[i + 1];
     const u = span(s, a.s, b.s);
-    const e = a.hold && b.hold ? smooth(span(u, 0.1, 0.9)) : smooth(u);
+    const e = a.hold && b.hold ? smooth(span(u, from, to)) : smooth(u);
     pos.lerpVectors(a.pos, b.pos, e);
     look.lerpVectors(a.look, b.look, e);
 }
@@ -141,7 +141,7 @@ export function createStage(canvas, { build, onReady }) {
     const look = new Vector3();
 
     function place(s, px, py) {
-        cameraAt(world.keys, s, pos, look);
+        cameraAt(world.keys, s, pos, look, world.holdWindow);
         if (stacked.matches) pos.sub(look).multiplyScalar(world.stackedZoom ?? 1.2).add(look);
         pos.x += px * 0.7;
         pos.y += py * 0.4;

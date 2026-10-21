@@ -265,7 +265,7 @@
     "stops": [
       {
         "title": "I started with hardware",
-        "text": "At Marino I built and repaired machines. That is where I wrote my first real system: an internal management tool in PHP with PostgreSQL."
+        "text": "At first I used built and repaired machines. That is where I wrote my first real system: an internal management tool in PHP with PostgreSQL."
       },
       {
         "title": "Then came the servers",
