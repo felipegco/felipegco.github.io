@@ -16,13 +16,13 @@ const WORLDS = {
 // Sem script, sem WebGL ou com movimento reduzido, as paradas viram uma lista comum.
 
 // Até que distância (em paradas) o freio age
-const PULL = 0.7;
+const PULL = 0.3;
 // Quanto da rolada sobra bem em cima de uma parada: subir freia menos que descer
-const BRAKE_DOWN = 0.1;
-const BRAKE_UP = 0.1;
+const BRAKE_DOWN = 0.8;
+const BRAKE_UP = 0.8;
 // Quanto é preciso andar a partir de um card para a página seguir até o próximo
-const ADVANCE_DOWN = 0.25;
-const ADVANCE_UP = 0.2;
+const ADVANCE_DOWN = 0.1;
+const ADVANCE_UP = 0.1;
 
 // outro: telas depois da última parada em que o palco continua preso
 // (a introdução usa uma para a seção de projetos subir por cima dela).
@@ -75,7 +75,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
 
         // Encaixe sem trava: a página desliza até a parada, mas qualquer rolada assume o controle
         // As telas de saída (a cortina dos projetos) andam mais devagar: é a troca de capítulo
-        const settle = (k, duration = k > last ? 1.5 : 1.1) => {
+        const settle = (k, duration = k > last ? 2.5 : 2.0) => {
             clearTimeout(idle);
             motion.glideTo(yAt(k), { duration });
         };
