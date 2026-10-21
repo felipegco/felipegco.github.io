@@ -1,12 +1,13 @@
-export default function Footer({ dict }) {
+// base: vazio na página inicial; nas páginas de projeto, o caminho dela (/pt)
+export default function Footer({ dict, base = '' }) {
     return (
         <footer className="footer">
             <div className="footer-top">
                 <ul>
-                    <li><a href="#about">{dict.about}</a></li>
-                    <li><a href="#projects">{dict.projects}</a></li>
-                    <li><a href="#journey">{dict.journey}</a></li>
-                    <li><a href="#contact">{dict.contact}</a></li>
+                    <li><a href={`${base}#about`}>{dict.about}</a></li>
+                    <li><a href={`${base}#projects`}>{dict.projects}</a></li>
+                    <li><a href={`${base}#journey`}>{dict.journey}</a></li>
+                    <li><a href={`${base}#contact`}>{dict.contact}</a></li>
                 </ul>
                 <p className="footer-status">{dict.status}</p>
                 <ul>

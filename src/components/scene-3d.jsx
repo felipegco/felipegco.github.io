@@ -16,7 +16,10 @@ const WORLDS = {
 
 // Quanto a página fica parada numa parada antes de aceitar a próxima rolada
 const HOLD_MS = 420;
-export default function Scene3D({ id, world, labels, label, hold, holdStacked, header, route, routeLabel, className = '', children }) {
+// outro: telas depois da última parada em que o palco continua preso
+// (a introdução usa uma para a seção de projetos subir por cima dela).
+// backdrop: o que aparece atrás do 3D até ele ficar pronto.
+export default function Scene3D({ id, world, labels, label, hold, holdStacked, outro = 0, header, backdrop, route, routeLabel, className = '', children }) {
     const ref = useRef(null);
     const canvasRef = useRef(null);
 
@@ -41,11 +44,15 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
         const beats = [...section.querySelectorAll('.scene3d-beat')];
         const stops = [...section.querySelectorAll('.scene3d-route a')];
 
+        // Paradas com texto (0 … last) e, depois delas, as telas de saída (até total)
+        const last = beats.length - 1;
+        const total = last + outro;
+
         let shown = -2;
         const showBeat = (p) => {
-            const s = p * (beats.length - 1);
+            const s = p * total;
             const near = Math.round(s);
-            const next = Math.abs(s - near) < 0.32 ? near : -1;
+            const next = near <= last && Math.abs(s - near) < 0.32 ? near : -1;
             if (next === shown) return;
             shown = next;
             beats.forEach((el, i) => el.classList.toggle('is-on', i === next));
@@ -56,13 +63,13 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
         };
 
         // Posição da rolagem de cada parada, e a parada (com fração) de uma posição
-        const last = beats.length - 1;
-        const yAt = (k) => trigger.start + (k / last) * (trigger.end - trigger.start);
-        const sAt = (y) => ((y - trigger.start) / (trigger.end - trigger.start)) * last;
+        const yAt = (k) => trigger.start + (k / total) * (trigger.end - trigger.start);
+        const sAt = (y) => ((y - trigger.start) / (trigger.end - trigger.start)) * total;
 
         // Desliza até a parada e segura: durante o deslize e logo depois, a roda não mexe a página,
         // então a inércia do trackpad não atravessa o card
-        const settle = (k, duration = 0.85) => settleAt(yAt(k), duration);
+        // As telas de saída (a cortina dos projetos) andam mais devagar: é a troca de capítulo
+        const settle = (k, duration = k > last ? 1.5 : 0.85) => settleAt(yAt(k), duration);
         const settleAt = (y, duration) => {
             clearTimeout(idle);
             motion.glideTo(y, {
@@ -91,7 +98,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
             if (lastS !== null && direction && lenis.isScrolling === 'smooth') {
                 const k = direction > 0 ? Math.ceil(lastS + 0.001) : Math.floor(lastS - 0.001);
                 const crossed = direction > 0 ? s >= k : s <= k;
-                if (k >= 0 && k <= last && crossed) {
+                if (k >= 0 && k <= total && crossed) {
                     lastS = s;
                     settle(k);
                     return;
@@ -110,7 +117,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
                 }, 180);
             }
             // Parou entre duas paradas: encaixa na mais próxima, a favor do movimento
-            if (s > 0 && s < last) {
+            if (s > 0 && s < total) {
                 idle = setTimeout(() => {
                     if (motion.state.auto) return;
                     const base = Math.floor(s);
@@ -156,6 +163,8 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
                     onUpdate: (self) => {
                         instance.setProgress(self.progress);
                         showBeat(self.progress);
+                        // Na saída, o texto do palco some no ritmo da cortina que sobe por cima
+                        if (outro) section.style.setProperty('--outro', Math.min(Math.max(self.progress * total - last, 0), outro) / outro);
                     },
                 });
                 // A altura muda quando a cena fica viva: os outros gatilhos precisam medir de novo
@@ -181,7 +190,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
             trigger?.kill();
             instance?.dispose();
         };
-    }, [world, labels]);
+    }, [world, labels, outro]);
 
     const count = Children.count(children);
 
@@ -198,6 +207,7 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, h
                 {Array.from({ length: count }, (_, k) => <span key={k} style={{ '--k': k }} />)}
             </div>
             <div className="scene3d-stage">
+                {backdrop && <div className="scene3d-backdrop">{backdrop}</div>}
                 <canvas className="scene3d-canvas" ref={canvasRef} aria-hidden="true" />
                 {header}
                 <div className="scene3d-beats">{children}</div>

@@ -1,6 +1,5 @@
 import Scene3D from '@/components/scene-3d';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import LanguagePicker from '@/components/ui/LanguagePicker';
+import Topbar from '@/components/ui/Topbar';
 
 function withMark(text, mark) {
     const at = text.indexOf(mark);
@@ -20,22 +19,10 @@ export default function IntroScene({ dict, lang }) {
     const [line1, line2] = hero.title.split(', ');
     const last = intro.stops.length - 1;
 
-    const header = (
-        <header className="topbar">
-            <a href={`/${lang}`} className="wordmark">Felipe<span>.dev</span></a>
-            <nav aria-label={nav.label}>
-                <a href="#projects">{nav.projects}</a>
-                <a href="#contact">{nav.contact}</a>
-            </nav>
-            <div className="topbar-tools">
-                <ThemeToggle labels={nav} />
-                <LanguagePicker lang={lang} labels={nav} />
-            </div>
-        </header>
-    );
+    const header = <Topbar nav={nav} lang={lang} home />;
 
     return (
-        <Scene3D id="about" world="intro" label={intro.label} hold={3} holdStacked={3} header={header} className="intro">
+        <Scene3D id="about" world="intro" label={intro.label} hold={4} holdStacked={4} outro={1} header={header} className="intro">
             <article className="scene3d-beat scene3d-hero is-on">
                 <h1 className="hero-title">
                     <span className="line">{line1},</span>
@@ -63,7 +50,7 @@ export default function IntroScene({ dict, lang }) {
                                     <strong>Felipe Giacomini Cocco</strong>
                                     <span>{intro.role}</span>
                                 </p>
-                                <a href="#emove" className="button">{intro.next}</a>
+                                <a href="#projects" className="button">{intro.next}</a>
                             </>
                         )}
                     </div>

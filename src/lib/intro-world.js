@@ -158,12 +158,15 @@ function build({ scene, mats }) {
     const key = (s, pos, look) => ({ s, pos: new Vector3(...pos), look: new Vector3(...look), hold: true });
 
     return {
-        beats: 3,
+        // 0–3 as paradas; 3 → 4 a saída, enquanto os projetos sobem por cima
+        beats: 4,
         keys: [
             key(0, [-2.0, 4.4, 17.5], [-0.3, 1.9, 0.6]),
             key(1, [3.4, 4.2, 12], [0, 2.1, 0]),
             key(2, [-3.4, 3.6, 10.5], [0, 2.0, 0]),
             key(3, [2.2, 3.8, 12], [3.0, 1.7, 0.5]),
+            // Saída: a câmera entra no servidor aceso
+            key(4, [0.7, 2.25, 2.4], [0.5, 2.15, 0]),
         ],
         stackedZoom: 0.95,
         shadow: { center: new Vector3(2, 0, 0), size: 12 },

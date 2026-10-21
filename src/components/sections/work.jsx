@@ -2,6 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react';
 
+// Projetos que já têm página própria, com a cena 3D
+const PAGES = { emove: 'e-move' };
+
 const IMAGES = {
     greentech: '/images/work/greentech.jpg',
     clinicare: '/images/work/clinicare.jpg',
@@ -72,12 +75,14 @@ function ProjectMedia({ project, dict, lazy = true }) {
     );
 }
 
-function ProjectDetail({ project, dict }) {
+function ProjectDetail({ project, dict, lang }) {
+    const page = PAGES[project.id];
     return (
         <div className="work-detail">
             <p>{project.desc}</p>
             <p className="stack">{project.stack}</p>
             <div className="work-links">
+                {page && <a href={`/${lang}/${page}`} className="button">{dict.inside}</a>}
                 {project.code && <a href={project.code} target="_blank" rel="noopener noreferrer">{dict.code}</a>}
                 {project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer">{dict.demo}</a>}
                 {!project.code && <span className="private">{dict.private}</span>}
@@ -86,7 +91,7 @@ function ProjectDetail({ project, dict }) {
     );
 }
 
-export default function Work({ dict }) {
+export default function Work({ dict, lang }) {
     const projects = dict.projects;
     const [active, setActive] = useState(0);
     const asideRef = useRef(null);
@@ -128,23 +133,37 @@ export default function Work({ dict }) {
                 {projects.map((project, i) => (
                     <li key={project.id} data-reveal style={{ '--i': i }}>
                         <div className="work-mobile">
-                            <div className="media-shot">
+                            <div className="media-shot" data-project={project.id}>
                                 <ProjectMedia project={project} dict={dict} />
                             </div>
                         </div>
-                        <button
-                            type="button"
-                            className="work-name"
-                            aria-pressed={i === active}
-                            onClick={() => setActive(i)}
-                            onPointerEnter={() => setActive(i)}
-                            onFocus={() => setActive(i)}
-                        >
-                            <strong>{project.name}</strong>
-                            <span>{project.meta}, {project.year}</span>
-                        </button>
+                        {PAGES[project.id] ? (
+                            // Com página própria, o nome abre o projeto
+                            <a
+                                href={`/${lang}/${PAGES[project.id]}`}
+                                className="work-name"
+                                aria-current={i === active ? 'true' : undefined}
+                                onPointerEnter={() => setActive(i)}
+                                onFocus={() => setActive(i)}
+                            >
+                                <strong>{project.name}</strong>
+                                <span>{project.meta}, {project.year}</span>
+                            </a>
+                        ) : (
+                            <button
+                                type="button"
+                                className="work-name"
+                                aria-pressed={i === active}
+                                onClick={() => setActive(i)}
+                                onPointerEnter={() => setActive(i)}
+                                onFocus={() => setActive(i)}
+                            >
+                                <strong>{project.name}</strong>
+                                <span>{project.meta}, {project.year}</span>
+                            </button>
+                        )}
                         <div className="work-mobile">
-                            <ProjectDetail project={project} dict={dict} />
+                            <ProjectDetail project={project} dict={dict} lang={lang} />
                         </div>
                     </li>
                 ))}
@@ -157,6 +176,7 @@ export default function Work({ dict }) {
                             <div
                                 key={project.id}
                                 className={`frame-item${i === active ? ' is-active' : ''}${i < active ? ' is-before' : ''}`}
+                                data-project={project.id}
                                 aria-hidden={i !== active}
                             >
                                 <ProjectMedia project={project} dict={dict} lazy={i !== 0} />
@@ -165,7 +185,7 @@ export default function Work({ dict }) {
                     </div>
                 </div>
                 <div aria-live="polite">
-                    <ProjectDetail project={current} dict={dict} />
+                    <ProjectDetail project={current} dict={dict} lang={lang} />
                 </div>
             </div>
         </section>
