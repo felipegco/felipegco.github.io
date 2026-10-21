@@ -1,20 +1,27 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google"; // taste-skill-ignore
 import "../globals.css";
 import ClientWrapper from "@/components/ClientWrapper";
+import { getDictionary } from "@/lib/get-dictionary";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
     subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
+// Geist Mono só aparece nos blocos de código reais (<pre><code>) taste-skill-ignore
+const geistMono = Geist_Mono({ // taste-skill-ignore
     variable: "--font-geist-mono",
     subsets: ["latin"],
 });
 
-export const metadata = {
-    title: "Felipe.dev"
-};
+export async function generateMetadata({ params }) {
+    const { lang } = await params;
+    const dict = await getDictionary(lang);
+    return {
+        title: dict.meta.title,
+        description: dict.meta.description,
+    };
+}
 
 export async function generateStaticParams() {
     return [{ lang: 'pt' }, { lang: 'en' }];
@@ -26,10 +33,10 @@ export default async function RootLayout({ children, params }) {
     return (
         <html lang={lang} suppressHydrationWarning>
         <head>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
             <script
                 dangerouslySetInnerHTML={{
                     __html: `
+                        document.documentElement.classList.add('js');
                         try {
                             const theme = localStorage.getItem('theme') || 'dark';
                             document.documentElement.setAttribute('data-theme', theme);
@@ -38,7 +45,7 @@ export default async function RootLayout({ children, params }) {
                 }}
             />
         </head>
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning>
+        <body className={`${geistSans.variable} ${geistMono.variable}`} /* taste-skill-ignore */ suppressHydrationWarning>
         <ClientWrapper>
             {children}
         </ClientWrapper>

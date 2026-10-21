@@ -1,72 +1,63 @@
-'use client';
+import ThemeToggle from '@/components/ui/ThemeToggle';
+import LanguagePicker from '@/components/ui/LanguagePicker';
+import HeroStage from '@/components/sections/hero-stage';
 
-import Image from 'next/image';
+function withMark(text, mark) {
+    const at = text.indexOf(mark);
+    if (at === -1) return text;
+    return (
+        <>
+            {text.slice(0, at)}
+            <mark>{mark}</mark>
+            {text.slice(at + mark.length)}
+        </>
+    );
+}
 
-export default function Hero({ dict }) {
-
-    const handleScroll = (e) => {
-        e.preventDefault();
-        const element = document.getElementById('projects');
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-    };
+export default function Hero({ dict, lang }) {
+    const { nav, hero, about } = dict;
+    const [line1, line2] = hero.title.split(', ');
 
     return (
-        <section className="relative min-h-screen flex items-center overflow-hidden bg-background transition-colors duration-300 pt-20 md:pt-0">
+        <div className="split">
+            <div>
+                <header className="sheet">
+                    <nav className="sheet-nav" aria-label="Principal">
+                        <a href="#projects">{nav.projects}</a>
+                        <a href={`/${lang}`} className="wordmark">Felipe<span>.dev</span></a>
+                        <a href="#contact">{nav.contact}</a>
+                    </nav>
 
-            <div className="hidden md:flex absolute right-0 md:right-[5%] top-1/2 left-[65%] -translate-y-1/2 z-10 w-full md:w-[45%] lg:w-[40%] max-w-125 h-[40vh] md:h-[55vh] items-center justify-center pointer-events-none select-none">
-
-                {/* LUZ AZUL */}
-                <div className="absolute right top-[20%] md:w-112.5 md:h-112.5 bg-blue-600/50 rounded-full blur-[100px] -z-10 animate-pulse-slow"></div>
-
-                <div className="relative w-full h-full mask-[linear-gradient(to_bottom,black_60%,transparent_85%)]">
-                    <Image
-                        src="/images/profile.png"
-                        alt="Profile"
-                        fill
-                        className="object-contain object-bottom md:object-cover md:object-center"
-                        priority
-                        draggable={false}
-                    />
-                </div>
-            </div>
-
-            {/* ================= CONTEÚDO DE TEXTO ================= */}
-            <div className="mx-auto w-full max-w-275 px-8 relative z-20">
-                <div className="max-w-175">
-                    <span className="mb-6 inline-block rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 font-mono text-sm font-semibold text-blue-500">
-                        {dict.badge}
-                    </span>
-
-                    <h1 className="mb-6 text-[4rem] font-extrabold leading-[1.1] tracking-tighter sm:text-5xl md:text-7xl">
-                        {dict.title_part1} <span className="bg-linear-to-r from-text-primary to-blue-500 bg-clip-text text-transparent">{dict.title_highlight}</span>.
-                    </h1>
-
-                    <p className="mb-10 max-w-125 text-lg text-text-secondary">
-                        {dict.description}
-                    </p>
-
-                    {/* Grupo de Botões */}
-                    <div className="flex gap-4">
-                        <a
-                            href="#projects"
-                            onClick={handleScroll}
-                            className="cursor-pointer rounded-lg border border-text-primary bg-text-primary px-6 py-3 font-semibold text-background transition-all duration-300 hover:bg-transparent hover:text-text-primary"
-                        >
-                            {dict.cta_projects}
-                        </a>
-
-                        <a
-                            href="https://github.com/FeCocco"
-                            target="_blank"
-                            className="flex items-center gap-2 rounded-lg border border-border bg-transparent px-6 py-3 font-semibold text-text-primary transition-all duration-300 hover:border-text-primary hover:bg-card-hover"
-                        >
-                            <i className="fa-brands fa-github"></i> GitHub
-                        </a>
+                    <div className="hero-copy">
+                        <h1 className="hero-title">
+                            <span className="line">{line1},</span>
+                            <span className="line">{line2}</span>
+                        </h1>
+                        <p className="hero-sentence">{hero.sentence}</p>
+                        <a href="#projects" className="button">{hero.cta}</a>
                     </div>
-                </div>
+                    <div className="sheet-tools">
+                        <ThemeToggle labels={nav} />
+                        <LanguagePicker lang={lang} labels={nav} />
+                    </div>
+                </header>
+
+                <section id="about" className="letter" aria-labelledby="about-title">
+                    <div className="letter-head" data-reveal>
+                        <img src="/images/profile.png" alt="" width="56" height="56" loading="lazy" />
+                        <h2 id="about-title" className="lead">{about.title}</h2>
+                    </div>
+                    {about.paragraphs.map((p, i) => (
+                        <p key={i} data-reveal style={{ '--i': i + 1 }}>{withMark(p, about.mark)}</p>
+                    ))}
+                    <div className="letter-sign" data-reveal style={{ '--i': 5 }}>
+                        <strong>Felipe Giacomini Cocco</strong>
+                        <span>{about.role}</span>
+                    </div>
+                </section>
             </div>
-        </section>
-    )
+
+            <HeroStage alt={hero.portraitAlt} barLeft={hero.barLeft} barRight={hero.barRight} />
+        </div>
+    );
 }
