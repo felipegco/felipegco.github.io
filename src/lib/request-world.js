@@ -1,37 +1,20 @@
 // Cena 3D da viagem de uma requisição do e-Move:
 // navegador → container → controller → service → banco → resposta.
-// Tudo na cena é função do progresso da rolagem (0 a 1) e do ponteiro,
-// então ela só redesenha quando um dos dois muda.
+// Tudo é função do progresso da rolagem, então a cena só redesenha quando ele muda.
 import {
     BoxGeometry,
     CanvasTexture,
-    Color,
     CubicBezierCurve3,
-    CylinderGeometry,
-    DirectionalLight,
-    Fog,
     Group,
-    HemisphereLight,
     Mesh,
     MeshBasicMaterial,
-    MeshStandardMaterial,
-    PCFSoftShadowMap,
-    PerspectiveCamera,
     PlaneGeometry,
     QuadraticBezierCurve3,
-    Scene,
     SRGBColorSpace,
     TubeGeometry,
     Vector3,
-    WebGLRenderer,
 } from 'three';
-
-// Seis paradas: 0 navegador, 1 container, 2 controller, 3 service, 4 banco, 5 resposta
-export const LAST_BEAT = 5;
-
-const clamp01 = (v) => Math.min(Math.max(v, 0), 1);
-const span = (v, a, b) => clamp01((v - a) / (b - a));
-const smooth = (t) => t * t * (3 - 2 * t);
+import { box, createStage, cylinder, smooth, span } from '@/lib/scene-engine';
 
 const STOPS = [
     [0, 0, 0],
@@ -65,42 +48,13 @@ function cameraKeys() {
     return keys;
 }
 
-function readTokens() {
-    const css = getComputedStyle(document.documentElement);
-    const get = (name, fallback) => css.getPropertyValue(name).trim() || fallback;
-    return {
-        ground: get('--ground', '#0a0a0a'),
-        paper: get('--paper', '#141416'),
-        floor: get('--scene-floor', '#101012'),
-        body: get('--scene-body', '#2a2a30'),
-        dim: get('--scene-dim', '#3c3c44'),
-        accent: get('--accent', '#3b82f6'),
-        ink: get('--ink', '#ededed'),
-        muted: get('--muted', '#a1a1aa'),
-    };
-}
-
-function box(w, h, d, material) {
-    const mesh = new Mesh(new BoxGeometry(w, h, d), material);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    return mesh;
-}
-
-function cylinder(r, h, material) {
-    const mesh = new Mesh(new CylinderGeometry(r, r, h, 48), material);
-    mesh.castShadow = true;
-    mesh.receiveShadow = true;
-    return mesh;
-}
-
 // Tela do e-Move no notebook, desenhada num canvas com a fonte da página
 function drawScreen(ctx, tokens, labels, answered) {
-    const { width: w, height: h } = ctx.canvas;
+    const { width: w } = ctx.canvas;
     const font = getComputedStyle(document.body).fontFamily;
 
     ctx.fillStyle = tokens.paper;
-    ctx.fillRect(0, 0, w, h);
+    ctx.fillRect(0, 0, w, ctx.canvas.height);
     ctx.textBaseline = 'alphabetic';
 
     ctx.fillStyle = tokens.accent;
@@ -144,49 +98,7 @@ function drawScreen(ctx, tokens, labels, answered) {
     ctx.textAlign = 'left';
 }
 
-export function createWorld(canvas, { labels, onReady }) {
-    let renderer;
-    try {
-        renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
-    } catch {
-        return null;
-    }
-
-    const phoneQuery = window.matchMedia('(max-width: 1024px)');
-    renderer.outputColorSpace = SRGBColorSpace;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = PCFSoftShadowMap;
-
-    const scene = new Scene();
-    const camera = new PerspectiveCamera(36, 1, 0.1, 200);
-    const tokens = readTokens();
-
-    const mats = {
-        floor: new MeshStandardMaterial({ roughness: 1 }),
-        body: new MeshStandardMaterial({ roughness: 0.55, metalness: 0.08 }),
-        dim: new MeshStandardMaterial({ roughness: 0.7 }),
-        accent: new MeshStandardMaterial({ roughness: 0.4 }),
-        ink: new MeshStandardMaterial({ roughness: 0.4 }),
-        route: new MeshBasicMaterial(),
-        routeLit: new MeshBasicMaterial(),
-        returnLit: new MeshBasicMaterial(),
-    };
-
-    const hemi = new HemisphereLight(0xffffff, 0x444444, 1.9);
-    const sun = new DirectionalLight(0xffffff, 2.4);
-    sun.position.set(8, 20, 14);
-    sun.target.position.set(18, 0, -2);
-    sun.castShadow = true;
-    sun.shadow.mapSize.set(phoneQuery.matches ? 1024 : 2048, phoneQuery.matches ? 1024 : 2048);
-    Object.assign(sun.shadow.camera, { left: -26, right: 26, top: 22, bottom: -22, near: 1, far: 70 });
-    sun.shadow.radius = 4;
-    scene.add(hemi, sun, sun.target);
-
-    const floor = new Mesh(new PlaneGeometry(400, 400), mats.floor);
-    floor.rotation.x = -Math.PI / 2;
-    floor.receiveShadow = true;
-    scene.add(floor);
-
+function build({ scene, mats, tokens }, labels) {
     // 0 · Notebook com o e-Move aberto
     const screenCanvas = document.createElement('canvas');
     screenCanvas.width = 1024;
@@ -217,12 +129,11 @@ export function createWorld(canvas, { labels, onReady }) {
     const cabinet = box(2, 3.6, 1.8, mats.body);
     cabinet.position.y = 1.8;
     rack.add(cabinet);
-    const ledMat = new MeshBasicMaterial();
     for (let i = 0; i < 7; i++) {
         const y = 0.36 + i * 0.48;
         const unit = box(1.76, 0.38, 0.06, mats.dim);
         unit.position.set(0, y, 0.92);
-        const led = new Mesh(new BoxGeometry(0.1, 0.1, 0.04), i === 1 ? mats.accent : ledMat);
+        const led = new Mesh(new BoxGeometry(0.1, 0.1, 0.04), i === 1 ? mats.accent : mats.led);
         led.position.set(0.7, y, 0.96);
         rack.add(unit, led);
     }
@@ -313,52 +224,15 @@ export function createWorld(canvas, { labels, onReady }) {
     const packet = box(0.52, 0.34, 0.34, mats.accent);
     scene.add(laptop, rack, gate, controller, battery, database, packet);
 
-    // ── Cores vindas dos tokens da página (tema claro ou escuro)
     let answered = null;
-    const applyTokens = () => {
-        const t = readTokens();
-        Object.assign(tokens, t);
-        scene.background = new Color(t.ground);
-        scene.fog = new Fog(t.ground, 46, 110);
-        mats.floor.color.set(t.floor);
-        mats.body.color.set(t.body);
-        mats.dim.color.set(t.dim);
-        mats.accent.color.set(t.accent);
-        mats.ink.color.set(t.ink);
-        mats.route.color.set(t.dim);
-        mats.routeLit.color.set(t.accent);
-        mats.returnLit.color.set(t.ink);
-        ledMat.color.set(t.muted);
-        hemi.groundColor.set(t.floor);
+    const paintScreen = () => {
         drawScreen(screenCtx, tokens, labels, !!answered);
         screenTexture.needsUpdate = true;
     };
-    applyTokens();
 
-    const keys = cameraKeys();
-    const pos = new Vector3();
-    const look = new Vector3();
     const ahead = new Vector3();
 
-    function placeCamera(s, px, py) {
-        let i = 0;
-        while (i < keys.length - 2 && s > keys[i + 1].s) i++;
-        const a = keys[i];
-        const b = keys[i + 1];
-        const u = span(s, a.s, b.s);
-        const e = a.hold && b.hold ? smooth(span(u, 0.1, 0.9)) : smooth(u);
-        pos.lerpVectors(a.pos, b.pos, e);
-        look.lerpVectors(a.look, b.look, e);
-        if (phoneQuery.matches) pos.sub(look).multiplyScalar(1.2).add(look);
-        pos.x += px * 0.7;
-        pos.y += py * 0.4;
-        camera.position.copy(pos);
-        camera.lookAt(look);
-    }
-
-    function update(p, px, py) {
-        const s = p * LAST_BEAT;
-
+    function update(s) {
         segments.forEach((curve, k) => drawTube(litTubes[k], smooth(span(s - k, 0.2, 0.8))));
         const back = smooth(span(s - 4, 0.15, 0.85));
         drawTube(returnLit, back);
@@ -390,79 +264,24 @@ export function createWorld(canvas, { labels, onReady }) {
         const isAnswered = s > 4.85;
         if (isAnswered !== answered) {
             answered = isAnswered;
-            drawScreen(screenCtx, tokens, labels, answered);
-            screenTexture.needsUpdate = true;
+            paintScreen();
         }
-
-        placeCamera(s, px, py);
+        return false;
     }
-
-    // ── Tamanho e enquadramento: no computador o objeto fica à direita do texto
-    function resize() {
-        const w = canvas.clientWidth;
-        const h = canvas.clientHeight;
-        if (!w || !h) return;
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, phoneQuery.matches ? 1.5 : 1.75));
-        renderer.setSize(w, h, false);
-        camera.aspect = w / h;
-        camera.fov = phoneQuery.matches ? 42 : 36;
-        if (phoneQuery.matches) camera.clearViewOffset();
-        else camera.setViewOffset(w, h, -w * 0.2, 0, w, h);
-        camera.updateProjectionMatrix();
-        dirty = true;
-    }
-
-    let target = 0;
-    let progress = 0;
-    const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
-    let dirty = true;
-    let visible = true;
-    let frame = 0;
-    let first = true;
-
-    function tick() {
-        frame = requestAnimationFrame(tick);
-        if (!visible) return;
-        const dp = target - progress;
-        if (Math.abs(dp) > 0.00005) { progress += dp * 0.2; dirty = true; } else if (progress !== target) { progress = target; dirty = true; }
-        const dx = pointer.tx - pointer.x;
-        const dy = pointer.ty - pointer.y;
-        if (Math.abs(dx) + Math.abs(dy) > 0.0005) { pointer.x += dx * 0.06; pointer.y += dy * 0.06; dirty = true; }
-        if (!dirty) return;
-        dirty = false;
-        update(progress, pointer.x, pointer.y);
-        renderer.render(scene, camera);
-        if (first) { first = false; onReady?.(); }
-    }
-
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(canvas);
-    const themeObserver = new MutationObserver(() => { applyTokens(); dirty = true; });
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-    const viewObserver = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
-    viewObserver.observe(canvas);
-    resize();
-    tick();
 
     return {
-        setProgress(p) {
-            target = clamp01(p);
-        },
-        setPointer(x, y) {
-            pointer.tx = x;
-            pointer.ty = y;
-        },
+        beats: 5,
+        keys: cameraKeys(),
+        shadow: { center: new Vector3(18, 0, -2), size: 26 },
+        update,
+        onTokens: paintScreen,
         dispose() {
-            cancelAnimationFrame(frame);
-            resizeObserver.disconnect();
-            themeObserver.disconnect();
-            viewObserver.disconnect();
-            scene.traverse((obj) => obj.geometry?.dispose());
-            Object.values(mats).forEach((m) => m.dispose());
-            ledMat.dispose();
             screenMat.dispose();
             screenTexture.dispose();
-            renderer.dispose();
         },
     };
+}
+
+export function createWorld(canvas, { labels, onReady }) {
+    return createStage(canvas, { build: (ctx) => build(ctx, labels), onReady });
 }

@@ -1,8 +1,4 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
-import ThemeToggle from '@/components/ui/ThemeToggle';
-import LanguagePicker from '@/components/ui/LanguagePicker';
+import Scene3D from '@/components/scene-3d';
 
 // Trechos reais do repositório felipegco/e-move-backend, na ordem da viagem
 const CODE = {
@@ -83,183 +79,48 @@ function Code({ id }) {
     );
 }
 
-export default function RequestScene({ dict, lang }) {
-    const { nav, hero, request } = dict;
-    const [line1, line2] = hero.title.split(', ');
-    const ref = useRef(null);
-    const canvasRef = useRef(null);
-
-    useEffect(() => {
-        const section = ref.current;
-        const canvas = canvasRef.current;
-        if (!section || !canvas) return;
-
-        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (reduced) {
-            section.classList.add('is-rest');
-            return;
-        }
-
-        let world = null;
-        let trigger = null;
-        let lenis = null;
-        let raf = null;
-        let gsapRef = null;
-        let disposed = false;
-        const beats = [...section.querySelectorAll('.request-beat')];
-        const stops = [...section.querySelectorAll('.request-route a')];
-
-        // Mostra o texto da parada mais próxima só enquanto a cena está parada nela
-        let shown = -2;
-        const showBeat = (p) => {
-            const s = p * (beats.length - 1);
-            const near = Math.round(s);
-            const next = Math.abs(s - near) < 0.32 ? near : -1;
-            if (next === shown) return;
-            shown = next;
-            section.dataset.beat = String(next);
-            beats.forEach((el, i) => el.classList.toggle('is-on', i === next));
-            stops.forEach((el, i) => {
-                if (i === near) el.setAttribute('aria-current', 'step');
-                else el.removeAttribute('aria-current');
-            });
-        };
-
-        const scrollToBeat = (i) => {
-            const top = section.offsetTop + (i / (beats.length - 1)) * (section.offsetHeight - window.innerHeight);
-            if (lenis) lenis.scrollTo(top, { duration: 1.6 });
-            else window.scrollTo({ top, behavior: 'smooth' });
-        };
-        const onStopClick = (e) => {
-            const i = stops.indexOf(e.currentTarget);
-            if (i < 0) return;
-            e.preventDefault();
-            scrollToBeat(i);
-        };
-        stops.forEach((el) => el.addEventListener('click', onStopClick));
-
-        const onPointer = (e) => {
-            if (e.pointerType === 'touch' || !world) return;
-            world.setPointer(e.clientX / window.innerWidth - 0.5, e.clientY / window.innerHeight - 0.5);
-        };
-
-        (async () => {
-            try {
-                const [{ createWorld }, { gsap }, { ScrollTrigger }, { default: Lenis }] = await Promise.all([
-                    import('@/lib/request-world'),
-                    import('gsap'),
-                    import('gsap/ScrollTrigger'),
-                    import('lenis'),
-                ]);
-                if (disposed) return;
-
-                world = createWorld(canvas, {
-                    labels: request.screen,
-                    onReady: () => section.classList.add('is-ready'),
-                });
-                if (!world) throw new Error('WebGL indisponível');
-
-                gsap.registerPlugin(ScrollTrigger);
-                gsapRef = gsap;
-                section.classList.add('is-live');
-
-                // Rolagem com peso no mouse e no trackpad; o toque continua nativo
-                if (!window.matchMedia('(pointer: coarse)').matches) {
-                    lenis = new Lenis({ lerp: 0.12, smoothWheel: true, anchors: true, autoRaf: false });
-                    lenis.on('scroll', ScrollTrigger.update);
-                    raf = (t) => lenis.raf(t * 1000);
-                    gsap.ticker.add(raf);
-                    gsap.ticker.lagSmoothing(0);
-                }
-
-                trigger = ScrollTrigger.create({
-                    trigger: section,
-                    start: 'top top',
-                    end: 'bottom bottom',
-                    onUpdate: (self) => {
-                        world.setProgress(self.progress);
-                        showBeat(self.progress);
-                    },
-                });
-                world.setProgress(trigger.progress);
-                showBeat(trigger.progress);
-                window.addEventListener('pointermove', onPointer, { passive: true });
-            } catch {
-                section.classList.remove('is-live');
-                section.classList.add('is-rest');
-            }
-        })();
-
-        return () => {
-            disposed = true;
-            stops.forEach((el) => el.removeEventListener('click', onStopClick));
-            window.removeEventListener('pointermove', onPointer);
-            trigger?.kill();
-            if (raf) gsapRef?.ticker.remove(raf);
-            lenis?.destroy();
-            world?.dispose();
-        };
-    }, [request.screen]);
-
+// A viagem de uma requisição real do e-Move pelo back-end, parada por parada
+export default function RequestScene({ dict }) {
+    const { request, work } = dict;
+    const emove = work.projects.find((p) => p.id === 'emove');
     const steps = request.stops;
 
     return (
-        <section className="scene request" data-scene="request" ref={ref} aria-label={request.label}>
-            <div className="request-stage">
-                <canvas className="request-canvas" ref={canvasRef} aria-hidden="true" />
-
-                <header className="topbar">
-                    <a href={`/${lang}`} className="wordmark">Felipe<span>.dev</span></a>
-                    <nav aria-label={nav.label}>
-                        <a href="#about">{nav.about}</a>
-                        <a href="#projects">{nav.projects}</a>
-                        <a href="#contact">{nav.contact}</a>
-                    </nav>
-                    <div className="topbar-tools">
-                        <ThemeToggle labels={nav} />
-                        <LanguagePicker lang={lang} labels={nav} />
-                    </div>
-                </header>
-
-                <div className="request-beats">
-                    <article className="request-beat request-hero is-on" id={`stop-${steps[0].id}`}>
-                        <h1 className="hero-title">
-                            <span className="line">{line1},</span>
-                            <span className="line">{line2}</span>
-                        </h1>
-                        <p className="hero-sentence">{hero.sentence}</p>
-                        <div className="hero-actions">
-                            <a href="#projects" className="button">{hero.cta}</a>
-                            <p className="hero-status">
-                                <span>{hero.barLeft}</span>
-                                <span>{hero.barRight}</span>
-                            </p>
-                        </div>
-                        <p className="request-hint">{request.hint}</p>
-                    </article>
-
-                    {steps.slice(1).map((step) => (
-                        <article key={step.id} className="request-beat" id={`stop-${step.id}`}>
-                            <div className="request-copy">
-                                <h2 className="lead">{step.title}</h2>
-                                <p>{step.text}</p>
-                                {step.link && <a href="#console" className="button">{step.link}</a>}
-                            </div>
-                            <Code id={step.id} />
-                        </article>
-                    ))}
+        <Scene3D
+            id="emove"
+            world="request"
+            labels={request.screen}
+            label={request.label}
+            hold={4}
+            holdStacked={3.5}
+            route={steps}
+            routeLabel={request.route}
+            className="request"
+        >
+            <article className="scene3d-beat" id={`stop-${steps[0].id}`}>
+                <div className="scene3d-copy">
+                    <h2 className="project-title">{emove.name}</h2>
+                    <p className="project-meta">{emove.meta}, {emove.year}</p>
+                    <p>{emove.desc}</p>
+                    <p className="project-stack">{emove.stack}</p>
+                    <p className="project-links">
+                        <a href={emove.code} target="_blank" rel="noopener noreferrer">{work.code}</a>
+                        <a href={emove.demo} target="_blank" rel="noopener noreferrer">{work.demo}</a>
+                    </p>
+                    <p className="scene3d-hint">{request.hint}</p>
                 </div>
+            </article>
 
-                <nav className="request-route" aria-label={request.route}>
-                    <ol>
-                        {steps.map((step, i) => (
-                            <li key={step.id}>
-                                <a href={`#stop-${step.id}`} aria-current={i === 0 ? 'step' : undefined}>{step.name}</a>
-                            </li>
-                        ))}
-                    </ol>
-                </nav>
-            </div>
-        </section>
+            {steps.slice(1).map((step) => (
+                <article key={step.id} className="scene3d-beat" id={`stop-${step.id}`}>
+                    <div className="scene3d-copy">
+                        <h2 className="lead">{step.title}</h2>
+                        <p>{step.text}</p>
+                        {step.link && <a href="#console" className="button">{step.link}</a>}
+                    </div>
+                    <Code id={step.id} />
+                </article>
+            ))}
+        </Scene3D>
     );
 }

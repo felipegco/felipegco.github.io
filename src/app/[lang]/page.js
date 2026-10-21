@@ -1,5 +1,5 @@
+import IntroScene from "@/components/sections/intro-scene";
 import RequestScene from "@/components/sections/request-scene";
-import About from "@/components/sections/about";
 import Work from "@/components/sections/work";
 import EmoveConsole from "@/components/sections/emove-console";
 import Journey from "@/components/sections/journey";
@@ -15,8 +15,8 @@ export default async function Home({ params }) {
     return (
         <>
             <main>
-                <RequestScene dict={dict} lang={lang} />
-                <About dict={dict.about} />
+                <IntroScene dict={dict} lang={lang} />
+                <RequestScene dict={dict} />
                 <Work dict={dict.work} />
                 <EmoveConsole dict={dict.console} />
                 <Journey dict={dict.journey} />

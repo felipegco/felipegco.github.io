@@ -16,8 +16,8 @@
 
   /* the 3D scene reads these, so it follows the theme */
   --scene-floor: #0f0f11;
-  --scene-body: #2b2b31;
-  --scene-dim: #3d3d45;
+  --scene-body: #34343b;
+  --scene-dim: #4a4a53;
 
   --m: clamp(16px, 2.2vw, 32px);
   --gap-section: clamp(120px, 14vw, 200px);
@@ -145,7 +145,7 @@ pre {
   margin: 0;
 }
 
-/* ── Request scene: a real e-Move request travels through the stack ────── */
+/* ── 3D scenes: the intro and the e-Move request share one stage ────────── */
 .topbar {
   position: relative;
   z-index: 3;
@@ -214,15 +214,15 @@ pre {
 }
 
 /* Finished composition: no script, reduced motion or no WebGL */
-.request-canvas {
+.scene3d-canvas {
   display: none;
 }
 
-.request-beats {
+.scene3d-beats {
   padding: clamp(48px, 10vw, 140px) var(--m) 0;
 }
 
-.request-beat + .request-beat {
+.scene3d-beat + .scene3d-beat {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: var(--m);
@@ -230,36 +230,36 @@ pre {
   margin-top: 120px;
 }
 
-.request-copy {
+.scene3d-copy {
   grid-column: 1 / span 5;
 }
 
-.request-beat .code-block {
+.scene3d-beat .code-block {
   grid-column: 7 / -1;
 }
 
-.request-copy .lead {
+.scene3d-copy .lead {
   margin-bottom: 20px;
 }
 
-.request-copy p {
+.scene3d-copy p {
   margin: 0;
   max-width: 46ch;
 }
 
-.request-copy .button {
+.scene3d-copy .button {
   margin-top: 32px;
 }
 
-.request-route {
+.scene3d-route {
   display: none;
 }
 
-.request-hint {
+.scene3d-hint {
   display: none;
 }
 
-.request {
+.scene3d {
   padding-bottom: var(--gap-section);
 }
 
@@ -307,12 +307,12 @@ pre {
 
 /* Live: the stage holds for five screens while the request travels */
 @media (prefers-reduced-motion: no-preference) {
-  html.js .request:not(.is-rest) {
-    height: 600svh;
+  html.js .scene3d:not(.is-rest) {
+    height: calc((var(--hold) + 1) * 100svh);
     padding-bottom: 0;
   }
 
-  html.js .request:not(.is-rest) .request-stage {
+  html.js .scene3d:not(.is-rest) .scene3d-stage {
     position: sticky;
     top: 0;
     height: 100svh;
@@ -321,7 +321,7 @@ pre {
     flex-direction: column;
   }
 
-  html.js .request:not(.is-rest) .request-canvas {
+  html.js .scene3d:not(.is-rest) .scene3d-canvas {
     display: block;
     position: absolute;
     inset: 0;
@@ -331,11 +331,11 @@ pre {
     transition: opacity 1200ms var(--ease-out);
   }
 
-  html.js .request.is-ready .request-canvas {
+  html.js .scene3d.is-ready .scene3d-canvas {
     opacity: 1;
   }
 
-  html.js .request:not(.is-rest) .request-beats {
+  html.js .scene3d:not(.is-rest) .scene3d-beats {
     position: relative;
     z-index: 2;
     flex: 1;
@@ -346,7 +346,7 @@ pre {
     pointer-events: none;
   }
 
-  html.js .request:not(.is-rest) .request-beat {
+  html.js .scene3d:not(.is-rest) .scene3d-beat {
     grid-area: 1 / 1;
     display: block;
     margin: 0;
@@ -357,7 +357,7 @@ pre {
     transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-expo), visibility 0s linear 500ms;
   }
 
-  html.js .request:not(.is-rest) .request-beat.is-on {
+  html.js .scene3d:not(.is-rest) .scene3d-beat.is-on {
     opacity: 1;
     visibility: visible;
     transform: none;
@@ -365,24 +365,24 @@ pre {
     transition: opacity 600ms var(--ease-out), transform 900ms var(--ease-expo), visibility 0s;
   }
 
-  html.js .request:not(.is-rest) .request-hero {
+  html.js .scene3d:not(.is-rest) .scene3d-hero {
     width: min(760px, 54vw);
     padding: 0;
     background: none;
   }
 
   /* the words sit on a flat field of the ground, so the route never runs through them */
-  html.js .request:not(.is-rest) .request-beat:not(.request-hero) {
+  html.js .scene3d:not(.is-rest) .scene3d-beat:not(.scene3d-hero) {
     padding: 32px;
     margin-left: -32px;
     background: var(--ground);
   }
 
-  html.js .request:not(.is-rest) .request-beat .code-block {
+  html.js .scene3d:not(.is-rest) .scene3d-beat .code-block {
     margin-top: 28px;
   }
 
-  html.js .request:not(.is-rest) .request-hint {
+  html.js .scene3d:not(.is-rest) .scene3d-hint {
     display: block;
     margin: 48px 0 0;
     max-width: 36ch;
@@ -390,7 +390,7 @@ pre {
     color: var(--muted);
   }
 
-  html.js .request:not(.is-rest) .request-route {
+  html.js .scene3d:not(.is-rest) .scene3d-route {
     display: block;
     position: absolute;
     z-index: 3;
@@ -399,7 +399,7 @@ pre {
     bottom: 24px;
   }
 
-  .request-route ol {
+  .scene3d-route ol {
     display: flex;
     gap: 8px;
     margin: 0;
@@ -407,7 +407,7 @@ pre {
     list-style: none;
   }
 
-  .request-route a {
+  .scene3d-route a {
     display: inline-flex;
     align-items: center;
     min-height: 44px;
@@ -420,56 +420,68 @@ pre {
     transition: background-color var(--t-hover) ease, color var(--t-hover) ease, transform var(--t-press) var(--ease-out);
   }
 
-  .request-route a:hover {
+  .scene3d-route a:hover {
     color: var(--ink);
   }
 
-  .request-route a:active {
+  .scene3d-route a:active {
     transform: scale(0.96);
   }
 
-  .request-route a[aria-current] {
+  .scene3d-route a[aria-current] {
     background: var(--accent);
     color: var(--on-accent);
   }
 }
 
-/* Letter */
-.letter {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: var(--gap-section) var(--m);
-  box-sizing: content-box;
+/* Project and signature details inside the scenes */
+.project-title {
+  margin: 0;
+  font-size: var(--step-display);
+  line-height: 1;
+  letter-spacing: -0.045em;
+  font-weight: 700;
 }
 
-.letter .lead {
-  margin-bottom: 32px;
+.project-meta {
+  margin: 12px 0 24px !important;
+  color: var(--accent);
+  font-size: var(--step-small);
+  font-weight: 600;
 }
 
-.letter p {
-  margin: 0 0 1.4em;
-  line-height: 1.6;
+.scene3d-copy .project-stack {
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: var(--step-small);
 }
 
-.letter mark {
-  background: var(--accent);
-  color: var(--on-accent);
-  padding: 0 0.15em;
+.project-links {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px !important;
+  font-weight: 600;
 }
 
-.letter-sign {
-  margin-top: 40px;
+.intro-sign {
+  display: grid;
+  margin-top: 28px !important;
 }
 
-.letter-sign strong {
-  display: block;
+.intro-sign strong {
   font-size: var(--step-lead);
   letter-spacing: -0.02em;
 }
 
-.letter-sign span {
+.intro-sign span {
   color: var(--muted);
   font-size: var(--step-small);
+}
+
+.scene3d mark {
+  background: var(--accent);
+  color: var(--on-accent);
+  padding: 0 0.15em;
 }
 
 /* ── Work: big names, 3D preview ────────────────────────────────────────── */
@@ -1062,45 +1074,45 @@ pre {
 
 /* Phone and tablet: the scene takes the top half, the words sit below it on the ground */
 @media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
-  html.js .request:not(.is-rest) {
-    height: 500svh;
+  html.js .scene3d:not(.is-rest) {
+    height: calc((var(--hold-stacked) + 1) * 100svh);
   }
 
-  html.js .request:not(.is-rest) .request-canvas {
+  html.js .scene3d:not(.is-rest) .scene3d-canvas {
     height: 50%;
   }
 
-  html.js .request:not(.is-rest) .request-beats {
+  html.js .scene3d:not(.is-rest) .scene3d-beats {
     align-items: end;
     padding: 0 var(--m) 28px;
   }
 
-  html.js .request:not(.is-rest) .request-beat,
-  html.js .request:not(.is-rest) .request-hero {
+  html.js .scene3d:not(.is-rest) .scene3d-beat,
+  html.js .scene3d:not(.is-rest) .scene3d-hero {
     width: 100%;
   }
 
-  html.js .request:not(.is-rest) .request-beat:not(.request-hero) {
+  html.js .scene3d:not(.is-rest) .scene3d-beat:not(.scene3d-hero) {
     padding: 0;
     margin-left: 0;
   }
 
-  html.js .request:not(.is-rest) .request-hint,
-  html.js .request:not(.is-rest) .request-route {
+  html.js .scene3d:not(.is-rest) .scene3d-hint,
+  html.js .scene3d:not(.is-rest) .scene3d-route {
     display: none;
   }
 
-  html.js .request:not(.is-rest) .request-beat .code-block {
+  html.js .scene3d:not(.is-rest) .scene3d-beat .code-block {
     margin-top: 20px;
     padding: 18px 20px;
     font-size: 0.8125rem;
   }
 
-  .request-copy .lead {
+  .scene3d-copy .lead {
     margin-bottom: 12px;
   }
 
-  .request-copy .button {
+  .scene3d-copy .button {
     margin-top: 20px;
   }
 }
@@ -1155,10 +1167,6 @@ html.js .hero-title .line + .line {
     aspect-ratio: auto;
   }
 
-  .letter {
-    padding-block: 120px;
-  }
-
   .topbar {
     gap: 16px;
   }
@@ -1171,11 +1179,11 @@ html.js .hero-title .line + .line {
     margin-left: auto;
   }
 
-  .request-beat + .request-beat {
+  .scene3d-beat + .scene3d-beat {
     display: block;
   }
 
-  .request-beat .code-block {
+  .scene3d-beat .code-block {
     margin-top: 28px;
   }
 
