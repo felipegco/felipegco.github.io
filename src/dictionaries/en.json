@@ -115,7 +115,9 @@
     ],
     "notchSong": "Now playing",
     "notchArtist": "Simple Notch",
-    "inside": "See inside"
+    "inside": "See inside",
+    "slide": "Show project {n} of {total}",
+    "track": "Projects, swipe sideways"
   },
   "console": {
     "title": "Try the e-Move API",
@@ -309,7 +311,7 @@
       },
       {
         "title": "Today, APIs that run well",
-        "text": "When I build an API in Spring Boot, I think about how it will run on the server. Since January 2026 I have worked with freelance clients, and I study Information Systems at FHO.",
+        "text": "",
         "mark": "how it will run on the server"
       }
     ],

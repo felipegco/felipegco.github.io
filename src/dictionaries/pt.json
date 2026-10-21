@@ -115,7 +115,9 @@
     ],
     "notchSong": "Tocando agora",
     "notchArtist": "Simple Notch",
-    "inside": "Ver por dentro"
+    "inside": "Ver por dentro",
+    "slide": "Ver o projeto {n} de {total}",
+    "track": "Projetos, arraste para o lado"
   },
   "console": {
     "title": "Teste a API do e-Move",
@@ -309,7 +311,7 @@
       },
       {
         "title": "Hoje, APIs que rodam bem",
-        "text": "Quando escrevo uma API em Spring Boot, penso em como ela vai rodar no servidor. Desde janeiro de 2026 atendo clientes como freelancer, e curso Sistemas de Informação na FHO.",
+        "text": "",
         "mark": "como ela vai rodar no servidor"
       }
     ],
