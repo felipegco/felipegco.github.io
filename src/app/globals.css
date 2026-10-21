@@ -14,7 +14,7 @@
   --sheet-ink: #111113;
   --sheet-muted: #4b4b52;
 
-  /* the 3D scene reads these, so it follows the theme */
+  /* the 3D scene reads these, so it shares the page's palette */
   --scene-floor: #0f0f11;
   --scene-body: #34343b;
   --scene-dim: #4a4a53;
@@ -39,18 +39,10 @@
   --t-reveal: 1300ms;
 }
 
-[data-theme="light"] {
-  --ground: #ececea;
-  --paper: #fafaf9;
-  --ink: #0b0b0c;
-  --muted: #52525b;
-  --scene-floor: #e3e3e0;
-  --scene-body: #fbfbfa;
-  --scene-dim: #c9c9c4;
-}
-
 /* ── Base ───────────────────────────────────────────────────────────────── */
+/* dark only: the browser's own scrollbars and form controls follow it too */
 html {
+  color-scheme: dark;
   scroll-behavior: smooth;
   background: var(--ground);
 }

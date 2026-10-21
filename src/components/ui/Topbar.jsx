@@ -1,4 +1,3 @@
-import ThemeToggle from '@/components/ui/ThemeToggle';
 import LanguagePicker from '@/components/ui/LanguagePicker';
 
 // Barra do topo: na página inicial os links são âncoras; nas páginas de projeto, voltam para ela
@@ -12,7 +11,6 @@ export default function Topbar({ nav, lang, home = false }) {
                 <a href={`${base}#contact`}>{nav.contact}</a>
             </nav>
             <div className="topbar-tools">
-                <ThemeToggle labels={nav} />
                 <LanguagePicker lang={lang} labels={nav} />
             </div>
         </header>

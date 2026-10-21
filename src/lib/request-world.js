@@ -229,6 +229,7 @@ function build({ scene, mats, tokens }, labels) {
         drawScreen(screenCtx, tokens, labels, !!answered);
         screenTexture.needsUpdate = true;
     };
+    paintScreen();
 
     const ahead = new Vector3();
 
@@ -274,7 +275,6 @@ function build({ scene, mats, tokens }, labels) {
         keys: cameraKeys(),
         shadow: { center: new Vector3(18, 0, -2), size: 26 },
         update,
-        onTokens: paintScreen,
         dispose() {
             screenMat.dispose();
             screenTexture.dispose();

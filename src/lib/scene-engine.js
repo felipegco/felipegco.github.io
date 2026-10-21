@@ -1,6 +1,6 @@
 // Motor das cenas 3D do portfólio. Cada cena (introdução, requisição do e-Move)
 // monta seus objetos com build() e devolve as posições da câmera e um update(s).
-// O motor cuida do resto: renderizador, luz, chão, cores do tema, tamanho,
+// O motor cuida do resto: renderizador, luz, chão, cores (lidas do CSS), tamanho,
 // ponteiro e redesenho só quando algo muda.
 import {
     BoxGeometry,
@@ -119,23 +119,19 @@ export function createStage(canvas, { build, onReady }) {
     Object.assign(sun.shadow.camera, { left: -size, right: size, top: size * 0.85, bottom: -size * 0.85, near: 1, far: 70 });
     sun.shadow.camera.updateProjectionMatrix();
 
-    const applyTokens = () => {
-        Object.assign(tokens, readTokens());
-        scene.background = new Color(tokens.ground);
-        scene.fog = new Fog(tokens.ground, 46, 110);
-        mats.floor.color.set(tokens.floor);
-        mats.body.color.set(tokens.body);
-        mats.dim.color.set(tokens.dim);
-        mats.accent.color.set(tokens.accent);
-        mats.ink.color.set(tokens.ink);
-        mats.route.color.set(tokens.dim);
-        mats.routeLit.color.set(tokens.accent);
-        mats.returnLit.color.set(tokens.ink);
-        mats.led.color.set(tokens.muted);
-        hemi.groundColor.set(tokens.floor);
-        world.onTokens?.(tokens);
-    };
-    applyTokens();
+    // As cores vêm das variáveis do CSS, então o 3D usa a mesma paleta da página
+    scene.background = new Color(tokens.ground);
+    scene.fog = new Fog(tokens.ground, 46, 110);
+    mats.floor.color.set(tokens.floor);
+    mats.body.color.set(tokens.body);
+    mats.dim.color.set(tokens.dim);
+    mats.accent.color.set(tokens.accent);
+    mats.ink.color.set(tokens.ink);
+    mats.route.color.set(tokens.dim);
+    mats.routeLit.color.set(tokens.accent);
+    mats.returnLit.color.set(tokens.ink);
+    mats.led.color.set(tokens.muted);
+    hemi.groundColor.set(tokens.floor);
 
     const pos = new Vector3();
     const look = new Vector3();
@@ -193,8 +189,6 @@ export function createStage(canvas, { build, onReady }) {
 
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
-    const themeObserver = new MutationObserver(() => { applyTokens(); dirty = true; });
-    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
     const viewObserver = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
     viewObserver.observe(canvas);
     resize();
@@ -211,7 +205,6 @@ export function createStage(canvas, { build, onReady }) {
         dispose() {
             cancelAnimationFrame(raf);
             resizeObserver.disconnect();
-            themeObserver.disconnect();
             viewObserver.disconnect();
             world.dispose?.();
             scene.traverse((obj) => obj.geometry?.dispose());
