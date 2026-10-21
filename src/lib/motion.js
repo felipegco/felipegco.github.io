@@ -12,6 +12,7 @@ const SWIPE_STEP = 40;
 const QUIET = 200;
 // Seção mais alta que a tela anda neste pedaço da tela por vez, sem pular nada
 const PAGE = 0.85;
+const MERGE = 48;
 
 const isField = (el) => !!el?.closest?.('input, select, textarea, [contenteditable="true"], [data-lenis-prevent]');
 
@@ -38,10 +39,11 @@ export function loadMotion() {
                 document.querySelectorAll('[data-slide]').forEach((el) => {
                     list.push(el.getBoundingClientRect().top + window.scrollY);
                 });
+                // Paradas a menos de MERGE uma da outra viram a de baixo: nada de passos de poucos pixels
                 return list
                     .map((y) => Math.min(Math.max(Math.round(y), 0), limit))
                     .sort((a, b) => a - b)
-                    .filter((y, i, all) => i === 0 || y - all[i - 1] > 4);
+                    .filter((y, i, all) => i === all.length - 1 || all[i + 1] - y > MERGE);
             };
 
             const glideTo = (top, { duration = 1.6, onComplete } = {}) => {

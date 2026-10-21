@@ -1507,6 +1507,17 @@ a.work-name {
   padding: var(--gap-section) 0;
 }
 
+/* In slides the contact and the footer share the last screen */
+@media (prefers-reduced-motion: no-preference) {
+  html.js .contact {
+    min-height: calc(100svh - var(--footer-h, 0px));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 64px 0;
+  }
+}
+
 .contact h2 span {
   display: block;
 }
@@ -1559,7 +1570,7 @@ a.work-name {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 12px 24px;
-  margin: 72px 0 0;
+  margin: 56px 0 0;
 }
 
 .contact dt {
@@ -1571,62 +1582,74 @@ a.work-name {
 }
 
 /* ── Footer: name across the neon field ─────────────────────────────────── */
+/* footer.jsx sizes the name to the full width and reports its height as --footer-h */
 .footer {
-  position: relative;
-  overflow: hidden;
   background: var(--accent);
   color: var(--on-accent);
 }
 
-.footer-top {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  justify-content: space-between;
-  gap: 32px;
-  padding: 32px var(--m);
+.footer-name {
+  margin: 0;
+  padding: 28px var(--m) 0;
+  overflow: hidden;
+  color: #ffffff;
+  font-size: 11vw;
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
 }
 
-.footer-top ul {
-  list-style: none;
+.footer-name span {
+  display: inline-block;
+  padding-bottom: 0.16em;
+  white-space: nowrap;
+}
+
+/* the name rises into the band when the last slide arrives */
+html.js .footer-name[data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+html.js .footer-name[data-reveal] span {
+  transform: translateY(105%);
+  transition: transform 1400ms var(--ease-expo) 200ms;
+}
+
+html.js .footer-name[data-reveal].in span {
+  transform: none;
+}
+
+.footer-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px 32px;
+  padding: 18px var(--m) 22px;
+  border-top: 1px solid rgb(0 0 0 / 0.18);
+  font-size: var(--step-small);
+}
+
+.footer-bar ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 6px;
+  list-style: none;
 }
 
-.footer-top ul:last-child {
-  text-align: right;
+.footer-bar small {
+  margin-left: auto;
+  font-size: inherit;
 }
 
 .footer a:hover {
   color: var(--paper);
 }
 
-.footer-status {
-  max-width: 30ch;
-  margin: 0;
+.footer-up {
   font-weight: 600;
-}
-
-.footer-name {
-  padding: clamp(96px, 14vw, 200px) var(--m) 48px;
-}
-
-.footer-name p {
-  margin: 0;
-  color: #ffffff;
-  font-size: var(--step-small);
-  line-height: 0.9;
-  letter-spacing: -0.06em;
-  font-weight: 800;
   white-space: nowrap;
-}
-
-.footer-name small {
-  display: block;
-  margin-top: 16px;
-  font-size: var(--step-small);
 }
 
 /* Phone and tablet: the scene takes the top half, the words sit below it on the ground */
@@ -1818,13 +1841,14 @@ html.js .hero-title .line + .line {
     padding-inline: 10px;
   }
 
-  .footer-top {
-    flex-direction: column;
-    gap: 24px;
+  .footer-bar {
+    flex-wrap: wrap;
   }
 
-  .footer-top ul:last-child {
-    text-align: left;
+  .footer-bar small {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
   }
 
 }

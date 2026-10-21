@@ -228,15 +228,18 @@
     "subject": "Contato pelo portfólio",
     "email": "E-mail",
     "linkedin": "LinkedIn",
-    "github": "GitHub"
+    "github": "GitHub",
+    "resume": "Currículo",
+    "resumeLink": "Baixar PDF"
   },
   "footer": {
     "about": "Sobre",
     "projects": "Projetos",
     "journey": "Trajetória",
     "contact": "Contato",
-    "rights": "Felipe Giacomini Cocco. Código no GitHub.",
-    "status": "Aberto a vagas júnior e estágio em back-end. São Paulo, Brasil."
+    "rights": "Felipe Giacomini Cocco",
+    "top": "Voltar ao topo",
+    "code": "Código no GitHub"
   },
   "request": {
     "label": "A viagem de uma requisição do e-Move",
