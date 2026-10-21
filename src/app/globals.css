@@ -299,12 +299,37 @@ pre {
   display: grid;
   margin: 0;
   font-size: var(--step-small);
-  color: var(--muted);
+  color: var(--accent);
+  text-decoration: none;
 }
 
-.hero-status span:first-child {
+.hero-status > span:first-child {
   color: var(--ink);
   font-weight: 600;
+}
+
+.hero-status > span:last-child {
+  font-weight: 600;
+}
+
+.hero-cta {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color var(--t-hover) ease;
+}
+
+.hero-arrow {
+  display: inline-block;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.hero-status:hover .hero-cta {
+  text-decoration-color: currentColor;
+}
+
+.hero-status:hover .hero-arrow {
+  transform: translateX(4px);
 }
 
 /* The picture behind the 3D until the scene is ready (also the view transition's landing) */
