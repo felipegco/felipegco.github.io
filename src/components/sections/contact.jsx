@@ -16,7 +16,7 @@ export default function Contact({ dict }) {
     };
 
     return (
-        <section id="contact" className="contact" aria-labelledby="contact-title">
+        <section id="contact" className="contact" data-slide aria-labelledby="contact-title">
             <h2 id="contact-title" className="lead" data-reveal>
                 <span>{dict.line1}</span>
                 <span>{dict.line2}</span>

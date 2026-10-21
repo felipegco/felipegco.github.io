@@ -110,7 +110,7 @@ function build({ scene, mats }) {
     const ahead = new Vector3();
 
     function update(s, time) {
-        // Os cards aparecem a ±0,32 de cada parada; tudo se move só no intervalo entre eles,
+        // Os cards aparecem a ±0,12 de cada parada; tudo se move só no intervalo entre eles,
         // então cada card mostra a cena parada.
         // 0 → 1: depois que a abertura some, as peças se encaixam uma depois da outra
         // e estão todas no lugar antes de "Comecei pelo hardware" aparecer
@@ -130,17 +130,19 @@ function build({ scene, mats }) {
 
         // 1 → 2: com o card do hardware fora da tela, a tampa aparece e fecha,
         // o gabinete deita e o rack desliza em volta dele
-        const fLid = smooth(span(s, 1.34, 1.46));
-        lid.visible = s > 1.34;
+        // O trecho ocupa quase o caminho todo: o deslize freia no fim, então a virada
+        // e o rack precisam de espaço para não acontecer de uma vez
+        const fLid = smooth(span(s, 1.12, 1.4));
+        lid.visible = s > 1.12;
         lid.position.lerpVectors(lidFrom, lidAt, fLid);
 
-        const fTurn = smooth(span(s, 1.4, 1.58));
+        const fTurn = smooth(span(s, 1.3, 1.7));
         machine.quaternion.slerpQuaternions(upright, lying, fTurn);
         machine.scale.setScalar(1 - fTurn * 0.5);
         machine.position.y = TOWER_Y + (SLOT_Y - TOWER_Y) * fTurn;
 
-        const fRack = smooth(span(s, 1.46, 1.66));
-        rack.visible = s > 1.44;
+        const fRack = smooth(span(s, 1.5, 1.88));
+        rack.visible = s > 1.48;
         rack.position.z = -9 * (1 - fRack);
 
         // 2 → 3: os servidores acendem e a requisição sai pelo cabo
@@ -174,7 +176,7 @@ function build({ scene, mats }) {
         ],
         stackedZoom: 0.95,
         // A câmera também só anda entre os cards
-        holdWindow: [0.34, 0.66],
+        holdWindow: [0.06, 0.94],
         shadow: { center: new Vector3(2, 0, 0), size: 12 },
         update,
     };

@@ -36,7 +36,7 @@
   --t-press: 140ms;
   --t-hover: 180ms;
   --t-ui: 240ms;
-  --t-reveal: 800ms;
+  --t-reveal: 1300ms;
 }
 
 [data-theme="light"] {
@@ -305,45 +305,6 @@ pre {
   font-weight: 600;
 }
 
-/* Light magnets for touch: one native snap point per stop, used only when the swipe ends near it.
-   The mouse and the trackpad get a soft brake near each stop from the script (scene-3d.jsx). */
-.scene3d-snaps {
-  display: none;
-}
-
-@media (prefers-reduced-motion: no-preference) and (pointer: coarse) {
-  html.js {
-    scroll-snap-type: y proximity;
-  }
-
-  html.js .scene3d.is-live {
-    position: relative;
-  }
-
-  html.js .scene3d.is-live .scene3d-snaps {
-    display: block;
-  }
-
-  html.js .scene3d.is-live .scene3d-snaps {
-    pointer-events: none;
-  }
-
-  .scene3d-snaps span {
-    position: absolute;
-    left: 0;
-    width: 100%;
-    height: 100svh;
-    top: calc(var(--k) / (var(--beats) - 1) * var(--hold) * 100svh);
-    scroll-snap-align: start;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (pointer: coarse) and (max-width: 1024px) {
-  .scene3d-snaps span {
-    top: calc(var(--k) / (var(--beats) - 1) * var(--hold-stacked) * 100svh);
-  }
-}
-
 /* The picture behind the 3D until the scene is ready (also the view transition's landing) */
 .scene3d-backdrop {
   display: none;
@@ -354,7 +315,7 @@ pre {
     display: block;
     position: absolute;
     inset: 0;
-    transition: opacity 1200ms var(--ease-out);
+    transition: opacity 1800ms var(--ease-out);
   }
 
   html.js .scene3d.is-ready .scene3d-backdrop {
@@ -398,7 +359,7 @@ pre {
     width: 100%;
     height: 100%;
     opacity: 0;
-    transition: opacity 1200ms var(--ease-out);
+    transition: opacity 1800ms var(--ease-out);
   }
 
   html.js .scene3d.is-ready .scene3d-canvas {
@@ -424,7 +385,7 @@ pre {
     opacity: 0;
     visibility: hidden;
     transform: translateY(28px);
-    transition: opacity 500ms var(--ease-out), transform 700ms var(--ease-expo), visibility 0s linear 500ms;
+    transition: opacity 320ms var(--ease-out), transform 480ms var(--ease-out), visibility 0s linear 320ms;
   }
 
   html.js .scene3d:not(.is-rest) .scene3d-beat.is-on {
@@ -432,7 +393,7 @@ pre {
     visibility: visible;
     transform: none;
     pointer-events: auto;
-    transition: opacity 600ms var(--ease-out), transform 900ms var(--ease-expo), visibility 0s;
+    transition: opacity 900ms var(--ease-out) 80ms, transform 1200ms var(--ease-expo) 80ms, visibility 0s;
   }
 
   html.js .scene3d:not(.is-rest) .scene3d-hero {
@@ -562,6 +523,15 @@ pre {
   column-gap: var(--m);
 }
 
+/* In slides the projects fill one screen, centred, so the stop frames the title and the buttons */
+@media (prefers-reduced-motion: no-preference) and (min-width: 1025px) {
+  html.js .work {
+    min-height: 100svh;
+    padding-block: 56px;
+    align-content: center;
+  }
+}
+
 .work > .lead {
   grid-column: 1 / -1;
   margin-bottom: 48px;
@@ -633,7 +603,7 @@ pre {
   aspect-ratio: 16 / 10;
   transform-style: preserve-3d;
   transform: rotateY(var(--fy, -12deg)) rotateX(var(--fx, 4deg));
-  transition: transform 700ms var(--ease-out);
+  transition: transform 1100ms var(--ease-out);
 }
 
 .frame-item {
@@ -643,7 +613,7 @@ pre {
   background: var(--paper);
   opacity: 0;
   transform: rotateY(38deg) translateZ(-140px) translateX(18%);
-  transition: opacity 500ms ease, transform 900ms var(--ease-expo);
+  transition: opacity 800ms ease, transform 1400ms var(--ease-expo);
   pointer-events: none;
 }
 
@@ -1260,9 +1230,9 @@ a.work-name {
 /* ── Motion: entrances that never hide content without script ───────────── */
 html.js [data-reveal] {
   opacity: 0;
-  transform: translateY(26px);
+  transform: translateY(36px);
   transition: opacity var(--t-reveal) var(--ease-expo), transform var(--t-reveal) var(--ease-expo);
-  transition-delay: calc(var(--i, 0) * 80ms);
+  transition-delay: calc(var(--i, 0) * 140ms);
 }
 
 html.js [data-reveal].in {
@@ -1273,11 +1243,11 @@ html.js [data-reveal].in {
 html.js .hero-title .line {
   clip-path: inset(0 0 100% 0);
   transform: translateY(40%);
-  animation: rise 1100ms var(--ease-expo) forwards;
+  animation: rise 1600ms var(--ease-expo) forwards;
 }
 
 html.js .hero-title .line + .line {
-  animation-delay: 110ms;
+  animation-delay: 200ms;
 }
 
 @keyframes rise {

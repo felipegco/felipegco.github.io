@@ -1,7 +1,7 @@
 // base: vazio na página inicial; nas páginas de projeto, o caminho dela (/pt)
 export default function Footer({ dict, base = '' }) {
     return (
-        <footer className="footer">
+        <footer className="footer" data-slide>
             <div className="footer-top">
                 <ul>
                     <li><a href={`${base}#about`}>{dict.about}</a></li>
