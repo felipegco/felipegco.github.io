@@ -14,11 +14,11 @@
     "about": "Sobre"
   },
   "hero": {
-    "title": "Felipe Giacomini, desenvolvedor back-end",
-    "sentence": "Escrevo APIs REST em Java e Spring Boot e sei como elas rodam no servidor: antes do código, foram quase dois anos cuidando de infraestrutura Linux.",
+    "title": "Felipe Giacomini, desenvolvedor",
+    "sentence": "Desenvolvedor back-end especializado em Java e Spring Boot, com experiência em infraestrutura Linux e Docker. Curso Sistemas de Informação na FHO e, no momento, estou me especializando em AWS e em testes com JUnit e Mockito.",
     "cta": "Ver projetos",
-    "barLeft": "Aberto a vagas júnior e estágio",
-    "barRight": "São Paulo, Brasil"
+    "talk": "Vamos desenvolver algo juntos?",
+    "talkCta": "Entre em contato"
   },
   "work": {
     "title": "Projetos",
@@ -137,7 +137,7 @@
         "name": "Experiência",
         "items": [
           {
-            "name": "Desenvolvedor freelance",
+            "name": "Desenvolvedor",
             "when": "jan/2026 – hoje",
             "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega.",
             "tools": "SPRING BOOT · NEXT.JS"
@@ -222,7 +222,7 @@
   },
   "contact": {
     "title": "Contato",
-    "line1": "Tem uma vaga ou um projeto?",
+    "line1": "Tem um projeto em mente?",
     "line2": "Me conte por aqui.",
     "placeholder": "Escreva sua mensagem",
     "submit": "Enviar mensagem",

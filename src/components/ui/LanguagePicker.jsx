@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function LanguagePicker({ lang, labels }) {
@@ -14,14 +13,17 @@ export default function LanguagePicker({ lang, labels }) {
         return segments.join("/");
     };
 
+    // Um <a> comum, não o <Link>: trocar de idioma recarrega a página. A navegação no
+    // cliente redesenharia o layout raiz, e o script do tema no <head> (que precisa rodar
+    // antes da pintura) viraria um <script> renderizado pelo React, que nunca executa.
     return (
-        <Link
+        <a
             href={redirectedPathname(lang === "pt" ? "en" : "pt")}
             className="tool"
             aria-label={labels.switchLang}
             title={labels.switchLang}
         >
             {labels.langShort}
-        </Link>
+        </a>
     );
 }

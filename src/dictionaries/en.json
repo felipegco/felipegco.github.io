@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Felipe Giacomini, back-end developer",
+    "title": "Felipe Giacomini, developer",
     "description": "Portfolio of Felipe Giacomini Cocco: REST APIs in Java and Spring Boot, backed by hands-on Linux infrastructure experience."
   },
   "nav": {
@@ -14,11 +14,11 @@
     "about": "About"
   },
   "hero": {
-    "title": "Felipe Giacomini, back-end developer",
-    "sentence": "I write REST APIs in Java and Spring Boot and I know how they run on a server: before the code came almost two years looking after Linux infrastructure.",
+    "title": "Felipe Giacomini, developer",
+    "sentence": "Back-end developer specializing in Java and Spring Boot, with a background in Linux and Docker infrastructure. I study Information Systems at FHO and am currently deepening my skills in AWS and testing with JUnit and Mockito.",
     "cta": "See projects",
-    "barLeft": "Open to junior roles and internships",
-    "barRight": "São Paulo, Brazil"
+    "talk": "Shall we build something together?",
+    "talkCta": "Get in touch"
   },
   "work": {
     "title": "Projects",
@@ -137,7 +137,7 @@
         "name": "Experience",
         "items": [
           {
-            "name": "Freelance developer",
+            "name": "Developer",
             "when": "Jan 2026 – now",
             "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery.",
             "tools": "SPRING BOOT · NEXT.JS"
@@ -222,7 +222,7 @@
   },
   "contact": {
     "title": "Contact",
-    "line1": "Got a role or a project?",
+    "line1": "Got a project in mind?",
     "line2": "Tell me about it here.",
     "placeholder": "Write your message",
     "submit": "Send message",

@@ -36,10 +36,11 @@ export default function IntroScene({ dict, lang }) {
                 <p className="hero-sentence">{hero.sentence}</p>
                 <div className="hero-actions">
                     <a href="#projects" className="button">{hero.cta}</a>
-                    <p className="hero-status">
-                        <span>{hero.barLeft}</span>
-                        <span>{hero.barRight}</span>
-                    </p>
+                    {/* Ao lado do botão, o convite para conversar leva direto ao contato */}
+                    <a href="#contact" className="hero-status">
+                        <span>{hero.talk}</span>
+                        <span><span className="hero-cta">{hero.talkCta}</span> <span className="hero-arrow" aria-hidden="true">→</span></span>
+                    </a>
                 </div>
                 <p className="scene3d-hint">{intro.hint}</p>
             </article>
@@ -57,7 +58,7 @@ export default function IntroScene({ dict, lang }) {
                             {/* A assinatura fecha a introdução, embaixo do console */}
                             <div className="intro-end">
                                 <p className="intro-sign">
-                                    <strong>Felipe Giacomini Cocco</strong>
+                                    <strong>Felipe Giacomini</strong>
                                     <span>{intro.role}</span>
                                 </p>
                                 <a href="#projects" className="button">{intro.next}</a>
