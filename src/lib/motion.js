@@ -2,7 +2,7 @@
 // As cenas 3D pedem por aqui; quem chega primeiro cria, as outras reaproveitam.
 let loading = null;
 
-const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+const easeOut = (t) => t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
 
 export function loadMotion() {
     if (loading) return loading;
@@ -27,7 +27,7 @@ export function loadMotion() {
             const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (!touch && !reduced) {
                 lenis = new Lenis({
-                    lerp: 0.1,
+                    lerp: 0.07,
                     wheelMultiplier: 0.9,
                     smoothWheel: true,
                     autoRaf: false,

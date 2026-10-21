@@ -1,6 +1,6 @@
 {
   "meta": {
-    "title": "Felipe Cocco, back-end Java developer",
+    "title": "Felipe Giacomini, back-end developer",
     "description": "Portfolio of Felipe Giacomini Cocco: REST APIs in Java and Spring Boot, backed by hands-on Linux infrastructure experience."
   },
   "nav": {
@@ -14,7 +14,7 @@
     "about": "About"
   },
   "hero": {
-    "title": "Felipe Cocco, back-end Java",
+    "title": "Felipe Giacomini, back-end developer",
     "sentence": "I write REST APIs in Java and Spring Boot and I know how they run on a server: before the code came almost two years looking after Linux infrastructure.",
     "cta": "See projects",
     "barLeft": "Open to junior roles and internships",

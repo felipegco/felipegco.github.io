@@ -177,7 +177,7 @@ export function createStage(canvas, { build, onReady }) {
         raf = requestAnimationFrame(tick);
         if (!visible) return;
         const dp = target - progress;
-        if (Math.abs(dp) > 0.00005) { progress += dp * 0.2; dirty = true; } else if (progress !== target) { progress = target; dirty = true; }
+        if (Math.abs(dp) > 0.00005) { progress += dp * 0.018; dirty = true; } else if (progress !== target) { progress = target; dirty = true; }
         const dx = pointer.tx - pointer.x;
         const dy = pointer.ty - pointer.y;
         if (Math.abs(dx) + Math.abs(dy) > 0.0005) { pointer.x += dx * 0.06; pointer.y += dy * 0.06; dirty = true; }
