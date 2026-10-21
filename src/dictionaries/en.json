@@ -1,132 +1,178 @@
 {
-  "header": {
-    "about": "About",
-    "experience": "Experience",
-    "education": "Education",
+  "meta": {
+    "title": "Felipe Cocco, back-end Java developer",
+    "description": "Portfolio of Felipe Giacomini Cocco: REST APIs in Java and Spring Boot, backed by hands-on Linux infrastructure experience."
+  },
+  "nav": {
     "projects": "Projects",
-    "contact": "Contact"
+    "contact": "Contact",
+    "themeDark": "Use dark theme",
+    "themeLight": "Use light theme",
+    "switchLang": "Ler em português",
+    "langShort": "PT"
   },
   "hero": {
-    "badge": "v2.0 Portfolio",
-    "title_part1": "Crafting high-impact",
-    "title_highlight": "digital experiences",
-    "description": "I'm Felipe Giacomini, a Full Stack Developer dedicated to building scalable solutions where technical performance meets intuitive design.",
-    "cta_projects": "View Projects"
+    "title": "Felipe Cocco, back-end Java",
+    "sentence": "I write REST APIs in Java and Spring Boot and I know how they run on a server: before the code came almost two years looking after Linux infrastructure.",
+    "cta": "See projects",
+    "barLeft": "Open to junior roles and internships",
+    "barRight": "São Paulo, Brazil",
+    "portraitAlt": "Felipe Giacomini Cocco in a dark suit, smiling"
   },
   "about": {
-    "aboutTitle": "About & Tech",
-    "profileJson": {
-      "name": "name",
-      "degreeTitle": "degree",
-      "degree": "Systems Information - FHO",
-      "goal": "goal",
-      "place": "Brazil",
-      "bio": "Combining academic background with practical experience."
-    },
-    "tools": "Tools & Data"
+    "title": "From hardware to APIs",
+    "paragraphs": [
+      "I started in IT with hardware. At Marino I built and repaired machines, and that is where I wrote my first real system: an internal management tool in PHP with PostgreSQL.",
+      "Then came the servers. At Brascabos I spent over a year between Linux, Windows Server and Active Directory, reading incident logs and writing scripts that took repetitive tasks off the team's hands.",
+      "That changed how I write code. When I build an API in Spring Boot, I think about how it will run on the server: configuration through environment variables, Docker, errors whose message explains the problem.",
+      "Since January 2026 I have been working with freelance clients, and I am in the 6th semester of Information Systems at FHO. I am studying AWS and automated testing, and looking for my first role as a back-end developer."
+    ],
+    "mark": "how it will run on the server",
+    "role": "Back-end developer"
   },
-  "experience": {
-    "title": "Experience",
-    "items": [
-      {
-        "role": "Freelance Developer",
-        "company": "Independent",
-        "period": "Jan/2026 – Present",
-        "bullets": [
-          "Full Stack web development on demand, from requirements gathering to delivery.",
-          "Architecture and implementation of systems using Spring Boot and Next.js.",
-          "Autonomous client management, scope definition and technical decision-making."
-        ],
-        "techs": ["Spring Boot", "Next.js", "Java", "React"]
-      },
-      {
-        "role": "IT Intern",
-        "company": "Brascabos Componentes Eletroeletrônicos",
-        "period": "Oct/2024 – Jan/2026",
-        "bullets": [
-          "User support and maintenance of Windows/Linux infrastructure.",
-          "Development of internal automations to optimize business processes."
-        ],
-        "techs": ["Linux", "Windows Server", "Automation"]
-      },
-      {
-        "role": "Technical Support",
-        "company": "Marino Equipamentos para Informática",
-        "period": "Mar/2024 – Oct/2024",
-        "bullets": [
-          "Hardware maintenance and repair.",
-          "Development of internal management system in PHP with PostgreSQL."
-        ],
-        "techs": ["PHP", "PostgreSQL", "Hardware"]
-      }
-    ]
-  },
-  "education": {
-    "title": "Education",
-    "semesterLabel": "Semester {n} of {total}",
-    "currentSemLabel": "Current semester",
-    "daysLeftLabel": "Days left",
-    "remainingSemsLabel": "Semesters left",
-    "degree": {
-      "degree": "Information Systems",
-      "institution": "FHO – Fundação Hermínio Ometto",
-      "period": "2024 – Dec/2027",
-      "description": "Undergraduate program covering software engineering, databases, computer networks, and systems analysis. Currently in the 5th semester, with a focus on Full Stack development and practical project delivery."
-    },
-    "certifications": [
-      {
-        "name": "Linux Essentials",
-        "issuer": "Red Hat Academy",
-        "iconKey": "redhat",
-        "year": "2024",
-        "description": "Fundamentals of Linux: file system, shell scripting, permissions, and process management."
-      },
-      {
-        "name": "Cybersecurity Essentials",
-        "issuer": "Cisco Networking Academy",
-        "iconKey": "cisco",
-        "year": "2024",
-        "description": "Core cybersecurity concepts: threat analysis, network security, cryptography, and vulnerability assessment."
-      },
-      {
-        "name": "Web Development Bootcamp",
-        "issuer": "Udemy",
-        "iconKey": "udemy",
-        "year": "2023",
-        "description": "Complete web development course covering HTML, CSS, JavaScript, Node.js, and modern frameworks."
-      }
-    ]
-  },
-  "projects": {
+  "work": {
     "title": "Projects",
-    "backend": {
-      "title": "High-performance systems, data modeling, and complex business logic.",
-      "e_move_backend": {
-        "description": "Intelligent charging platform and route optimizer for electric vehicles. Focus on sustainability and efficiency."
+    "code": "Code",
+    "demo": "Live site",
+    "private": "Private repository, client project",
+    "projects": [
+      {
+        "id": "emove",
+        "name": "e-Move",
+        "meta": "Spring Boot API",
+        "year": "2025",
+        "desc": "Route planner for electric cars. The API handles login with JWT in an HttpOnly cookie, a garage of 29 car models, range estimates and the LocationIQ and OpenChargeMap integrations.",
+        "stack": "Java 17, Spring Boot 3, Spring Security, JPA, MariaDB, Next.js",
+        "code": "https://github.com/felipegco/e-move-backend",
+        "demo": "https://e-move-frontend.vercel.app/",
+        "alt": "e-Move home page: the headline The Future of Electric Mobility over a photo of a car dashboard"
       },
-      "clinicare_backend": {
-        "description": "RESTful API for patient management and clinical appointments. Layered architecture and integrated security."
+      {
+        "id": "greentech",
+        "name": "GreenTech ERP",
+        "meta": "Django API, team project",
+        "year": "2026",
+        "desc": "Farm management ERP built by a team at FHO: greenhouses, planting batches, harvests, stock and climate logs, with access controlled by job title. The whole environment starts with one Docker Compose file.",
+        "stack": "Python, Django REST Framework, PostgreSQL 16, JWT, Docker Compose",
+        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend",
+        "alt": "Part of the GreenTech class diagram: User, Funcionario, LotePlantio, Estoque and Colheita"
+      },
+      {
+        "id": "triagem",
+        "name": "AI triage",
+        "meta": "Automation for a clinic",
+        "year": "2026",
+        "desc": "Appointment reminders over WhatsApp for a dental clinic. A language model reads each patient's reply and either confirms or cancels in the scheduling system. When a reply is unclear, the conversation goes to a person.",
+        "stack": "n8n, Groq API, Ollama with Llama 3.1, Redis",
+        "alt": "WhatsApp conversation with three patient replies and the model's decision next to each"
+      },
+      {
+        "id": "clinicare",
+        "name": "CliniCare",
+        "meta": "Spring Boot API and React",
+        "year": "2025",
+        "desc": "Scheduling for dental clinics. A layered REST API with Spring Security and OpenAPI docs, and a React site with staff login.",
+        "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
+        "code": "https://github.com/felipegco/clinicare-backend",
+        "demo": "https://felipegco.github.io/clinicare-frontend/",
+        "alt": "CliniCare site: the headline about a perfect smile next to a photo of the reception room"
+      },
+      {
+        "id": "mesas",
+        "name": "Table booking",
+        "meta": "Next.js site for a client",
+        "year": "2026",
+        "desc": "A public map of free and booked tables at an event venue, split by area: patio, family space, main hall and kiosk. A static site deployed on Vercel.",
+        "stack": "Next.js, React, Tailwind CSS, Vercel",
+        "code": "https://github.com/felipegco/agendamento-mesas",
+        "demo": "https://agendamento-mesas.vercel.app/",
+        "alt": "Page listing available tables with the count of free tables per area"
+      },
+      {
+        "id": "notch",
+        "name": "Simple Notch",
+        "meta": "macOS app in Swift",
+        "year": "2026",
+        "desc": "A minimal app that makes the MacBook notch behave like the iPhone's Dynamic Island: compact, quiet and nothing extra.",
+        "stack": "Swift, SwiftUI, macOS",
+        "code": "https://github.com/felipegco/simple-notch",
+        "alt": "Drawing of an expanded MacBook notch showing the song that is playing"
+      },
+      {
+        "id": "atoll",
+        "name": "Atoll",
+        "meta": "Open source contribution",
+        "year": "2026",
+        "desc": "I contribute to Atoll, which turns the MacBook notch into a surface for media, system info and shortcuts, with native SwiftUI animations.",
+        "stack": "Swift, SwiftUI",
+        "code": "https://github.com/Ebullioscopic/Atoll",
+        "alt": "Atoll logo"
       }
-    },
-    "frontend": {
-      "title": "Applications focused on user experience.",
-      "clinicare_frontend": "Website with a complete landing page featuring services and specialists, as well as a dynamic and secure user authentication system for employees."
-    },
-    "nativeApps": {
-      "title": "Native Apps",
-      "description": "Native desktop applications built with a focus on high performance, fluid user experience, and deep operating system integration.",
-      "simpleNotch": "Inspired by other great open-source notch projects, the core idea here is extreme minimalism. It does exactly what it is supposed to do: perfectly mimic the native, compact, and non-intrusive behavior of the iOS Dynamic Island on your Mac, without the bloat."
-    },
-    "contributions": {
-      "title": "Contributions",
-      "description": "My contributions to the open source community.",
-      "atoll": "Atoll turns the MacBook notch into a focused command surface for media, system insight, and quick utilities. It stays out of the way until needed, then expands with responsive, native SwiftUI animations."
-    },
-    "badges": {
-      "concluded": "Concluded",
-      "developing": "Developing",
-      "updating": "Updating",
-      "archived": "Archived"
-    }
+    ],
+    "triage": [
+      { "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã", "label": "Confirm" },
+      { "msg": "Oi, não vou conseguir ir, depois eu remarco", "label": "Cancel" },
+      { "msg": "A consulta é com a mesma doutora da última vez?", "label": "Question, goes to a person" }
+    ],
+    "notchSong": "Now playing",
+    "notchArtist": "Simple Notch"
+  },
+  "console": {
+    "title": "Try the e-Move API",
+    "lead": "Pick a car from e-Move's real catalog and a battery level. The maths is the same as the back-end's VeiculoService: total range times battery level, divided by 100.",
+    "vehicle": "Car",
+    "battery": "Battery",
+    "result": "estimated range",
+    "request": "Request",
+    "response": "Response 200 OK",
+    "decimal": "."
+  },
+  "journey": {
+    "title": "Track record",
+    "note": "Experience, education and courses",
+    "groups": [
+      {
+        "name": "Experience",
+        "items": [
+          { "name": "Freelance developer", "when": "Jan 2026 – now", "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery." },
+          { "name": "IT intern, Brascabos", "when": "Oct 2024 – Jan 2026", "desc": "Windows and Linux infrastructure, user support and internal automation." },
+          { "name": "Technical support, Marino", "when": "Mar 2024 – Oct 2024", "desc": "Hardware maintenance and an internal management system in PHP with PostgreSQL." }
+        ]
+      },
+      {
+        "name": "Education",
+        "items": [
+          { "name": "Information Systems, FHO", "when": "2024 – Dec 2027", "desc": "Semester {n} of {total}. Software engineering, databases and networks." }
+        ]
+      },
+      {
+        "name": "Courses",
+        "items": [
+          { "name": "Linux Essentials", "when": "2024", "desc": "Red Hat Academy: file system, shell, permissions and processes." },
+          { "name": "Cybersecurity Essentials", "when": "2024", "desc": "Cisco Networking Academy: threats, network security and cryptography." },
+          { "name": "Complete Web Development", "when": "2023", "desc": "Udemy: HTML, CSS, JavaScript and Node.js." }
+        ]
+      }
+    ],
+    "closing": ["Studying now: AWS Cloud Practitioner", "and testing with JUnit and Mockito"]
+  },
+  "contact": {
+    "title": "Contact",
+    "line1": "Got a role or a project?",
+    "line2": "Tell me about it here.",
+    "placeholder": "Write your message",
+    "submit": "Send message",
+    "after": "Opens your email app with the message already written.",
+    "subject": "Contact from your portfolio",
+    "email": "Email",
+    "linkedin": "LinkedIn",
+    "github": "GitHub"
+  },
+  "footer": {
+    "about": "About",
+    "projects": "Projects",
+    "journey": "Track record",
+    "contact": "Contact",
+    "rights": "Felipe Giacomini Cocco. Source on GitHub."
   }
 }

@@ -1,28 +1,58 @@
-export default function Footer() {
+'use client';
+
+import { useEffect, useRef } from 'react';
+
+export default function Footer({ dict }) {
+    const ref = useRef(null);
+
+    // O retrato sobe devagar enquanto o rodapé entra na tela
+    useEffect(() => {
+        const el = ref.current;
+        if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+        let frame = 0;
+        const update = () => {
+            frame = 0;
+            const rect = el.getBoundingClientRect();
+            const progress = Math.min(Math.max(1 - rect.top / window.innerHeight, 0), 1);
+            el.style.setProperty('--py', `${(1 - progress) * 120}px`);
+        };
+        const onScroll = () => {
+            if (!frame) frame = requestAnimationFrame(update);
+        };
+        update();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+            cancelAnimationFrame(frame);
+        };
+    }, []);
+
     return (
-        <footer className="border-t border-border bg-background py-12 mt-20">
-            <div className="max-w-275 mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+        <footer className="footer" ref={ref}>
+            <div className="footer-top">
+                <ul>
+                    <li><a href="#about">{dict.about}</a></li>
+                    <li><a href="#projects">{dict.projects}</a></li>
+                    <li><a href="#journey">{dict.journey}</a></li>
+                    <li><a href="#contact">{dict.contact}</a></li>
+                </ul>
+                <ul>
+                    <li><a href="mailto:fgiacominicocco@gmail.com">fgiacominicocco@gmail.com</a></li>
+                    <li><a href="https://www.linkedin.com/in/felipegcocco/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/felipegco" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                </ul>
+            </div>
 
-                <div className="flex flex-col items-center md:items-start">
-                    <span className="text-xl font-extrabold tracking-tighter text-text-primary">
-                        Felipe<span className="text-blue-500">.dev</span>
-                    </span>
-                    <p className="text-sm text-text-secondary mt-2 font-mono">
-                        &copy; {new Date().getFullYear()} Felipe Giacomini Cocco.
-                    </p>
-                </div>
+            <div className="footer-portrait">
+                <img src="/images/profile.png" alt="" width="1264" height="1264" loading="lazy" />
+            </div>
 
-                <div className="flex gap-6 text-text-secondary">
-                    <a href="https://github.com/FeCocco" target="_blank" className="hover:text-blue-500 transition-colors text-xl">
-                        <i className="fa-brands fa-github"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/felipegcocco/" target="_blank" className="hover:text-blue-500 transition-colors text-xl">
-                        <i className="fa-brands fa-linkedin"></i>
-                    </a>
-                    <a href="mailto:fgiacominicocco@gmail.com" className="hover:text-blue-500 transition-colors text-xl">
-                        <i className="fa-solid fa-envelope"></i>
-                    </a>
-                </div>
+            <div className="footer-name">
+                <p>Felipe Cocco</p>
+                <small>
+                    &copy; {new Date().getFullYear()} <a href="https://github.com/felipegco/felipegco.github.io" target="_blank" rel="noopener noreferrer">{dict.rights}</a>
+                </small>
             </div>
         </footer>
     );
