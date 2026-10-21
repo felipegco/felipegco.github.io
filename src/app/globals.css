@@ -1853,6 +1853,158 @@ html.js .hero-title .line + .line {
 
 }
 
+/* ── Phone: the projects turn into a sideways carousel, one slide whatever their count ── */
+.work-dots {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .work {
+    padding-inline: 0;
+  }
+
+  .work > .lead {
+    margin-bottom: 24px;
+    padding-inline: var(--m);
+  }
+
+  .work-list {
+    display: flex;
+    gap: 16px;
+    padding: 0 var(--m);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--m);
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .work-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* the next card peeks in from the right, so the swipe explains itself */
+  .work-list > li {
+    flex: 0 0 min(86%, 520px);
+    scroll-snap-align: start;
+  }
+
+  .work-list li + li {
+    margin-top: 0;
+  }
+
+  .work-name strong {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .work-mobile .work-detail p:first-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .work-dots {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 20px;
+    padding-inline: var(--m);
+  }
+
+  .work-count {
+    color: var(--muted);
+    font-size: var(--step-small);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .work-dots div {
+    display: flex;
+  }
+
+  .work-dots button {
+    position: relative;
+    width: 24px;
+    height: 32px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .work-dots button::after {
+    content: "";
+    position: absolute;
+    top: 13px;
+    left: 8px;
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--muted);
+    opacity: 0.5;
+    transition: width var(--t-ui) var(--ease-out), left var(--t-ui) var(--ease-out), opacity var(--t-ui) ease, background-color var(--t-ui) ease;
+  }
+
+  .work-dots button[aria-current]::after {
+    left: 3px;
+    width: 18px;
+    background: var(--accent);
+    opacity: 1;
+  }
+}
+
+/* In slides the carousel is one screen; vertical swipes on it still turn the page */
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .work {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 56px 32px;
+  }
+
+  html.js .work-list {
+    touch-action: pan-x;
+  }
+}
+
+/* Cards share one frame size, and short phones drop the stack line so a card still fits */
+@media (max-width: 1024px) {
+  .work-list .work-mobile .media-shot:has(.ui-chat) {
+    aspect-ratio: 16 / 10;
+  }
+
+  .work-list .ui-chat {
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 12px;
+    font-size: 0.75rem;
+  }
+
+  .work-list .ui-chat-row:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) and (max-height: 760px) {
+  html.js .work {
+    padding-block: 28px 12px;
+  }
+
+  html.js .work > .lead {
+    margin-bottom: 16px;
+  }
+
+  html.js .work-mobile .stack {
+    display: none;
+  }
+
+  html.js .work-dots {
+    margin-top: 8px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
