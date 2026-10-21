@@ -1,42 +1,29 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-export default function LanguagePicker({ lang }) {
+export default function LanguagePicker({ lang, labels }) {
     const pathname = usePathname();
 
     const redirectedPathname = (locale) => {
-        if (!pathname) return "/";
+        if (!pathname) return `/${locale}`;
         const segments = pathname.split("/");
-
-        // No novo domínio raiz (fecocco.github.io), o locale é sempre o índice 1
+        // O locale é sempre o primeiro segmento (felipegco.github.io/pt)
         segments[1] = locale;
         return segments.join("/");
     };
 
+    // Um <a> comum, não o <Link>: trocar de idioma recarrega a página. A navegação no
+    // cliente redesenharia o layout raiz, e o script do <head> (que precisa rodar antes
+    // da pintura) viraria um <script> renderizado pelo React, que nunca executa.
     return (
-        <Link
+        <a
             href={redirectedPathname(lang === "pt" ? "en" : "pt")}
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all text-xs font-bold"
-            style={{
-                borderColor: 'var(--border-color)', // Ajustado para bater com seu globals.css
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                color: 'var(--text-secondary)'
-            }}
-            onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
-                e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-                e.currentTarget.style.color = 'var(--text-primary)';
-            }}
-            onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
-                e.currentTarget.style.borderColor = 'var(--border-color)';
-                e.currentTarget.style.color = 'var(--text-secondary)';
-            }}
+            className="tool"
+            aria-label={labels.switchLang}
+            title={labels.switchLang}
         >
-            <i className="fa-solid fa-globe text-blue-500"></i>
-            {lang === "pt" ? "EN" : "PT"}
-        </Link>
+            {labels.langShort}
+        </a>
     );
 }

@@ -1,132 +1,395 @@
 {
-  "header": {
-    "about": "Sobre",
-    "experience": "Experiência",
-    "education": "Formação",
+  "meta": {
+    "title": "Felipe Giacomini, desenvolvedor back-end",
+    "description": "Portfólio de Felipe Giacomini Cocco: APIs REST em Java e Spring Boot, com experiência em infraestrutura Linux."
+  },
+  "nav": {
     "projects": "Projetos",
-    "contact": "Contato"
+    "contact": "Contato",
+    "switchLang": "Read in English",
+    "langShort": "EN",
+    "label": "Principal",
+    "about": "Sobre"
   },
   "hero": {
-    "badge": "v2.0 Portfolio",
-    "title_part1": "Construindo experiências digitais",
-    "title_highlight": "incríveis",
-    "description": "Sou Felipe Giacomini, um desenvolvedor Full Stack focado em criar soluções escaláveis, combinando performance técnica e design intuitivo.",
-    "cta_projects": "Ver Projetos"
+    "title": "Felipe Giacomini, desenvolvedor",
+    "sentence": "Desenvolvedor back-end especializado em Java e Spring Boot, com experiência em infraestrutura Linux e Docker. Curso Sistemas de Informação na FHO e, no momento, estou me especializando em AWS e em testes com JUnit e Mockito.",
+    "cta": "Ver projetos",
+    "talk": "Vamos desenvolver algo juntos?",
+    "talkCta": "Entre em contato"
   },
-  "about": {
-    "aboutTitle": "Sobre & Tech",
-    "profileJson": {
-      "name": "nome",
-      "degreeTitle": "formacao",
-      "degree": "Sistemas de Informacao - FHO",
-      "goal": "Foco",
-      "place": "Brasil",
-      "bio": "Unindo a base acadêmica com experiência prática."
-    },
-    "tools": "Ferramentas & Dados"
-  },
-  "experience": {
-    "title": "Experiência",
-    "items": [
-      {
-        "role": "Desenvolvedor Freelance",
-        "company": "Autônomo",
-        "period": "Jan/2026 – Presente",
-        "bullets": [
-          "Desenvolvimento web Full Stack sob demanda, do levantamento de requisitos à entrega.",
-          "Arquitetura e implementação de sistemas utilizando Spring Boot e Next.js.",
-          "Gestão autônoma de clientes, definição de escopo e tomada de decisões técnicas."
-        ],
-        "techs": ["Spring Boot", "Next.js", "Java", "React"]
-      },
-      {
-        "role": "Estagiário de TI",
-        "company": "Brascabos Componentes Eletroeletrônicos",
-        "period": "Out/2024 – Jan/2026",
-        "bullets": [
-          "Suporte a usuários e manutenção da infraestrutura Windows/Linux.",
-          "Desenvolvimento de automações internas para otimização de processos do negócio."
-        ],
-        "techs": ["Linux", "Windows Server", "Automação"]
-      },
-      {
-        "role": "Suporte Técnico",
-        "company": "Marino Equipamentos para Informática",
-        "period": "Mar/2024 – Out/2024",
-        "bullets": [
-          "Manutenção e reparo de hardware.",
-          "Desenvolvimento de sistema de gestão interno em PHP com PostgreSQL."
-        ],
-        "techs": ["PHP", "PostgreSQL", "Hardware"]
-      }
-    ]
-  },
-  "education": {
-    "title": "Formação",
-    "semesterLabel": "{n}º semestre de {total}",
-    "currentSemLabel": "Semestre atual",
-    "daysLeftLabel": "Dias restantes",
-    "remainingSemsLabel": "Semestres restantes",
-    "degree": {
-      "degree": "Sistemas de Informação",
-      "institution": "FHO – Fundação Hermínio Ometto",
-      "period": "2024 – Dez/2027",
-      "description": "Graduação com ênfase em engenharia de software, bancos de dados, redes de computadores e análise de sistemas. Atualmente no 5º semestre, com foco em desenvolvimento Full Stack e entrega de projetos práticos."
-    },
-    "certifications": [
-      {
-        "name": "Linux Essentials",
-        "issuer": "Red Hat Academy",
-        "iconKey": "redhat",
-        "year": "2024",
-        "description": "Fundamentos do Linux: sistema de arquivos, shell scripting, permissões e gerenciamento de processos."
-      },
-      {
-        "name": "Cybersecurity Essentials",
-        "issuer": "Cisco Networking Academy",
-        "iconKey": "cisco",
-        "year": "2024",
-        "description": "Conceitos essenciais de cibersegurança: análise de ameaças, segurança de redes, criptografia e avaliação de vulnerabilidades."
-      },
-      {
-        "name": "Desenvolvimento Web Completo",
-        "issuer": "Udemy",
-        "iconKey": "udemy",
-        "year": "2023",
-        "description": "Curso completo de desenvolvimento web com HTML, CSS, JavaScript, Node.js e frameworks modernos."
-      }
-    ]
-  },
-  "projects": {
+  "work": {
     "title": "Projetos",
-    "backend": {
-      "title": "Sistemas de alta performance, modelagem de dados e regras de negócio complexas.",
-      "e_move_backend": {
-        "description": "Plataforma inteligente de recarga e otimizador de trajeto para veículos elétricos. Foco em sustentabilidade e eficiência."
+    "code": "Código",
+    "demo": "Ver online",
+    "private": "Repositório privado, projeto de cliente",
+    "projects": [
+      {
+        "id": "emove",
+        "name": "e-Move",
+        "meta": "API Spring Boot",
+        "year": "2025",
+        "desc": "Planejador de rotas para carros elétricos. A API cuida do login com JWT em cookie HttpOnly, de uma garagem com 29 modelos, do cálculo de autonomia e das integrações com LocationIQ e OpenChargeMap.",
+        "stack": "Java 17, Spring Boot 3, Spring Security, JPA, MariaDB, Next.js",
+        "code": "https://github.com/felipegco/e-move-backend",
+        "demo": "https://e-move-frontend.vercel.app/",
+        "alt": "Página inicial do e-Move: o título O Futuro da Mobilidade Elétrica sobre a foto de um painel de carro"
       },
-      "clinicare_backend": {
-        "description": "API RESTful para gestão de pacientes e consultas clínicas. Arquitetura em camadas e segurança integrada."
+      {
+        "id": "greentech",
+        "name": "GreenTech ERP",
+        "meta": "API Django, em equipe",
+        "year": "2026",
+        "desc": "ERP agrícola feito em equipe na FHO: estufas, lotes de plantio, colheitas, estoque e registros de clima, com acesso controlado por cargo. O ambiente inteiro sobe com um Docker Compose.",
+        "stack": "Python, Django REST Framework, PostgreSQL 16, JWT, Docker Compose",
+        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend",
+        "alt": "Trecho do diagrama de classes do GreenTech: User, Funcionario, LotePlantio, Estoque e Colheita"
+      },
+      {
+        "id": "triagem",
+        "name": "Triagem com IA",
+        "meta": "Automação para clínica",
+        "year": "2026",
+        "desc": "Lembretes de consulta por WhatsApp para uma clínica odontológica. Um modelo de linguagem lê a resposta do paciente e decide entre confirmar e cancelar no sistema de agenda. Quando a resposta é ambígua, a conversa vai para uma pessoa.",
+        "stack": "n8n, Groq API, Ollama com Llama 3.1, Redis",
+        "alt": "Conversa de WhatsApp com três respostas de pacientes e a decisão do modelo ao lado de cada uma"
+      },
+      {
+        "id": "clinicare",
+        "name": "CliniCare",
+        "meta": "API Spring Boot e React",
+        "year": "2025",
+        "desc": "Agendamento para clínicas odontológicas. API REST em camadas com Spring Security e documentação OpenAPI, e um site em React com login para os funcionários.",
+        "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
+        "code": "https://github.com/felipegco/clinicare-backend",
+        "demo": "https://felipegco.github.io/clinicare-frontend/",
+        "alt": "Site da CliniCare: o título A jornada para o seu sorriso perfeito começa aqui ao lado da foto da recepção"
+      },
+      {
+        "id": "mesas",
+        "name": "Reserva de Mesas",
+        "meta": "Site Next.js para cliente",
+        "year": "2026",
+        "desc": "Mapa público de mesas livres e reservadas de um espaço de eventos, separado por área: pátio, espaço família, salão central e quiosque. Site estático publicado na Vercel.",
+        "stack": "Next.js, React, Tailwind CSS, Vercel",
+        "code": "https://github.com/felipegco/agendamento-mesas",
+        "demo": "https://agendamento-mesas.vercel.app/",
+        "alt": "Página Consulte as mesas disponíveis com a contagem de mesas livres por área"
+      },
+      {
+        "id": "notch",
+        "name": "Simple Notch",
+        "meta": "App macOS em Swift",
+        "year": "2026",
+        "desc": "Um app mínimo que faz o notch do MacBook se comportar como a Dynamic Island do iPhone: compacto, discreto e sem recursos sobrando.",
+        "stack": "Swift, SwiftUI, macOS",
+        "code": "https://github.com/felipegco/simple-notch",
+        "alt": "Desenho do notch de um MacBook expandido mostrando a música que está tocando"
+      },
+      {
+        "id": "atoll",
+        "name": "Atoll",
+        "meta": "Contribuição open source",
+        "year": "2026",
+        "desc": "Contribuo com o Atoll, que transforma o notch do MacBook numa superfície de mídia, informações do sistema e atalhos, com animações nativas em SwiftUI.",
+        "stack": "Swift, SwiftUI",
+        "code": "https://github.com/Ebullioscopic/Atoll",
+        "alt": "Logotipo do Atoll"
       }
-    },
-    "frontend": {
-      "title": "Aplicações com foco em experiência do usuário.",
-      "clinicare_frontend": "Uma landing page completa com informações sobre serviços e especialistas, bem como um sistema de autenticação de usuário dinâmico e abrangente para os funcionários."
-    },
-    "nativeApps": {
-      "title": "Aplicativos Nativos",
-      "description": "Aplicativos desktop nativos desenvolvidos com foco em alta performance, experiência do usuário fluida e integração profunda com o sistema operacional.",
-      "simpleNotch": "Inspirado em outros grandes projetos open-source para o notch, a ideia central aqui é o minimalismo extremo. Ele faz exatamente o que deve fazer: imitar perfeitamente o comportamento nativo, compacto e não intrusivo da Dynamic Island do iOS no seu Mac, sem excessos."
-    },
-    "contributions": {
-      "title": "Contribuições",
-      "description": "Minhas colaborações na comunidade open source.",
-      "atoll": "O Atoll transforma o notch do MacBook em uma superfície de comando focada para mídia, informações do sistema e utilitários rápidos. Ele permanece discreto até ser necessário, expandindo-se com animações nativas e responsivas do SwiftUI."
-    },
-    "badges": {
-      "concluded": "Concluído",
-      "developing": "Em Desenvolvimento",
-      "updating": "Em Atualização",
-      "archived": "Arquivado"
+    ],
+    "triage": [
+      {
+        "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã",
+        "label": "Confirmar"
+      },
+      {
+        "msg": "Oi, não vou conseguir ir, depois eu remarco",
+        "label": "Cancelar"
+      },
+      {
+        "msg": "A consulta é com a mesma doutora da última vez?",
+        "label": "Dúvida, vai para uma pessoa"
+      }
+    ],
+    "notchSong": "Tocando agora",
+    "notchArtist": "Simple Notch",
+    "inside": "Ver por dentro",
+    "slide": "Ver o projeto {n} de {total}",
+    "track": "Projetos, arraste para o lado"
+  },
+  "console": {
+    "title": "Teste a API do e-Move",
+    "lead": "Escolha um carro do catálogo real do e-Move e o nível da bateria. A conta é a mesma do VeiculoService no back-end: autonomia total vezes o nível da bateria, dividido por 100.",
+    "vehicle": "Carro",
+    "battery": "Bateria",
+    "result": "de autonomia estimada",
+    "request": "Requisição",
+    "response": "Resposta 200 OK",
+    "decimal": ","
+  },
+  "journey": {
+    "title": "Trajetória",
+    "note": "Experiência, formação e cursos",
+    "groups": [
+      {
+        "name": "Experiência",
+        "items": [
+          {
+            "name": "Desenvolvedor",
+            "when": "jan/2026 – hoje",
+            "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega.",
+            "tools": "SPRING BOOT · NEXT.JS"
+          },
+          {
+            "name": "TI, Brascabos",
+            "when": "out/2024 – jan/2026",
+            "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas.",
+            "tools": "BASH · POWERSHELL · LINUX · WINDOWS SERVER · ACTIVE DIRECTORY",
+            "details": [
+              "Desenvolvi scripts de automação (Bash e PowerShell) para rotinas administrativas, backups e integração entre sistemas, reduzindo tarefas manuais repetitivas da equipe.",
+              "Administrei servidores e estações Linux e Windows: implantação, padronização e manutenção do parque.",
+              "Gerenciei contas, permissões e políticas de segurança no Active Directory.",
+              "Investiguei e resolvi incidentes em sistemas de produção a partir de análise de logs e monitoramento de rede, identificando a causa raiz."
+            ]
+          },
+          {
+            "name": "Suporte técnico, Marino",
+            "when": "mar/2024 – out/2024",
+            "desc": "Manutenção de hardware e um sistema de gestão interno em PHP com PostgreSQL.",
+            "tools": "PHP · POSTGRESQL · HARDWARE",
+            "details": [
+              "Dei manutenção e refatorei sistema interno integrado a banco PostgreSQL, corrigindo falhas e implementando melhorias solicitadas pelos usuários.",
+              "Diagnóstico de hardware, instalação e configuração de sistemas operacionais e softwares corporativos."
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Formação",
+        "items": [
+          {
+            "name": "Sistemas de Informação, FHO",
+            "when": "2024 – dez/2027",
+            "desc": "{n}º de {total} semestres. Engenharia de software, bancos de dados e redes."
+          }
+        ]
+      },
+      {
+        "name": "Cursos",
+        "items": [
+          {
+            "name": "Linux Essentials",
+            "when": "2024",
+            "desc": "Red Hat Academy: sistema de arquivos, shell, permissões e processos."
+          },
+          {
+            "name": "Cybersecurity Essentials",
+            "when": "2024",
+            "desc": "Cisco Networking Academy: ameaças, segurança de redes e criptografia."
+          },
+          {
+            "name": "Desenvolvimento Web Completo",
+            "when": "2023",
+            "desc": "Udemy: HTML, CSS, JavaScript e Node.js."
+          }
+        ]
+      }
+    ],
+    "more": "Ver detalhes",
+    "total": {
+      "title": "Total",
+      "time": "Tempo em TI",
+      "semester": "Semestre FHO",
+      "studying": "Estudando",
+      "studyingValue": [
+        "AWS Cloud Practitioner",
+        "JUnit e Mockito"
+      ],
+      "year": [
+        "ano",
+        "anos"
+      ],
+      "month": [
+        "mês",
+        "meses"
+      ],
+      "and": "e",
+      "download": "Baixar currículo (PDF)",
+      "printer": "Impressora do currículo"
     }
+  },
+  "contact": {
+    "title": "Contato",
+    "line1": "Tem um projeto em mente?",
+    "line2": "Me conte por aqui.",
+    "placeholder": "Escreva sua mensagem",
+    "submit": "Enviar mensagem",
+    "after": "Abre o seu app de e-mail com a mensagem já escrita.",
+    "subject": "Contato pelo portfólio",
+    "email": "E-mail",
+    "linkedin": "LinkedIn",
+    "github": "GitHub",
+    "resume": "Currículo",
+    "resumeLink": "Baixar PDF"
+  },
+  "footer": {
+    "about": "Sobre",
+    "projects": "Projetos",
+    "journey": "Trajetória",
+    "contact": "Contato",
+    "rights": "Felipe Giacomini Cocco",
+    "top": "Voltar ao topo",
+    "code": "Código no GitHub"
+  },
+  "request": {
+    "label": "A viagem de uma requisição do e-Move",
+    "hint": "Role para seguir uma requisição real do e-Move, do navegador ao banco e de volta.",
+    "route": "Caminho da requisição",
+    "screen": {
+      "list": "Meus veículos",
+      "battery": "Bateria",
+      "range": "Autonomia estimada",
+      "save": "Salvar",
+      "saved": "Salvo",
+      "decimal": ","
+    },
+    "stops": [
+      {
+        "id": "browser",
+        "name": "Navegador"
+      },
+      {
+        "id": "container",
+        "name": "Container",
+        "title": "Um container em Linux",
+        "text": "O PUT /api/veiculos/1/bateria entra pela porta 8080 de um container Amazon Corretto 17 em Alpine, que roda sem root."
+      },
+      {
+        "id": "controller",
+        "name": "Controller",
+        "title": "Filtro e controller",
+        "text": "O Spring Security confere a origem pelo CORS antes de liberar a rota. O VeiculoController lê o token JWT para saber quem está pedindo e responde 401 quando ele falta."
+      },
+      {
+        "id": "service",
+        "name": "Service",
+        "title": "A regra de negócio",
+        "text": "O VeiculoService recusa níveis fora de 0 a 100 e calcula a autonomia. Um Tesla Model 3 faz 491 km com a bateria cheia; com 80%, sobram 392,8 km."
+      },
+      {
+        "id": "database",
+        "name": "Banco",
+        "title": "Gravado numa transação",
+        "text": "Com @Transactional, o repositório JPA busca a ligação entre usuário e veículo no MariaDB e grava o novo nível. Se algo falhar no meio, nada fica salvo pela metade."
+      },
+      {
+        "id": "response",
+        "name": "Resposta",
+        "title": "200 OK de volta",
+        "text": "O VeiculoDTO volta como JSON e a tela do e-Move mostra a nova autonomia. Mais abaixo, você mesmo manda essa requisição com outro carro.",
+        "link": "Testar a API"
+      }
+    ]
+  },
+  "intro": {
+    "label": "Introdução: do hardware à API",
+    "hint": "Role para ver como cheguei até aqui.",
+    "role": "Desenvolvedor back-end",
+    "next": "Ver projetos",
+    "stops": [
+      {
+        "title": "Comecei pelo hardware",
+        "text": "Inicialmente eu montava e consertava máquinas. Foi lá que escrevi meu primeiro sistema de verdade: uma gestão interna em PHP com PostgreSQL.",
+        "out": "→ 3 linhas"
+      },
+      {
+        "title": "Depois vieram os servidores",
+        "text": "Passei mais de um ano entre Linux, Windows Server e Active Directory, lendo logs de incidentes e tirando tarefas repetidas das mãos da equipe com scripts.",
+        "out": "✓ conta criada em 4s (antes: 15 min à mão)"
+      },
+      {
+        "title": "Hoje, APIs que rodam bem",
+        "text": "",
+        "mark": "como ela vai rodar no servidor"
+      }
+    ],
+    "console": {
+      "label": "Console da API: escolha um endpoint e execute",
+      "endpoint": "Endpoint",
+      "run": "Executar",
+      "running": "Executando…",
+      "hint": "$ Escolha um endpoint e clique em Executar…",
+      "endpoints": [
+        {
+          "path": "/api/sobre",
+          "body": {
+            "nome": "Felipe Giacomini Cocco",
+            "cargo": "Desenvolvedor back-end",
+            "local": "São Paulo, Brasil",
+            "freelance_desde": "2026-01",
+            "disponivel": true
+          }
+        },
+        {
+          "path": "/api/stack",
+          "body": {
+            "back_end": [
+              "Java 17",
+              "Spring Boot (Web, Data JPA, Security, Validation)",
+              "APIs REST",
+              "JWT",
+              "Maven",
+              "Lombok",
+              "Python (Django REST Framework)"
+            ],
+            "banco_de_dados": [
+              "SQL",
+              "PostgreSQL",
+              "MariaDB/MySQL"
+            ],
+            "infra_devops": [
+              "Linux",
+              "Docker",
+              "Docker Compose",
+              "Git/GitHub",
+              "Bash",
+              "PowerShell",
+              "Windows Server",
+              "Active Directory"
+            ],
+            "front_end": [
+              "JavaScript",
+              "React",
+              "Next.js",
+              "Tailwind CSS"
+            ]
+          }
+        },
+        {
+          "path": "/api/formacao",
+          "body": {
+            "curso": "Sistemas de Informação",
+            "instituicao": "FHO",
+            "conclusao": "2027-12",
+            "estudando": [
+              "AWS Cloud Practitioner",
+              "JUnit e Mockito"
+            ]
+          }
+        },
+        {
+          "path": "/api/contato",
+          "body": {
+            "email": "fgiacominicocco@gmail.com",
+            "linkedin": "linkedin.com/in/felipegcocco",
+            "github": "github.com/felipegco"
+          }
+        }
+      ]
+    }
+  },
+  "project": {
+    "back": "Voltar para todos os projetos",
+    "backLabel": "Outros projetos"
   }
 }
