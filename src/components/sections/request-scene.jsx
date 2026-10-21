@@ -79,8 +79,9 @@ function Code({ id }) {
     );
 }
 
-// A viagem de uma requisição real do e-Move pelo back-end, parada por parada
-export default function RequestScene({ dict }) {
+// A viagem de uma requisição real do e-Move pelo back-end, parada por parada.
+// Abre a página do projeto: o título dela é o nome do e-Move.
+export default function RequestScene({ dict, header }) {
     const { request, work } = dict;
     const emove = work.projects.find((p) => p.id === 'emove');
     const steps = request.stops;
@@ -95,11 +96,13 @@ export default function RequestScene({ dict }) {
             holdStacked={3.5}
             route={steps}
             routeLabel={request.route}
+            header={header}
+            backdrop={<img src="/images/work/emove.jpg" alt="" width="1600" height="1000" />}
             className="request"
         >
             <article className="scene3d-beat" id={`stop-${steps[0].id}`}>
                 <div className="scene3d-copy">
-                    <h2 className="project-title">{emove.name}</h2>
+                    <h1 className="project-title">{emove.name}</h1>
                     <p className="project-meta">{emove.meta}, {emove.year}</p>
                     <p>{emove.desc}</p>
                     <p className="project-stack">{emove.stack}</p>

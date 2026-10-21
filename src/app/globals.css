@@ -345,6 +345,37 @@ pre {
   }
 }
 
+/* The picture behind the 3D until the scene is ready (also the view transition's landing) */
+.scene3d-backdrop {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
+    display: block;
+    position: absolute;
+    inset: 0;
+    transition: opacity 1200ms var(--ease-out);
+  }
+
+  html.js .scene3d.is-ready .scene3d-backdrop {
+    opacity: 0;
+  }
+
+  .scene3d-backdrop img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
+  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
+    bottom: 50%;
+  }
+}
+
 /* Live: the stage holds for five screens while the request travels */
 @media (prefers-reduced-motion: no-preference) {
   html.js .scene3d:not(.is-rest) {
@@ -572,12 +603,14 @@ pre {
   white-space: nowrap;
 }
 
-.work-name[aria-pressed="true"] {
+.work-name[aria-pressed="true"],
+.work-name[aria-current] {
   color: var(--ink);
   transform: translateX(14px);
 }
 
-.work-name[aria-pressed="true"] span {
+.work-name[aria-pressed="true"] span,
+.work-name[aria-current] span {
   color: var(--accent);
 }
 
@@ -788,6 +821,74 @@ pre {
 
 @keyframes wave {
   to { transform: scaleY(0.35); }
+}
+
+/* Names that open a project page */
+a.work-name {
+  text-decoration: none;
+}
+
+/* ── Curtain: the projects rise over the pinned intro ──────────────────── */
+/* the intro's bar and words fade at the pace of the rising projects, so nothing readable is covered */
+.intro .scene3d-stage > .topbar,
+.intro .scene3d-beats {
+  opacity: calc(1 - var(--outro, 0) * 1.6);
+}
+
+.work {
+  position: relative;
+  z-index: 2;
+  background: var(--ground);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .intro:not(.is-rest) + .work {
+    margin-top: -100svh;
+  }
+}
+
+/* ── Project page ───────────────────────────────────────────────────────── */
+.project-back {
+  padding: 120px var(--m);
+}
+
+.project-back a {
+  font-size: var(--step-display);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.project-back a:hover {
+  color: var(--accent);
+}
+
+/* ── View transition: the e-Move frame grows into its page ──────────────── */
+@view-transition {
+  navigation: auto;
+}
+
+.frame-item.is-active[data-project="emove"],
+.media-shot[data-project="emove"],
+.project-page .scene3d-backdrop {
+  view-transition-name: emove-media;
+}
+
+::view-transition-group(emove-media) {
+  animation-duration: 850ms;
+  animation-timing-function: var(--ease-expo);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 420ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
 }
 
 /* ── Console: the live e-Move request ───────────────────────────────────── */
@@ -1251,7 +1352,8 @@ html.js .hero-title .line + .line {
     cursor: default;
   }
 
-  .work-name[aria-pressed="true"] {
+  .work-name[aria-pressed="true"],
+  .work-name[aria-current] {
     transform: none;
   }
 

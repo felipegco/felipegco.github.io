@@ -114,7 +114,8 @@
       }
     ],
     "notchSong": "Tocando agora",
-    "notchArtist": "Simple Notch"
+    "notchArtist": "Simple Notch",
+    "inside": "Ver por dentro"
   },
   "console": {
     "title": "Teste a API do e-Move",
@@ -260,7 +261,7 @@
     "label": "Introdução: do hardware à API",
     "hint": "Role para ver como cheguei até aqui.",
     "role": "Desenvolvedor back-end",
-    "next": "Seguir uma requisição",
+    "next": "Ver projetos",
     "stops": [
       {
         "title": "Comecei pelo hardware",
@@ -276,5 +277,9 @@
         "mark": "como ela vai rodar no servidor"
       }
     ]
+  },
+  "project": {
+    "back": "Voltar para todos os projetos",
+    "backLabel": "Outros projetos"
   }
 }
