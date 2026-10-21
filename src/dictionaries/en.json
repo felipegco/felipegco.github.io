@@ -137,17 +137,30 @@
           {
             "name": "Freelance developer",
             "when": "Jan 2026 – now",
-            "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery."
+            "desc": "Custom systems with Spring Boot and Next.js, from requirements to delivery.",
+            "tools": "SPRING BOOT · NEXT.JS"
           },
           {
             "name": "IT, Brascabos",
             "when": "Oct 2024 – Jan 2026",
-            "desc": "Windows and Linux infrastructure, user support and internal automation."
+            "desc": "Windows and Linux infrastructure, user support and internal automation.",
+            "tools": "BASH · POWERSHELL · LINUX · WINDOWS SERVER · ACTIVE DIRECTORY",
+            "details": [
+              "Wrote automation scripts (Bash and PowerShell) for admin routines, backups and system integration, cutting the team’s repetitive manual work.",
+              "Ran Linux and Windows servers and workstations: rollout, standardisation and upkeep of the fleet.",
+              "Managed accounts, permissions and security policies in Active Directory.",
+              "Investigated and fixed incidents in production systems through log analysis and network monitoring, finding the root cause."
+            ]
           },
           {
             "name": "Technical support, Marino",
             "when": "Mar 2024 – Oct 2024",
-            "desc": "Hardware maintenance and an internal management system in PHP with PostgreSQL."
+            "desc": "Hardware maintenance and an internal management system in PHP with PostgreSQL.",
+            "tools": "PHP · POSTGRESQL · HARDWARE",
+            "details": [
+              "Maintained and refactored an internal system backed by PostgreSQL, fixing bugs and shipping improvements users asked for.",
+              "Hardware diagnostics, plus installing and configuring operating systems and business software."
+            ]
           }
         ]
       },
@@ -182,10 +195,28 @@
         ]
       }
     ],
-    "closing": [
-      "Studying now: AWS Cloud Practitioner",
-      "and testing with JUnit and Mockito"
-    ]
+    "more": "See details",
+    "total": {
+      "title": "Total",
+      "time": "Time in IT",
+      "semester": "FHO semester",
+      "studying": "Studying",
+      "studyingValue": [
+        "AWS Cloud Practitioner",
+        "JUnit and Mockito"
+      ],
+      "year": [
+        "year",
+        "years"
+      ],
+      "month": [
+        "month",
+        "months"
+      ],
+      "and": "",
+      "download": "Download résumé (PDF)",
+      "printer": "Résumé printer"
+    }
   },
   "contact": {
     "title": "Contact",

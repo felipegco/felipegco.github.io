@@ -137,17 +137,30 @@
           {
             "name": "Desenvolvedor freelance",
             "when": "jan/2026 – hoje",
-            "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega."
+            "desc": "Sistemas sob demanda com Spring Boot e Next.js, do levantamento de requisitos à entrega.",
+            "tools": "SPRING BOOT · NEXT.JS"
           },
           {
             "name": "TI, Brascabos",
             "when": "out/2024 – jan/2026",
-            "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas."
+            "desc": "Infraestrutura Windows e Linux, suporte a usuários e automações internas.",
+            "tools": "BASH · POWERSHELL · LINUX · WINDOWS SERVER · ACTIVE DIRECTORY",
+            "details": [
+              "Desenvolvi scripts de automação (Bash e PowerShell) para rotinas administrativas, backups e integração entre sistemas, reduzindo tarefas manuais repetitivas da equipe.",
+              "Administrei servidores e estações Linux e Windows: implantação, padronização e manutenção do parque.",
+              "Gerenciei contas, permissões e políticas de segurança no Active Directory.",
+              "Investiguei e resolvi incidentes em sistemas de produção a partir de análise de logs e monitoramento de rede, identificando a causa raiz."
+            ]
           },
           {
             "name": "Suporte técnico, Marino",
             "when": "mar/2024 – out/2024",
-            "desc": "Manutenção de hardware e um sistema de gestão interno em PHP com PostgreSQL."
+            "desc": "Manutenção de hardware e um sistema de gestão interno em PHP com PostgreSQL.",
+            "tools": "PHP · POSTGRESQL · HARDWARE",
+            "details": [
+              "Dei manutenção e refatorei sistema interno integrado a banco PostgreSQL, corrigindo falhas e implementando melhorias solicitadas pelos usuários.",
+              "Diagnóstico de hardware, instalação e configuração de sistemas operacionais e softwares corporativos."
+            ]
           }
         ]
       },
@@ -182,10 +195,28 @@
         ]
       }
     ],
-    "closing": [
-      "Estudando agora: AWS Cloud Practitioner",
-      "e testes com JUnit e Mockito"
-    ]
+    "more": "Ver detalhes",
+    "total": {
+      "title": "Total",
+      "time": "Tempo em TI",
+      "semester": "Semestre FHO",
+      "studying": "Estudando",
+      "studyingValue": [
+        "AWS Cloud Practitioner",
+        "JUnit e Mockito"
+      ],
+      "year": [
+        "ano",
+        "anos"
+      ],
+      "month": [
+        "mês",
+        "meses"
+      ],
+      "and": "e",
+      "download": "Baixar currículo (PDF)",
+      "printer": "Impressora do currículo"
+    }
   },
   "contact": {
     "title": "Contato",

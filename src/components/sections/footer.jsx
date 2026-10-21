@@ -18,7 +18,7 @@ export default function Footer({ dict, base = '' }) {
             </div>
 
             <div className="footer-name">
-                <p>Felipe Cocco</p>
+                <p>Felipe Giacomini</p>
                 <small>
                     &copy; {new Date().getFullYear()} <a href="https://github.com/felipegco/felipegco.github.io" target="_blank" rel="noopener noreferrer">{dict.rights}</a>
                 </small>

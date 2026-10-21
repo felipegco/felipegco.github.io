@@ -1214,6 +1214,7 @@ a.work-name {
 }
 
 .journey-sheet {
+  position: relative;
   /* taste-skill-ignore: mask shape for the scalloped edge, not a visible gradient */
   --scallop: radial-gradient(circle at 10px 0, #0000 8px, #000 8.5px) top / 20px 51% repeat-x, /* taste-skill-ignore */
     radial-gradient(circle at 10px 100%, #0000 8px, #000 8.5px) bottom / 20px 51% repeat-x; /* taste-skill-ignore: mask shape for the scalloped edge, not a visible gradient */
@@ -1281,9 +1282,222 @@ a.work-name {
   line-height: 1.5;
 }
 
-.journey-closing {
-  margin: 56px 0 0;
+.journey-tools {
+  margin: 6px 0 0;
+  color: var(--sheet-muted);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.journey-details summary {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.journey-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.journey-details summary:hover {
+  color: var(--accent);
+}
+
+.journey-details ul {
+  max-width: none;
+  margin: 10px 0 0;
+  padding-left: 1.1em;
+  list-style: disc;
+}
+
+.journey-details li {
+  color: var(--sheet-muted);
+  font-size: var(--step-small);
+  line-height: 1.5;
+}
+
+.journey-group .journey-details li + li {
+  margin-top: 6px;
+}
+
+/* the receipt's foot: totals, then the barcode that downloads the résumé */
+.journey-total {
+  max-width: 480px;
+  margin: 56px auto 0;
+  padding-top: 36px;
+  border-top: 2px dashed var(--sheet-muted);
+  text-align: left;
+}
+
+.journey-total h3 {
+  margin: 0 0 18px;
+  font-size: var(--step-lead);
+  letter-spacing: -0.02em;
+  text-align: center;
+}
+
+.journey-line {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 12px 0 0;
+  font-size: var(--step-small);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.journey-line > span:first-child {
+  flex: none;
+}
+
+.journey-line > span:last-child {
+  margin-left: auto;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.journey-dots {
+  flex: 1;
+  min-width: 16px;
+  border-bottom: 2px dotted var(--sheet-muted);
+}
+
+.journey-meter {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 10px;
+  margin-left: 4px;
+  border: 1.5px solid currentColor;
+}
+
+.journey-meter::after {
+  content: "";
+  position: absolute;
+  inset: 1px auto 1px 1px;
+  width: calc(var(--done) * (100% - 2px));
+  background: currentColor;
+}
+
+.journey-download {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  margin-top: 40px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.journey-barcode {
+  width: min(300px, 100%);
+  height: 56px;
+  fill: currentColor;
+  transition: transform var(--t-ui) var(--ease-out);
+}
+
+.journey-download span {
+  font-size: var(--step-small);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.journey-download:hover {
+  color: var(--accent);
+}
+
+.journey-download:hover .journey-barcode {
+  transform: scaleY(1.06);
+}
+
+.journey-download:active .journey-barcode {
+  transform: scaleY(0.96);
+}
+
+/* The printer: only while the receipt prints (journey.jsx decides it fits the screen) */
+.journey-printer {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.js .journey.is-printing {
+    height: calc(3 * 100svh);
+    padding: 0;
+  }
+
+  html.js .journey.is-printing .journey-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  html.js .journey.is-printing .journey-printer {
+    display: block;
+    position: relative;
+    z-index: 2;
+    flex: none;
+    width: min(760px, calc(100% - 2 * var(--m)));
+    height: 64px;
+    margin-bottom: 20px;
+    background: var(--sheet-ink);
+    box-shadow: 0 -14px 24px -12px rgb(0 0 0 / 0.5);
+  }
+
+  .journey-slot {
+    position: absolute;
+    left: 28px;
+    right: 28px;
+    top: 12px;
+    height: 6px;
+    background: #000;
+  }
+
+  .journey-led {
+    position: absolute;
+    bottom: 14px;
+    right: 28px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #86efac;
+  }
+
+  html.js .journey.is-printing .journey-feed {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    margin-bottom: -15px;
+    overflow: hidden;
+  }
+
+  /* a bit tighter while printing, so a block fits a 768px laptop between the top and the slot */
+  html.js .journey.is-printing .journey-sheet {
+    padding-top: 40px;
+    will-change: transform;
+  }
+
+  html.js .journey.is-printing .journey-sheet h2 {
+    font-size: calc(var(--step-display) * 0.85);
+  }
+
+  html.js .journey.is-printing .journey-group {
+    margin-top: 32px;
+  }
+
+  html.js .journey.is-printing .journey-group h3 {
+    margin-bottom: 16px;
+  }
 }
 
 /* ── Contact: one field ─────────────────────────────────────────────────── */
@@ -1402,7 +1616,7 @@ a.work-name {
 .footer-name p {
   margin: 0;
   color: #ffffff;
-  font-size: var(--step-monument);
+  font-size: var(--step-small);
   line-height: 0.9;
   letter-spacing: -0.06em;
   font-weight: 800;
