@@ -29,7 +29,7 @@ export default async function EmovePage({ params }) {
                     <a href={`/${lang}#projects`}>{dict.project.back}</a>
                 </nav>
             </main>
-            <Footer dict={dict.footer} base={`/${lang}`} top="emove" />
+            <Footer dict={dict.footer} base={`/${lang}`} top="emove" builtAt={new Date().toISOString()} />
             <RevealObserver />
         </>
     );
