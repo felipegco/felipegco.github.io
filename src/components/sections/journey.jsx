@@ -2,13 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { loadMotion } from '@/lib/motion';
+import { useToday } from '@/lib/use-today';
 
-// Calendário acadêmico da FHO: dois semestres por ano, de mar/2024 a dez/2027
-const SEMESTER_STARTS = ['2024-03-01', '2024-08-01', '2025-03-01', '2025-08-01', '2026-03-01', '2026-08-01', '2027-03-01', '2027-08-01'];
+// Calendário acadêmico da FHO: dois semestres por ano, de mar/2024 a dez/2027.
+// Datas em UTC: build e navegador precisam chegar ao mesmo semestre (use-today.js)
+const SEMESTER_STARTS = [[2024, 2], [2024, 7], [2025, 2], [2025, 7], [2026, 2], [2026, 7], [2027, 2], [2027, 7]]
+    .map(([y, m]) => Date.UTC(y, m, 1));
 const TOTAL_SEMS = SEMESTER_STARTS.length;
 
-// O primeiro emprego em TI (Marino): o "tempo em TI" do cupom conta daqui
-const IT_SINCE = new Date('2024-03-01');
+// O primeiro emprego em TI (Marino, mar/2024): o "tempo em TI" do cupom conta daqui
+const IT_SINCE = { year: 2024, month: 2 };
 
 // Espaço em branco que sai junto com cada bloco, entre a última linha e a fenda
 const MARGIN = 32;
@@ -16,25 +19,23 @@ const MARGIN = 32;
 // O código de barras do cupom baixa o currículo (public/resume.pdf)
 const RESUME = '/resume.pdf';
 
-function useCurrentSemester() {
+function useCurrentSemester(today) {
     return useMemo(() => {
-        const now = new Date();
-        const started = SEMESTER_STARTS.filter((d) => new Date(d) <= now).length;
+        const started = SEMESTER_STARTS.filter((start) => start <= today.getTime()).length;
         return Math.min(Math.max(started, 1), TOTAL_SEMS);
-    }, []);
+    }, [today]);
 }
 
-function useTimeInIT({ year, month, and }) {
+function useTimeInIT(today, { year, month, and }) {
     return useMemo(() => {
-        const now = new Date();
-        const months = (now.getFullYear() - IT_SINCE.getFullYear()) * 12 + now.getMonth() - IT_SINCE.getMonth();
+        const months = (today.getUTCFullYear() - IT_SINCE.year) * 12 + today.getUTCMonth() - IT_SINCE.month;
         const y = Math.floor(months / 12);
         const m = months % 12;
         const parts = [];
         if (y) parts.push(`${y} ${year[y === 1 ? 0 : 1]}`);
         if (m || !y) parts.push(`${m} ${month[m === 1 ? 0 : 1]}`);
         return parts.join(and ? ` ${and} ` : ' ');
-    }, [year, month, and]);
+    }, [today, year, month, and]);
 }
 
 // Barras com larguras fixas, geradas a partir do texto: o mesmo desenho em todo carregamento
@@ -68,9 +69,11 @@ function Line({ label, value }) {
 // Cada parada do paginador imprime um bloco: experiência, formação e cursos, o total.
 // O cabeçalho sai primeiro; o bloco novo aparece logo acima da fenda e os anteriores sobem. Se um bloco não couber na tela (celular, janela baixa),
 // sem script ou com movimento reduzido, o cupom fica inteiro e parado, como antes.
-export default function Journey({ dict }) {
-    const semester = useCurrentSemester();
-    const timeInIT = useTimeInIT(dict.total);
+// builtAt: a data do build, vinda da página (use-today.js)
+export default function Journey({ dict, builtAt }) {
+    const today = useToday(builtAt);
+    const semester = useCurrentSemester(today);
+    const timeInIT = useTimeInIT(today, dict.total);
     const sectionRef = useRef(null);
     const feedRef = useRef(null);
     const sheetRef = useRef(null);

@@ -1,13 +1,16 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useToday } from '@/lib/use-today';
 
 // O nome atravessa a faixa azul de ponta a ponta, e embaixo dele uma linha fina
 // com a navegação, o © e o "voltar ao topo". Na página inicial ele fecha o último
 // slide junto com o Contato: a altura dele vira --footer-h para o Contato ocupar o resto da tela.
 // base: vazio na página inicial; nas páginas de projeto, o caminho dela (/pt)
 // top: a seção do topo desta página, para onde o "voltar ao topo" desliza
-export default function Footer({ dict, base = '', top = 'about' }) {
+// builtAt: a data do build, vinda da página, para o ano do © (use-today.js)
+export default function Footer({ dict, base = '', top = 'about', builtAt }) {
+    const year = useToday(builtAt).getUTCFullYear();
     const ref = useRef(null);
     const nameRef = useRef(null);
 
@@ -51,7 +54,7 @@ export default function Footer({ dict, base = '', top = 'about' }) {
                     <li><a href={`${base}#contact`}>{dict.contact}</a></li>
                 </ul>
                 <small>
-                    &copy; {new Date().getFullYear()} {dict.rights} ·{' '}
+                    &copy; {year} {dict.rights} ·{' '}
                     <a href="https://github.com/felipegco/felipegco.github.io" target="_blank" rel="noopener noreferrer">{dict.code}</a>
                 </small>
                 <a href={`#${top}`} className="footer-up">↑ {dict.top}</a>

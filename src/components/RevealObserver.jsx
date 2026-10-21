@@ -8,6 +8,10 @@ import { useEffect } from 'react';
 // Sem JavaScript a classe "js" não existe e tudo aparece normalmente.
 export default function RevealObserver() {
     useEffect(() => {
+        // Rede de segurança: o script do <head> põe "js" no <html>, mas se a hidratação
+        // falhar o React redesenha a raiz e a classe some, levando junto todo o layout animado
+        document.documentElement.classList.add('js');
+
         const pending = new Set(document.querySelectorAll('[data-reveal]'));
         const reveal = (el) => {
             el.classList.add('in');
