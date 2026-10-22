@@ -242,51 +242,50 @@
     "code": "Source on GitHub"
   },
   "request": {
-    "label": "The journey of an e-Move request",
-    "hint": "Scroll to follow a real e-Move request from the browser to the database and back.",
-    "route": "Request path",
+    "label": "How e-Move plans a trip",
+    "hint": "Scroll to plan an electric car trip with e-Move, from the battery to the charging station.",
+    "route": "Planning steps",
     "screen": {
-      "list": "My vehicles",
+      "title": "Plan a trip",
       "battery": "Battery",
       "range": "Estimated range",
-      "save": "Save",
-      "saved": "Saved",
+      "action": "Get route",
       "decimal": "."
     },
     "stops": [
       {
-        "id": "browser",
-        "name": "Browser"
+        "id": "app",
+        "name": "e-Move"
       },
       {
-        "id": "container",
-        "name": "Container",
-        "title": "A container on Linux",
-        "text": "PUT /api/veiculos/1/bateria arrives on port 8080 of an Amazon Corretto 17 container on Alpine, running without root."
+        "id": "range",
+        "name": "Range",
+        "title": "How far the car goes",
+        "text": "It all starts in the garage. VeiculoService rejects battery levels outside 0 to 100 and works out the range: a Tesla Model 3 does 491 km on a full battery; at 80%, 392.8 km are left."
       },
       {
-        "id": "controller",
-        "name": "Controller",
-        "title": "Filter and controller",
-        "text": "Spring Security checks the origin against CORS before letting the route through. VeiculoController reads the JWT to know who is asking, and answers 401 when it is missing."
+        "id": "geocoding",
+        "name": "Addresses",
+        "title": "Addresses become coordinates",
+        "text": "Origin and destination come in as text. GeocodingService asks LocationIQ where they are and returns the latitude and longitude for the pins on the map."
       },
       {
-        "id": "service",
-        "name": "Service",
-        "title": "The business rule",
-        "text": "VeiculoService rejects levels outside 0 to 100 and works out the range. A Tesla Model 3 does 491 km on a full battery; at 80%, 392.8 km are left."
+        "id": "route",
+        "name": "Route",
+        "title": "How far it can go",
+        "text": "The route comes from LocationIQ through /api/directions. e-Move keeps 20% of the battery as a reserve: at 80%, the safe range is 294.6 km. This trip is 512 km, so the car has to stop before the marked point."
       },
       {
-        "id": "database",
-        "name": "Database",
-        "title": "Saved in one transaction",
-        "text": "With @Transactional, the JPA repository finds the user-vehicle link in MariaDB and saves the new level. If anything fails halfway, nothing is half-saved."
+        "id": "stations",
+        "name": "Stations",
+        "title": "Where to charge",
+        "text": "Near the point where the reserve starts, OpenChargeMap is searched within 93 km. The first station joins the route, the battery goes back to 90%, and the math repeats until the destination is within range."
       },
       {
-        "id": "response",
-        "name": "Response",
-        "title": "200 OK on the way back",
-        "text": "The VeiculoDTO comes back as JSON and the e-Move screen shows the new range. Further down, you can send this request yourself with another car.",
+        "id": "trip",
+        "name": "Trip",
+        "title": "Trip saved",
+        "text": "With one charge, that's 512 km and 61.4 kg of CO₂ saved. POST /api/viagens reads the user from the JWT and saves the trip to MariaDB in one transaction. Further down, you can try the range math with another car.",
         "link": "Try the API"
       }
     ]

@@ -242,51 +242,50 @@
     "code": "Código no GitHub"
   },
   "request": {
-    "label": "A viagem de uma requisição do e-Move",
-    "hint": "Role para seguir uma requisição real do e-Move, do navegador ao banco e de volta.",
-    "route": "Caminho da requisição",
+    "label": "Como o e-Move planeja uma viagem",
+    "hint": "Role para planejar uma viagem de carro elétrico com o e-Move, da bateria à estação de recarga.",
+    "route": "Etapas do planejamento",
     "screen": {
-      "list": "Meus veículos",
+      "title": "Planejar viagem",
       "battery": "Bateria",
       "range": "Autonomia estimada",
-      "save": "Salvar",
-      "saved": "Salvo",
+      "action": "Calcular rota",
       "decimal": ","
     },
     "stops": [
       {
-        "id": "browser",
-        "name": "Navegador"
+        "id": "app",
+        "name": "e-Move"
       },
       {
-        "id": "container",
-        "name": "Container",
-        "title": "Um container em Linux",
-        "text": "O PUT /api/veiculos/1/bateria entra pela porta 8080 de um container Amazon Corretto 17 em Alpine, que roda sem root."
+        "id": "range",
+        "name": "Autonomia",
+        "title": "Quanto o carro anda",
+        "text": "Tudo começa na garagem. O VeiculoService recusa níveis de bateria fora de 0 a 100 e calcula a autonomia: um Tesla Model 3 faz 491 km com a bateria cheia; com 80%, sobram 392,8 km."
       },
       {
-        "id": "controller",
-        "name": "Controller",
-        "title": "Filtro e controller",
-        "text": "O Spring Security confere a origem pelo CORS antes de liberar a rota. O VeiculoController lê o token JWT para saber quem está pedindo e responde 401 quando ele falta."
+        "id": "geocoding",
+        "name": "Endereços",
+        "title": "Endereço vira coordenada",
+        "text": "Origem e destino entram como texto. O GeocodingService pergunta à LocationIQ onde eles ficam e devolve latitude e longitude para os pinos no mapa."
       },
       {
-        "id": "service",
-        "name": "Service",
-        "title": "A regra de negócio",
-        "text": "O VeiculoService recusa níveis fora de 0 a 100 e calcula a autonomia. Um Tesla Model 3 faz 491 km com a bateria cheia; com 80%, sobram 392,8 km."
+        "id": "route",
+        "name": "Rota",
+        "title": "Até onde dá para ir",
+        "text": "A rota vem da LocationIQ pelo /api/directions. O e-Move guarda 20% da bateria como reserva: com 80%, o alcance seguro é de 294,6 km. Esta viagem tem 512 km, então o carro precisa parar antes do ponto marcado."
       },
       {
-        "id": "database",
-        "name": "Banco",
-        "title": "Gravado numa transação",
-        "text": "Com @Transactional, o repositório JPA busca a ligação entre usuário e veículo no MariaDB e grava o novo nível. Se algo falhar no meio, nada fica salvo pela metade."
+        "id": "stations",
+        "name": "Estações",
+        "title": "Onde recarregar",
+        "text": "Perto do ponto em que a reserva começa, a OpenChargeMap é consultada num raio de 93 km. A primeira estação entra na rota, a bateria volta para 90% e a conta se repete até o destino caber no alcance."
       },
       {
-        "id": "response",
-        "name": "Resposta",
-        "title": "200 OK de volta",
-        "text": "O VeiculoDTO volta como JSON e a tela do e-Move mostra a nova autonomia. Mais abaixo, você mesmo manda essa requisição com outro carro.",
+        "id": "trip",
+        "name": "Viagem",
+        "title": "Viagem salva",
+        "text": "Com uma recarga, são 512 km e 61,4 kg de CO₂ poupados. O POST /api/viagens lê o usuário do token JWT e grava a viagem no MariaDB numa transação. Mais abaixo, você testa a conta da autonomia com outro carro.",
         "link": "Testar a API"
       }
     ]
