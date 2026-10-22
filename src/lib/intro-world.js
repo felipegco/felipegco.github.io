@@ -1,29 +1,60 @@
 // Cena 3D da introdução, "do hardware à API":
-// 0 peças soltas · 1 o gabinete montado (Marino) · 2 o gabinete deitado num rack (Brascabos)
+// 0 peças na bancada · 1 o gabinete montado (Marino) · 2 o gabinete deitado num rack (Brascabos)
 // · 3 o rack aceso e uma requisição saindo para a cena do e-Move.
-import { BoxGeometry, Euler, Group, Mesh, QuadraticBezierCurve3, Quaternion, TubeGeometry, Vector3 } from 'three';
+import {
+    BoxGeometry,
+    Color,
+    CubicBezierCurve3,
+    EdgesGeometry,
+    Euler,
+    Group,
+    LineBasicMaterial,
+    LineSegments,
+    Mesh,
+    MeshStandardMaterial,
+    QuadraticBezierCurve3,
+    Quaternion,
+    TubeGeometry,
+    Vector3,
+} from 'three';
 import { box, createStage, cylinder, smooth, span } from '@/lib/scene-engine';
 
 // O gabinete tem o centro na origem; o lado aberto olha para +z
 const TOWER_Y = 2.2;
 const SLOT_Y = 2.15;
 
-// O gabinete já está de pé; só as peças de dentro começam soltas, na frente dele.
-// [nome, [largura, altura, profundidade], posição final, deslocamento solto, rotação solta, material]
-const PARTS = [
-    ['back', [4.2, 4.4, 0.08], [0, 0, -0.96], [0, 0, 0], [0, 0, 0], 'body'],
-    ['top', [4.2, 0.08, 2], [0, 2.16, 0], [0, 0, 0], [0, 0, 0], 'body'],
-    ['bottom', [4.2, 0.08, 2], [0, -2.16, 0], [0, 0, 0], [0, 0, 0], 'body'],
-    ['front', [0.08, 4.4, 2], [2.06, 0, 0], [0, 0, 0], [0, 0, 0], 'body'],
-    ['rear', [0.08, 4.4, 2], [-2.06, 0, 0], [0, 0, 0], [0, 0, 0], 'body'],
-    ['board', [3.0, 3.2, 0.06], [-0.3, 0.3, -0.88], [0.2, 1.9, 0.8], [0.35, 0.25, 0.05], 'dim'],
-    ['cooler', [0.9, 0.9, 0.6], [-0.4, 0.9, -0.55], [1.2, 1.0, 2.8], [0.8, 0.4, 0.3], 'body'],
-    ['ram-1', [0.08, 1.2, 0.22], [0.45, 0.9, -0.74], [1.7, 0.6, 2.9], [0.2, 0.9, 0.6], 'accent'],
-    ['ram-2', [0.08, 1.2, 0.22], [0.67, 0.9, -0.74], [2.1, 0.1, 2.6], [0.5, 0.7, 0.2], 'accent'],
-    ['gpu', [2.4, 0.3, 0.9], [-0.5, -0.4, -0.4], [-1.4, -0.9, 3.0], [0.5, -0.5, 0.3], 'body'],
-    ['psu', [1.5, 1.0, 1.7], [-1.2, -1.6, 0], [-2.4, -0.4, 1.9], [0.2, 0.5, 0], 'body'],
-    ['ssd', [0.8, 0.06, 0.5], [1.3, -1.2, -0.5], [1.9, -1.2, 2.8], [0.6, 0.3, 0.4], 'accent'],
+// O gabinete já está de pé: [nome, [largura, altura, profundidade], posição]
+const CASE = [
+    ['back', [4.2, 4.4, 0.08], [0, 0, -0.96]],
+    ['top', [4.2, 0.08, 2], [0, 2.16, 0]],
+    ['bottom', [4.2, 0.08, 2], [0, -2.16, 0]],
+    ['front', [0.08, 4.4, 2], [2.06, 0, 0]],
+    ['rear', [0.08, 4.4, 2], [-2.06, 0, 0]],
 ];
+
+// As peças de dentro começam deitadas numa bancada na frente do gabinete e entram
+// uma por vez, de trás para frente, para nenhuma passar por dentro de outra já encaixada.
+// [nome, [largura, altura, profundidade], encaixe, lugar na bancada (x, z), como fica deitada, material]
+const PARTS = [
+    ['board', [3.0, 3.2, 0.06], [-0.3, 0.3, -0.88], [-1.9, 3.3], [-Math.PI / 2, 0, 0], 'dim'],
+    ['cooler', [0.9, 0.9, 0.6], [-0.4, 0.9, -0.55], [0.35, 2.2], [-Math.PI / 2, 0, 0], 'body'],
+    ['ram-1', [0.08, 1.2, 0.22], [0.45, 0.9, -0.74], [0.35, 4.55], [0, 0, Math.PI / 2], 'accent'],
+    ['ram-2', [0.08, 1.2, 0.22], [0.67, 0.9, -0.74], [0.35, 4.9], [0, 0, Math.PI / 2], 'accent'],
+    ['gpu', [2.4, 0.3, 0.9], [-0.5, -0.4, -0.4], [1.0, 3.45], [0, 0, 0], 'body'],
+    ['ssd', [0.8, 0.06, 0.5], [1.3, -1.2, -0.5], [1.85, 4.75], [0, 0, 0], 'accent'],
+    ['psu', [1.5, 1.0, 1.7], [-1.2, -1.6, 0], [2.0, 2.4], [0, 0, 0], 'body'],
+];
+
+// O tapete da bancada, no chão na frente do gabinete; as peças altas ficam atrás, as baixas na frente
+const MAT = { w: 6.6, d: 4.7, h: 0.03, x: -0.4, z: 3.75 };
+
+// A montagem tem relógio próprio: começa quando a abertura sai de cena e leva ASSEMBLY
+// segundos, mesmo que o card do hardware já esteja na tela. Em frações da montagem,
+// cada peça leva STEP_LEN e a seguinte começa STEP_GAP depois.
+const ASSEMBLY = 4;
+const ASSEMBLY_AT = 0.12;
+const STEP_LEN = 0.3;
+const STEP_GAP = (1 - STEP_LEN) / (PARTS.length - 1);
 
 // Ventoinhas: deixam a placa de vídeo, o cooler e a fonte reconhecíveis
 const FANS = [
@@ -35,30 +66,58 @@ const FANS = [
 
 const UNIT_YS = [0.35, 0.85, 1.35, 2.95, 3.45];
 
-function build({ scene, mats }) {
+function build({ scene, mats, tokens }) {
     const machine = new Group();
     machine.position.set(0, TOWER_Y, 0);
+    const meshes = {};
 
-    const parts = PARTS.map(([name, [w, h, d], at, loose, turn, mat], i) => {
+    CASE.forEach(([name, [w, h, d], at]) => {
+        const mesh = box(w, h, d, mats.body);
+        mesh.position.set(...at);
+        machine.add(mesh);
+        meshes[name] = mesh;
+    });
+
+    // Contorno azul de cada encaixe: mostra para onde a peça vai e some quando ela chega
+    const ghostMat = new LineBasicMaterial({ color: tokens.accent, transparent: true, opacity: 0.6, depthWrite: false });
+
+    const parts = PARTS.map(([name, [w, h, d], at, [benchX, benchZ], flat, mat], i) => {
         const mesh = box(w, h, d, mats[mat]);
         machine.add(mesh);
-        return {
-            mesh,
-            at: new Vector3(...at),
-            loose: new Vector3(...at).add(new Vector3(...loose)),
-            turn: new Vector3(...turn),
-            delay: Math.max(0, i - 5) * 0.02,
-            phase: i * 1.7,
-        };
+        meshes[name] = mesh;
+
+        const lying = new Quaternion().setFromEuler(new Euler(...flat));
+        // A altura da peça deitada, para ela ficar apoiada no tapete
+        const tall = new Vector3(w, h, d).applyQuaternion(lying);
+        const end = new Vector3(...at);
+        const start = new Vector3(benchX, -TOWER_Y + MAT.h + Math.abs(tall.y) / 2, benchZ);
+        // Sobe reto da bancada e entra de frente pelo lado aberto
+        const path = new CubicBezierCurve3(
+            start,
+            start.clone().add(new Vector3(0, 1.8, 0)),
+            end.clone().add(new Vector3(0, 0.3, 3.2)),
+            end,
+        );
+
+        const ghost = new LineSegments(new EdgesGeometry(mesh.geometry), ghostMat);
+        ghost.position.copy(end);
+        machine.add(ghost);
+
+        const from = i * STEP_GAP;
+        return { mesh, path, lying, ghost, from, to: from + STEP_LEN };
     });
 
     FANS.forEach(([name, r, at, axis]) => {
-        const part = parts[PARTS.findIndex(([n]) => n === name)].mesh;
         const fan = cylinder(r, 0.05, mats.dim);
         if (axis === 'z') fan.rotation.x = Math.PI / 2;
         fan.position.set(...at);
-        part.add(fan);
+        meshes[name].add(fan);
     });
+
+    const matMat = new MeshStandardMaterial({ roughness: 1, color: new Color(tokens.floor).lerp(new Color(tokens.body), 0.4) });
+    const bench = box(MAT.w, MAT.h, MAT.d, matMat);
+    bench.castShadow = false;
+    bench.position.set(MAT.x, MAT.h / 2, MAT.z);
 
     // A tampa fecha o lado aberto antes de o gabinete virar servidor
     const lid = box(4.2, 4.4, 0.06, mats.body);
@@ -104,29 +163,38 @@ function build({ scene, mats }) {
     const cableLit = new Mesh(new TubeGeometry(cable, TUBE, 0.055, RADIAL, false), mats.routeLit);
     const packet = box(0.52, 0.34, 0.34, mats.accent);
 
-    scene.add(machine, rack, cableBase, cableLit, packet);
+    scene.add(machine, bench, rack, cableBase, cableLit, packet);
 
     const tmp = new Vector3();
+    const upright0 = new Quaternion();
+    let assembled = 0;
+    let last = null;
     const ahead = new Vector3();
 
     function update(s, time) {
         // Os cards aparecem a ±0,12 de cada parada; tudo se move só no intervalo entre eles,
         // então cada card mostra a cena parada.
-        // 0 → 1: depois que a abertura some, as peças se encaixam uma depois da outra
-        // e estão todas no lugar antes de "Comecei pelo hardware" aparecer
-        let floating = false;
+        // 0 → 1: a exceção. Depois que a abertura some, as peças saem da bancada uma por vez
+        // no relógio da montagem, não no da rolagem; voltando para a abertura, elas voltam
+        // para a bancada. Se a página já chega mais adiante (um link para a trajetória),
+        // o gabinete aparece montado.
+        // Enquanto algum encaixe espera a peça, o contorno pulsa devagar.
+        const dt = last === null ? 0 : Math.min(time - last, 0.1);
+        last = time;
+        const goal = s > ASSEMBLY_AT ? 1 : 0;
+        if (s > 1.05) assembled = 1;
+        else assembled = Math.min(Math.max(assembled + Math.sign(goal - assembled) * (dt / ASSEMBLY), 0), 1);
+
+        let waiting = assembled !== goal;
+        const pulse = 0.45 + 0.2 * Math.sin(time * 2.4);
         parts.forEach((p) => {
-            const f = smooth(span(s, 0.34 + p.delay, 0.54 + p.delay));
-            const loose = 1 - f;
-            if (loose > 0.001) floating = true;
-            p.mesh.position.lerpVectors(p.loose, p.at, f);
-            p.mesh.position.y += Math.sin(time * 0.9 + p.phase) * 0.14 * loose;
-            p.mesh.rotation.set(
-                p.turn.x * loose + Math.sin(time * 0.5 + p.phase) * 0.08 * loose,
-                p.turn.y * loose,
-                p.turn.z * loose,
-            );
+            const f = smooth(span(assembled, p.from, p.to));
+            p.mesh.position.copy(p.path.getPoint(f));
+            p.mesh.quaternion.slerpQuaternions(p.lying, upright0, smooth(span(f, 0.15, 0.75)));
+            p.ghost.visible = f < 0.98;
+            if (p.ghost.visible) waiting = true;
         });
+        ghostMat.opacity = pulse;
 
         // 1 → 2: com o card do hardware fora da tela, a tampa aparece e fecha,
         // o gabinete deita e o rack desliza em volta dele
@@ -158,7 +226,7 @@ function build({ scene, mats }) {
         ahead.copy(cable.getPoint(Math.min(fPacket + 0.01, 1))).sub(packet.position);
         if (ahead.lengthSq() > 1e-8) packet.lookAt(tmp.copy(packet.position).add(ahead));
 
-        return floating;
+        return waiting;
     }
 
     const key = (s, pos, look) => ({ s, pos: new Vector3(...pos), look: new Vector3(...look), hold: true });
@@ -179,6 +247,10 @@ function build({ scene, mats }) {
         holdWindow: [0.06, 0.94],
         shadow: { center: new Vector3(2, 0, 0), size: 12 },
         update,
+        dispose() {
+            ghostMat.dispose();
+            matMat.dispose();
+        },
     };
 }
 
