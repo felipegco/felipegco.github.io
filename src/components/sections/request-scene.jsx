@@ -1,27 +1,8 @@
 import Scene3D from '@/components/scene-3d';
 
-// Trechos reais do repositório felipegco/e-move-backend, na ordem da viagem
+// Trechos reais dos repositórios do e-Move (back-end e front-end), na ordem do planejamento
 const CODE = {
-    container: {
-        file: 'Dockerfile',
-        lines: [
-            'FROM amazoncorretto:17-alpine',
-            'RUN addgroup -S app && adduser -S app -G app',
-            'USER app',
-            'EXPOSE 8080',
-        ],
-    },
-    controller: {
-        file: 'VeiculoController.java',
-        lines: [
-            '@PutMapping("/{veiculoId}/bateria")',
-            'public ResponseEntity<?> atualizarNivelBateria(…) {',
-            '    String token = tokenService.resolveToken(request);',
-            '    if (token == null)',
-            '        return ResponseEntity.status(401).body(…);',
-        ],
-    },
-    service: {
+    range: {
         file: 'VeiculoService.java',
         lines: [
             'if (nivelBateria < 0 || nivelBateria > 100) {',
@@ -31,30 +12,52 @@ const CODE = {
             '    veiculo.getAutonomia() * (nivelBateria / 100.0);',
         ],
     },
-    database: {
-        file: 'VeiculoService.java',
+    geocoding: {
+        file: 'GeocodingService.java',
         lines: [
-            '@Service',
-            '@Transactional',
-            'public class VeiculoService { … }',
-            '',
-            'associacao.setNivelBateria(nivelBateria);',
-            'usuarioVeiculoRepository.save(associacao);',
+            'UriComponentsBuilder.fromHttpUrl(apiUrl)',
+            '    .queryParam("q", address)',
+            '    .queryParam("limit", "5")',
+            '…',
+            'dto.setLatitude(node.get("lat").asDouble());',
+            'dto.setLongitude(node.get("lon").asDouble());',
         ],
     },
-    response: {
-        file: 'HTTP/1.1 200 OK',
+    route: {
+        file: 'AbaMapa.jsx',
         lines: [
-            '{',
-            '  "id": 1, "marca": "Tesla", "modelo": "Model 3",',
-            '  "nivelBateria": 80, "autonomiaTotal": 491,',
-            '  "autonomiaEstimada": 392.8',
-            '}',
+            'const kmReserva = autonomiaTotalKm * 0.20;',
+            'const alcanceSeguro = autonomiaAtualKm - kmReserva;',
+            'if (distanciaRotaKm <= alcanceSeguro) {',
+            '    rotaFinal.push(routeData);',
+            '} else {',
+            '    turf.along(linha, alcanceSeguro, …);',
+        ],
+    },
+    stations: {
+        file: 'OpenChargeMapService.java',
+        lines: [
+            '.path("/poi/")',
+            '.queryParam("latitude", lat)',
+            '.queryParam("longitude", lon)',
+            '.queryParam("distance", distanciaKm)',
+            '.queryParam("maxresults", 10)',
+        ],
+    },
+    trip: {
+        file: 'ViagemService.java',
+        lines: [
+            '@Transactional',
+            'public class ViagemService { … }',
+            '',
+            'novaViagem.setKmTotal(dto.getKmTotal());',
+            'novaViagem.setCo2Preservado(…);',
+            'return viagemRepository.save(novaViagem);',
         ],
     },
 };
 
-const TOKEN = /("[^"]*")|(@\w+)|\b(\d+(?:\.\d+)?)\b|\b(FROM|RUN|USER|EXPOSE|public|class|if|return|throw|new|double|String|null)\b/g;
+const TOKEN = /("[^"]*")|(@\w+)|\b(\d+(?:\.\d+)?)\b|\b(public|class|if|else|const|return|throw|new|double)\b/g;
 
 function highlight(line) {
     const parts = [];
@@ -79,7 +82,7 @@ function Code({ id }) {
     );
 }
 
-// A viagem de uma requisição real do e-Move pelo back-end, parada por parada.
+// Como o e-Move planeja uma viagem de carro elétrico, etapa por etapa.
 // Abre a página do projeto: o título dela é o nome do e-Move.
 export default function RequestScene({ dict, header }) {
     const { request, work } = dict;
