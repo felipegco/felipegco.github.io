@@ -180,7 +180,7 @@ export function createStage(canvas, { build, onReady }) {
         if (!dirty && !moving) return;
         dirty = false;
         const s = progress * world.beats;
-        // update devolve true enquanto algo se move sozinho (peças flutuando na abertura)
+        // update devolve true enquanto algo se move sozinho (os encaixes pulsando na abertura)
         moving = !!world.update(s, time / 1000);
         place(s, pointer.x, pointer.y);
         renderer.render(scene, camera);
