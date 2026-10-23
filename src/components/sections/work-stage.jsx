@@ -3,10 +3,15 @@
 import { useEffect, useRef, useState } from 'react';
 import { stackOf } from '@/lib/work-stacks';
 
+// Quanto dura o mergulho na pilha antes de a página do projeto abrir
+const OPEN_MS = 900;
+
 // A pilha 3D do projeto atual (stack-world.js). No computador ela segue o nome
 // sob o ponteiro; no celular, o cartão do carrossel. Sem WebGL, ela some e o
 // projeto fica só com o texto, que já traz a stack.
-export default function WorkStage({ projects, active, slide }) {
+// control: recebe open(i), que mergulha na pilha do projeto i e resolve quando a
+// página dele pode abrir (na hora, se não houver 3D ou com movimento reduzido)
+export default function WorkStage({ projects, active, slide, control }) {
     const stageRef = useRef(null);
     const canvasRef = useRef(null);
     const worldRef = useRef(null);
@@ -54,14 +59,36 @@ export default function WorkStage({ projects, active, slide }) {
         stage.addEventListener('pointermove', onPointer, { passive: true });
         stage.addEventListener('pointerleave', onLeave);
 
+        // Voltando pelo histórico, a página pode reaparecer do cache como estava: no meio do mergulho
+        const onShow = (e) => {
+            if (!e.persisted) return;
+            stage.removeAttribute('data-opening');
+            worldRef.current?.setProgress(0);
+        };
+        window.addEventListener('pageshow', onShow);
+
+        control.current = {
+            open(i) {
+                const world = worldRef.current;
+                if (!world || still) return Promise.resolve();
+                world.setProject(i);
+                world.setPointer(0, 0);
+                world.setProgress(1);
+                stage.setAttribute('data-opening', '');
+                return new Promise((resolve) => setTimeout(resolve, OPEN_MS));
+            },
+        };
+
         return () => {
             disposed = true;
             stage.removeEventListener('pointermove', onPointer);
             stage.removeEventListener('pointerleave', onLeave);
+            window.removeEventListener('pageshow', onShow);
+            control.current = null;
             worldRef.current?.dispose();
             worldRef.current = null;
         };
-    }, [projects]);
+    }, [projects, control]);
 
     useEffect(() => {
         shownRef.current = shown;

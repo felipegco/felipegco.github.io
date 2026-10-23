@@ -324,37 +324,6 @@ pre {
   transform: translateX(4px);
 }
 
-/* The picture behind the 3D until the scene is ready (also the view transition's landing) */
-.scene3d-backdrop {
-  display: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
-    display: block;
-    position: absolute;
-    inset: 0;
-    transition: opacity 1800ms var(--ease-out);
-  }
-
-  html.js .scene3d.is-ready .scene3d-backdrop {
-    opacity: 0;
-  }
-
-  .scene3d-backdrop img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top center;
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) and (max-width: 1024px) {
-  html.js .scene3d:not(.is-rest) .scene3d-backdrop {
-    bottom: 50%;
-  }
-}
-
 /* Live: the stage holds for five screens while the request travels */
 @media (prefers-reduced-motion: no-preference) {
   html.js .scene3d:not(.is-rest) {
@@ -719,19 +688,26 @@ a.work-name {
   color: var(--accent);
 }
 
-/* ── View transition: the e-Move frame grows into its page ──────────────── */
+/* ── View transition: opening a project dives into its stack ─────────────── */
+/* Only that navigation animates: the layout's head script skips every other one */
 @view-transition {
   navigation: auto;
 }
 
-.work-stage[data-project="emove"],
-.project-page .scene3d-backdrop {
-  view-transition-name: emove-media;
+.work-stage[data-opening] {
+  view-transition-name: stack-open;
 }
 
-::view-transition-group(emove-media) {
-  animation-duration: 850ms;
-  animation-timing-function: var(--ease-expo);
+/* The stack's core layer, filling the stage, bursts towards the viewer while the project fades in */
+::view-transition-old(stack-open) {
+  animation: stack-open 700ms var(--ease-expo) both;
+}
+
+@keyframes stack-open {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 ::view-transition-old(root),

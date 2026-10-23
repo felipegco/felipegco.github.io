@@ -24,6 +24,7 @@ const IN = 1.3; // segundos para montar uma pilha
 const OUT = 0.55; // segundos para desmontar
 const LAND = 0.45; // fração da montagem que cada camada leva para descer
 const TURN = -0.5; // a pilha mostra a frente e um lado
+const LIFT = 1.6; // ao abrir o projeto, quanto sobe o que está acima da camada principal
 
 // A etiqueta na frente de cada camada: o nome da tecnologia e o número da camada
 function label(tokens, text, index, core) {
@@ -195,6 +196,8 @@ function build(ctx, projects, still) {
     // Uma pilha por projeto, montadas de antemão; só a do projeto atual aparece
     const stacks = projects.map(({ layers, core, topper }) => {
         const group = new Group();
+        // Sem camada principal marcada, abrir o projeto entra pela de cima
+        const heart = core >= 0 ? core : layers.length - 1;
         const items = layers.map((text, i) => {
             const isCore = i === core;
             const map = label(tokens, text, i, isCore);
@@ -208,7 +211,7 @@ function build(ctx, projects, still) {
             holder.position.y = SLAB.h / 2 + i * (SLAB.h + SLAB.gap);
             holder.add(slab);
             group.add(holder);
-            return { holder, rest: holder.position.y };
+            return { holder, rest: holder.position.y, above: i > heart };
         });
 
         let tick = null;
@@ -218,14 +221,28 @@ function build(ctx, projects, still) {
             holder.position.y = layers.length * (SLAB.h + SLAB.gap);
             holder.add(piece.group);
             group.add(holder);
-            items.push({ holder, rest: holder.position.y });
+            items.push({ holder, rest: holder.position.y, above: true });
             tick = piece.tick;
         }
 
         group.visible = false;
         tower.add(group);
-        return { group, items, tick, progress: 0 };
+        return { group, items, tick, progress: 0, heartY: SLAB.h / 2 + heart * (SLAB.h + SLAB.gap) };
     });
+
+    // Abrir o projeto (s de 0 a 1, pela rolagem do motor): a pilha para de balançar,
+    // o que está acima da camada principal sobe e a câmera vai até a etiqueta dela,
+    // que enche a tela antes de a página do projeto entrar (globals.css, stack-open)
+    const look = new Vector3(0, 1.75, 0);
+    const pos = new Vector3(0, 4.2, 8.8);
+    const diveLook = new Vector3();
+    const divePos = new Vector3();
+    const aim = (i) => {
+        const facing = new Vector3(Math.sin(TURN), 0, Math.cos(TURN));
+        diveLook.copy(facing).multiplyScalar(SLAB.d / 2).setY(stacks[i].heartY);
+        divePos.copy(diveLook).addScaledVector(facing, 0.85).add(new Vector3(0, 0.03, 0));
+    };
+    aim(0);
 
     let current = 0;
     let last = null;
@@ -244,26 +261,26 @@ function build(ctx, projects, still) {
             stack.group.visible = stack.progress > 0;
             if (!stack.group.visible) return;
             const step = (1 - LAND) / Math.max(stack.items.length - 1, 1);
+            const lift = smooth(span(s, 0, 0.55)) * LIFT;
             stack.items.forEach((item, k) => {
                 const f = smooth(span(stack.progress, k * step, k * step + LAND));
                 item.holder.visible = f > 0;
-                item.holder.position.y = item.rest + (1 - f) * DROP;
+                item.holder.position.y = item.rest + (1 - f) * DROP + (item.above ? lift : 0);
             });
             stack.tick?.(time);
         });
 
-        if (!still) tower.rotation.y = TURN + Math.sin(time * 0.45) * 0.16;
+        if (!still) tower.rotation.y = TURN + Math.sin(time * 0.45) * 0.16 * (1 - smooth(span(s, 0, 0.35)));
         return !still;
     }
 
-    const look = new Vector3(0, 1.75, 0);
-    const pos = new Vector3(0, 4.2, 8.8);
     return {
         beats: 1,
         keys: [
             { s: 0, pos, look, hold: true },
-            { s: 1, pos, look, hold: true },
+            { s: 1, pos: divePos, look: diveLook, hold: true },
         ],
+        holdWindow: [0, 1],
         centered: true,
         stackedZoom: 0.78,
         shadow: { center: new Vector3(0, 0, 0), size: 4 },
@@ -271,6 +288,7 @@ function build(ctx, projects, still) {
         api: {
             setProject(i) {
                 current = Math.min(Math.max(i, 0), stacks.length - 1);
+                aim(current);
                 invalidate();
             },
         },

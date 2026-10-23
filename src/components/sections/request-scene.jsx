@@ -100,7 +100,6 @@ export default function RequestScene({ dict, header }) {
             route={steps}
             routeLabel={request.route}
             header={header}
-            backdrop={<img src="/images/work/emove.jpg" alt="" width="1600" height="1000" />}
             className="request"
         >
             <article className="scene3d-beat" id={`stop-${steps[0].id}`}>
