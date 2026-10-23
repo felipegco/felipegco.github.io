@@ -66,17 +66,6 @@
         "alt": "CliniCare site: the headline about a perfect smile next to a photo of the reception room"
       },
       {
-        "id": "mesas",
-        "name": "Table booking",
-        "meta": "Next.js site for a client",
-        "year": "2026",
-        "desc": "A public map of free and booked tables at an event venue, split by area: patio, family space, main hall and kiosk. A static site deployed on Vercel.",
-        "stack": "Next.js, React, Tailwind CSS, Vercel",
-        "code": "https://github.com/felipegco/agendamento-mesas",
-        "demo": "https://agendamento-mesas.vercel.app/",
-        "alt": "Page listing available tables with the count of free tables per area"
-      },
-      {
         "id": "notch",
         "name": "Simple Notch",
         "meta": "macOS app in Swift",
@@ -97,22 +86,6 @@
         "alt": "Atoll logo"
       }
     ],
-    "triage": [
-      {
-        "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã",
-        "label": "Confirm"
-      },
-      {
-        "msg": "Oi, não vou conseguir ir, depois eu remarco",
-        "label": "Cancel"
-      },
-      {
-        "msg": "A consulta é com a mesma doutora da última vez?",
-        "label": "Question, goes to a person"
-      }
-    ],
-    "notchSong": "Now playing",
-    "notchArtist": "Simple Notch",
     "inside": "See inside",
     "slide": "Show project {n} of {total}",
     "track": "Projects, swipe sideways"

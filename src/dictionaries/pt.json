@@ -66,17 +66,6 @@
         "alt": "Site da CliniCare: o título A jornada para o seu sorriso perfeito começa aqui ao lado da foto da recepção"
       },
       {
-        "id": "mesas",
-        "name": "Reserva de Mesas",
-        "meta": "Site Next.js para cliente",
-        "year": "2026",
-        "desc": "Mapa público de mesas livres e reservadas de um espaço de eventos, separado por área: pátio, espaço família, salão central e quiosque. Site estático publicado na Vercel.",
-        "stack": "Next.js, React, Tailwind CSS, Vercel",
-        "code": "https://github.com/felipegco/agendamento-mesas",
-        "demo": "https://agendamento-mesas.vercel.app/",
-        "alt": "Página Consulte as mesas disponíveis com a contagem de mesas livres por área"
-      },
-      {
         "id": "notch",
         "name": "Simple Notch",
         "meta": "App macOS em Swift",
@@ -97,22 +86,6 @@
         "alt": "Logotipo do Atoll"
       }
     ],
-    "triage": [
-      {
-        "msg": "Bom dia! Tudo bem? Confirmo sim, estarei lá amanhã",
-        "label": "Confirmar"
-      },
-      {
-        "msg": "Oi, não vou conseguir ir, depois eu remarco",
-        "label": "Cancelar"
-      },
-      {
-        "msg": "A consulta é com a mesma doutora da última vez?",
-        "label": "Dúvida, vai para uma pessoa"
-      }
-    ],
-    "notchSong": "Tocando agora",
-    "notchArtist": "Simple Notch",
     "inside": "Ver por dentro",
     "slide": "Ver o projeto {n} de {total}",
     "track": "Projetos, arraste para o lado"

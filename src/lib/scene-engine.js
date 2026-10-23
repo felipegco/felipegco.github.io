@@ -16,6 +16,7 @@ import {
     PerspectiveCamera,
     PlaneGeometry,
     Scene,
+    ShadowMaterial,
     SRGBColorSpace,
     Vector3,
     WebGLRenderer,
@@ -67,10 +68,11 @@ function cameraAt(keys, s, pos, look, [from, to] = [0.1, 0.9]) {
     look.lerpVectors(a.look, b.look, e);
 }
 
-export function createStage(canvas, { build, onReady }) {
+// transparent: sem fundo nem chão visível, só a sombra; o canvas fica sobre a cor da página
+export function createStage(canvas, { build, onReady, transparent = false }) {
     let renderer;
     try {
-        renderer = new WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+        renderer = new WebGLRenderer({ canvas, antialias: true, alpha: transparent, powerPreference: 'high-performance' });
     } catch {
         return null;
     }
@@ -105,12 +107,14 @@ export function createStage(canvas, { build, onReady }) {
     sun.shadow.radius = 4;
     scene.add(hemi, sun, sun.target);
 
-    const floor = new Mesh(new PlaneGeometry(400, 400), mats.floor);
+    const floor = new Mesh(new PlaneGeometry(400, 400), transparent ? new ShadowMaterial({ opacity: 0.45 }) : mats.floor);
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     scene.add(floor);
 
-    const world = build({ scene, mats, tokens, stacked });
+    // invalidate: o mundo pede um quadro novo quando muda por conta própria (fora da rolagem)
+    let dirty = true;
+    const world = build({ scene, mats, tokens, stacked, invalidate: () => { dirty = true; } });
 
     // A sombra cobre a área da cena: centro e meia largura vêm do mundo
     const { center, size } = world.shadow;
@@ -120,8 +124,10 @@ export function createStage(canvas, { build, onReady }) {
     sun.shadow.camera.updateProjectionMatrix();
 
     // As cores vêm das variáveis do CSS, então o 3D usa a mesma paleta da página
-    scene.background = new Color(tokens.ground);
-    scene.fog = new Fog(tokens.ground, 46, 110);
+    if (!transparent) {
+        scene.background = new Color(tokens.ground);
+        scene.fog = new Fog(tokens.ground, 46, 110);
+    }
     mats.floor.color.set(tokens.floor);
     mats.body.color.set(tokens.body);
     mats.dim.color.set(tokens.dim);
@@ -145,8 +151,7 @@ export function createStage(canvas, { build, onReady }) {
         camera.lookAt(look);
     }
 
-    // No computador o objeto fica à direita, longe do texto
-    let dirty = true;
+    // No computador o objeto fica à direita, longe do texto (a menos que o mundo peça centered)
     function resize() {
         const w = canvas.clientWidth;
         const h = canvas.clientHeight;
@@ -155,7 +160,7 @@ export function createStage(canvas, { build, onReady }) {
         renderer.setSize(w, h, false);
         camera.aspect = w / h;
         camera.fov = stacked.matches ? 42 : 36;
-        if (stacked.matches) camera.clearViewOffset();
+        if (stacked.matches || world.centered) camera.clearViewOffset();
         else camera.setViewOffset(w, h, -w * 0.2, 0, w, h);
         camera.updateProjectionMatrix();
         dirty = true;
@@ -194,7 +199,9 @@ export function createStage(canvas, { build, onReady }) {
     resize();
     raf = requestAnimationFrame(tick);
 
+    // api: funções próprias do mundo (a pilha dos projetos troca de projeto por ela)
     return {
+        ...world.api,
         setProgress(p) {
             target = clamp01(p);
         },
@@ -209,6 +216,7 @@ export function createStage(canvas, { build, onReady }) {
             world.dispose?.();
             scene.traverse((obj) => obj.geometry?.dispose());
             Object.values(mats).forEach((m) => m.dispose());
+            if (transparent) floor.material.dispose();
             renderer.dispose();
         },
     };
