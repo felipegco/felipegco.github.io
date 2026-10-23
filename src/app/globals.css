@@ -567,6 +567,7 @@ pre {
 
 .work-list {
   grid-column: 1 / span 7;
+  grid-row: 2;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -617,70 +618,35 @@ pre {
 
 .work-aside {
   grid-column: 8 / -1;
+  grid-row: 2;
   position: sticky;
   top: 12vh;
   align-self: start;
 }
 
-.frame3d {
-  perspective: 1400px;
+/* The project's stack in 3D (stack-world.js): fades in once the first frame is drawn */
+.work-stage {
+  aspect-ratio: 16 / 11;
 }
 
-.frame-rig {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  transform-style: preserve-3d;
-  transform: rotateY(var(--fy, -12deg)) rotateX(var(--fx, 4deg));
-  transition: transform 1100ms var(--ease-out);
-}
-
-.frame-item {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: var(--paper);
+.work-stage canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
   opacity: 0;
-  transform: rotateY(38deg) translateZ(-140px) translateX(18%);
-  transition: opacity 800ms ease, transform 1400ms var(--ease-expo);
-  pointer-events: none;
+  transition: opacity 700ms ease;
 }
 
-.frame-item.is-before {
-  transform: rotateY(-38deg) translateZ(-140px) translateX(-18%);
-}
-
-.frame-item.is-active {
+.work-stage.is-ready canvas {
   opacity: 1;
-  transform: none;
-  pointer-events: auto;
 }
 
-.frame-item img,
-.frame-item video,
-.media-shot img,
-.media-shot video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.media-logo {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  height: 100%;
-  background: var(--paper);
-}
-
-.media-logo img {
-  width: 42%;
-  height: auto;
-  object-fit: contain;
+.work-stage.is-off {
+  display: none;
 }
 
 .work-detail {
-  margin-top: 64px;
+  margin-top: 40px;
   min-height: 15rem;
 }
 
@@ -710,114 +676,6 @@ pre {
 
 .work-mobile {
   display: none;
-}
-
-/* Interface fragments drawn in HTML */
-.ui-chat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 14px;
-  width: 100%;
-  height: 100%;
-  padding: 6%;
-  background: #0b141a;
-  color: #e9edef;
-  font-size: clamp(0.8125rem, 0.6rem + 0.45vw, 1rem);
-}
-
-.ui-chat-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ui-chat-msg {
-  flex: 1;
-  padding: 10px 14px;
-  background: #202c33;
-  border-radius: 0 10px 10px 10px;
-}
-
-.ui-chat-tag {
-  flex: none;
-  padding: 6px 10px;
-  background: var(--accent);
-  color: var(--on-accent);
-  font-weight: 600;
-}
-
-.ui-chat-row:nth-child(3) .ui-chat-tag {
-  background: #fbbf24;
-}
-
-.ui-notch {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: #1c2a3a;
-  overflow: hidden;
-}
-
-.ui-notch-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 9%;
-  background: #cfd8e3;
-}
-
-.ui-notch-island {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 46%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px 18px;
-  background: #000;
-  color: #fff;
-  border-radius: 0 0 26px 26px;
-  font-size: clamp(0.8125rem, 0.6rem + 0.4vw, 1rem);
-  line-height: 1.3;
-}
-
-.ui-notch-art {
-  flex: none;
-  width: 44px;
-  height: 44px;
-  background: var(--accent);
-}
-
-.ui-notch-island small {
-  display: block;
-  color: #a1a1aa;
-}
-
-.ui-notch-wave {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 22px;
-  margin-left: auto;
-}
-
-.ui-notch-wave i {
-  width: 4px;
-  background: var(--accent);
-  animation: wave 1s ease-in-out infinite alternate;
-}
-
-.ui-notch-wave i:nth-child(1) { height: 40%; }
-.ui-notch-wave i:nth-child(2) { height: 90%; animation-delay: -0.3s; }
-.ui-notch-wave i:nth-child(3) { height: 60%; animation-delay: -0.6s; }
-.ui-notch-wave i:nth-child(4) { height: 80%; animation-delay: -0.15s; }
-
-@keyframes wave {
-  to { transform: scaleY(0.35); }
 }
 
 /* Names that open a project page */
@@ -866,8 +724,7 @@ a.work-name {
   navigation: auto;
 }
 
-.frame-item.is-active[data-project="emove"],
-.media-shot[data-project="emove"],
+.work-stage[data-project="emove"],
 .project-page .scene3d-backdrop {
   view-transition-name: emove-media;
 }
@@ -1746,24 +1603,6 @@ html.js .hero-title .line + .line {
 
 /* ── Phone ──────────────────────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-  .ui-chat {
-    padding: 16px;
-  }
-
-  .ui-chat-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .ui-chat-msg {
-    flex: none;
-  }
-
-  .work-mobile .media-shot:has(.ui-chat) {
-    aspect-ratio: auto;
-  }
-
   .topbar {
     gap: 16px;
   }
@@ -1793,7 +1632,17 @@ html.js .hero-title .line + .line {
   }
 
   .work-aside {
+    position: static;
+    margin-bottom: 8px;
+    padding-inline: var(--m);
+  }
+
+  .work-aside-detail {
     display: none;
+  }
+
+  .work-stage {
+    aspect-ratio: 16 / 10;
   }
 
   .work-list li + li {
@@ -1824,11 +1673,6 @@ html.js .hero-title .line + .line {
 
   .work-mobile {
     display: block;
-  }
-
-  .work-mobile .media-shot {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
   }
 
   .work-mobile .work-detail {
@@ -1986,24 +1830,7 @@ html.js .hero-title .line + .line {
   }
 }
 
-/* Cards share one frame size, and short phones drop the stack line so a card still fits */
-@media (max-width: 1024px) {
-  .work-list .work-mobile .media-shot:has(.ui-chat) {
-    aspect-ratio: 16 / 10;
-  }
-
-  .work-list .ui-chat {
-    justify-content: flex-start;
-    gap: 8px;
-    padding: 12px;
-    font-size: 0.75rem;
-  }
-
-  .work-list .ui-chat-row:nth-child(n + 3) {
-    display: none;
-  }
-}
-
+/* Short phones drop the stack line so a card still fits */
 @media (prefers-reduced-motion: no-preference) and (max-width: 1024px) and (max-height: 760px) {
   html.js .work {
     padding-block: 28px 12px;
@@ -2036,9 +1863,5 @@ html.js .hero-title .line + .line {
     opacity: 1;
     transform: none;
     clip-path: none;
-  }
-
-  .frame-rig {
-    transform: none;
   }
 }
