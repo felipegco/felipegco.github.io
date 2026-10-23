@@ -32,8 +32,10 @@ export default async function RootLayout({ children, params }) {
     return (
         <html lang={lang} suppressHydrationWarning>
         <head>
-            {/* Liga as animações de entrada antes da pintura; sem script, tudo aparece parado */}
-            <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');" }} />
+            {/* Liga as animações de entrada antes da pintura; sem script, tudo aparece parado.
+                Das transições entre páginas, só a de abrir um projeto (o mergulho na pilha, com
+                data-opening) acontece; as outras pulam direto para a página nova. */}
+            <script dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js');addEventListener('pageswap',function(e){if(e.viewTransition&&!document.querySelector('[data-opening]'))e.viewTransition.skipTransition()});" }} />
         </head>
         <body className={`${geistSans.variable} ${geistMono.variable}`} /* taste-skill-ignore */ suppressHydrationWarning>
         {children}

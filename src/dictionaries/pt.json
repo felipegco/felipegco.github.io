@@ -32,8 +32,7 @@
         "desc": "Planejador de rotas para carros elétricos. A API cuida do login com JWT em cookie HttpOnly, de uma garagem com 29 modelos, do cálculo de autonomia e das integrações com LocationIQ e OpenChargeMap.",
         "stack": "Java 17, Spring Boot 3, Spring Security, JPA, MariaDB, Next.js",
         "code": "https://github.com/felipegco/e-move-backend",
-        "demo": "https://e-move-frontend.vercel.app/",
-        "alt": "Página inicial do e-Move: o título O Futuro da Mobilidade Elétrica sobre a foto de um painel de carro"
+        "demo": "https://e-move-frontend.vercel.app/"
       },
       {
         "id": "greentech",
@@ -42,8 +41,7 @@
         "year": "2026",
         "desc": "ERP agrícola feito em equipe na FHO: estufas, lotes de plantio, colheitas, estoque e registros de clima, com acesso controlado por cargo. O ambiente inteiro sobe com um Docker Compose.",
         "stack": "Python, Django REST Framework, PostgreSQL 16, JWT, Docker Compose",
-        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend",
-        "alt": "Trecho do diagrama de classes do GreenTech: User, Funcionario, LotePlantio, Estoque e Colheita"
+        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend"
       },
       {
         "id": "triagem",
@@ -51,8 +49,7 @@
         "meta": "Automação para clínica",
         "year": "2026",
         "desc": "Lembretes de consulta por WhatsApp para uma clínica odontológica. Um modelo de linguagem lê a resposta do paciente e decide entre confirmar e cancelar no sistema de agenda. Quando a resposta é ambígua, a conversa vai para uma pessoa.",
-        "stack": "n8n, Groq API, Ollama com Llama 3.1, Redis",
-        "alt": "Conversa de WhatsApp com três respostas de pacientes e a decisão do modelo ao lado de cada uma"
+        "stack": "n8n, Groq API, Ollama com Llama 3.1, Redis"
       },
       {
         "id": "clinicare",
@@ -62,8 +59,7 @@
         "desc": "Agendamento para clínicas odontológicas. API REST em camadas com Spring Security e documentação OpenAPI, e um site em React com login para os funcionários.",
         "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
         "code": "https://github.com/felipegco/clinicare-backend",
-        "demo": "https://felipegco.github.io/clinicare-frontend/",
-        "alt": "Site da CliniCare: o título A jornada para o seu sorriso perfeito começa aqui ao lado da foto da recepção"
+        "demo": "https://felipegco.github.io/clinicare-frontend/"
       },
       {
         "id": "notch",
@@ -72,8 +68,7 @@
         "year": "2026",
         "desc": "Um app mínimo que faz o notch do MacBook se comportar como a Dynamic Island do iPhone: compacto, discreto e sem recursos sobrando.",
         "stack": "Swift, SwiftUI, macOS",
-        "code": "https://github.com/felipegco/simple-notch",
-        "alt": "Desenho do notch de um MacBook expandido mostrando a música que está tocando"
+        "code": "https://github.com/felipegco/simple-notch"
       },
       {
         "id": "atoll",
@@ -82,8 +77,7 @@
         "year": "2026",
         "desc": "Contribuo com o Atoll, que transforma o notch do MacBook numa superfície de mídia, informações do sistema e atalhos, com animações nativas em SwiftUI.",
         "stack": "Swift, SwiftUI",
-        "code": "https://github.com/Ebullioscopic/Atoll",
-        "alt": "Logotipo do Atoll"
+        "code": "https://github.com/Ebullioscopic/Atoll"
       }
     ],
     "inside": "Ver por dentro",

@@ -6,14 +6,15 @@ import WorkStage from '@/components/sections/work-stage';
 // Projetos que já têm página própria, com a cena 3D
 const PAGES = { emove: 'e-move' };
 
-function ProjectDetail({ project, dict, lang }) {
+// index: a posição do projeto, para o clique em "ver por dentro" mergulhar na pilha dele
+function ProjectDetail({ project, index, dict, lang }) {
     const page = PAGES[project.id];
     return (
         <div className="work-detail">
             <p>{project.desc}</p>
             <p className="stack">{project.stack}</p>
             <div className="work-links">
-                {page && <a href={`/${lang}/${page}`} className="button">{dict.inside}</a>}
+                {page && <a href={`/${lang}/${page}`} className="button" data-open={index}>{dict.inside}</a>}
                 {project.code && <a href={project.code} target="_blank" rel="noopener noreferrer">{dict.code}</a>}
                 {project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer">{dict.demo}</a>}
                 {!project.code && <span className="private">{dict.private}</span>}
@@ -27,6 +28,7 @@ export default function Work({ dict, lang }) {
     const [active, setActive] = useState(0);
     const [slide, setSlide] = useState(0);
     const listRef = useRef(null);
+    const stageRef = useRef(null);
 
     // No celular a lista vira um carrossel lateral: o cartão mais perto da borda é o atual
     useEffect(() => {
@@ -63,15 +65,28 @@ export default function Work({ dict, lang }) {
 
     const current = projects[active];
 
+    // Abrir um projeto com página própria: a pilha mergulha na camada principal e só
+    // então a página abre, com a transição que continua o mergulho (globals.css)
+    const onOpen = (e) => {
+        const link = e.target.closest('a[data-open]');
+        if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        const stage = stageRef.current;
+        if (!stage) return;
+        e.preventDefault();
+        stage.open(Number(link.dataset.open)).then(() => {
+            window.location.href = link.href;
+        });
+    };
+
     return (
-        <section id="projects" className="work" data-slide aria-labelledby="projects-title">
+        <section id="projects" className="work" data-slide aria-labelledby="projects-title" onClick={onOpen}>
             <h2 id="projects-title" className="lead" data-reveal>{dict.title}</h2>
 
             {/* A pilha 3D do projeto e, no computador, os detalhes dele */}
             <div className="work-aside">
-                <WorkStage projects={projects} active={active} slide={slide} />
+                <WorkStage projects={projects} active={active} slide={slide} control={stageRef} />
                 <div className="work-aside-detail" aria-live="polite">
-                    <ProjectDetail project={current} dict={dict} lang={lang} />
+                    <ProjectDetail project={current} index={active} dict={dict} lang={lang} />
                 </div>
             </div>
 
@@ -83,6 +98,7 @@ export default function Work({ dict, lang }) {
                             <a
                                 href={`/${lang}/${PAGES[project.id]}`}
                                 className="work-name"
+                                data-open={i}
                                 aria-current={i === active ? 'true' : undefined}
                                 onPointerEnter={() => setActive(i)}
                                 onFocus={() => setActive(i)}
@@ -104,7 +120,7 @@ export default function Work({ dict, lang }) {
                             </button>
                         )}
                         <div className="work-mobile">
-                            <ProjectDetail project={project} dict={dict} lang={lang} />
+                            <ProjectDetail project={project} index={i} dict={dict} lang={lang} />
                         </div>
                     </li>
                 ))}

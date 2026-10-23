@@ -32,8 +32,7 @@
         "desc": "Route planner for electric cars. The API handles login with JWT in an HttpOnly cookie, a garage of 29 car models, range estimates and the LocationIQ and OpenChargeMap integrations.",
         "stack": "Java 17, Spring Boot 3, Spring Security, JPA, MariaDB, Next.js",
         "code": "https://github.com/felipegco/e-move-backend",
-        "demo": "https://e-move-frontend.vercel.app/",
-        "alt": "e-Move home page: the headline The Future of Electric Mobility over a photo of a car dashboard"
+        "demo": "https://e-move-frontend.vercel.app/"
       },
       {
         "id": "greentech",
@@ -42,8 +41,7 @@
         "year": "2026",
         "desc": "Farm management ERP built by a team at FHO: greenhouses, planting batches, harvests, stock and climate logs, with access controlled by job title. The whole environment starts with one Docker Compose file.",
         "stack": "Python, Django REST Framework, PostgreSQL 16, JWT, Docker Compose",
-        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend",
-        "alt": "Part of the GreenTech class diagram: User, Funcionario, LotePlantio, Estoque and Colheita"
+        "code": "https://github.com/felipegco/PI_III_2026TB_GreenTech_Backend"
       },
       {
         "id": "triagem",
@@ -51,8 +49,7 @@
         "meta": "Automation for a clinic",
         "year": "2026",
         "desc": "Appointment reminders over WhatsApp for a dental clinic. A language model reads each patient's reply and either confirms or cancels in the scheduling system. When a reply is unclear, the conversation goes to a person.",
-        "stack": "n8n, Groq API, Ollama with Llama 3.1, Redis",
-        "alt": "WhatsApp conversation with three patient replies and the model's decision next to each"
+        "stack": "n8n, Groq API, Ollama with Llama 3.1, Redis"
       },
       {
         "id": "clinicare",
@@ -62,8 +59,7 @@
         "desc": "Scheduling for dental clinics. A layered REST API with Spring Security and OpenAPI docs, and a React site with staff login.",
         "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
         "code": "https://github.com/felipegco/clinicare-backend",
-        "demo": "https://felipegco.github.io/clinicare-frontend/",
-        "alt": "CliniCare site: the headline about a perfect smile next to a photo of the reception room"
+        "demo": "https://felipegco.github.io/clinicare-frontend/"
       },
       {
         "id": "notch",
@@ -72,8 +68,7 @@
         "year": "2026",
         "desc": "A minimal app that makes the MacBook notch behave like the iPhone's Dynamic Island: compact, quiet and nothing extra.",
         "stack": "Swift, SwiftUI, macOS",
-        "code": "https://github.com/felipegco/simple-notch",
-        "alt": "Drawing of an expanded MacBook notch showing the song that is playing"
+        "code": "https://github.com/felipegco/simple-notch"
       },
       {
         "id": "atoll",
@@ -82,8 +77,7 @@
         "year": "2026",
         "desc": "I contribute to Atoll, which turns the MacBook notch into a surface for media, system info and shortcuts, with native SwiftUI animations.",
         "stack": "Swift, SwiftUI",
-        "code": "https://github.com/Ebullioscopic/Atoll",
-        "alt": "Atoll logo"
+        "code": "https://github.com/Ebullioscopic/Atoll"
       }
     ],
     "inside": "See inside",

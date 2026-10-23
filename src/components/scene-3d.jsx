@@ -15,8 +15,7 @@ const WORLDS = {
 
 // outro: telas depois da última parada em que o palco continua preso
 // (a introdução usa uma para a seção de projetos subir por cima dela).
-// backdrop: o que aparece atrás do 3D até ele ficar pronto.
-export default function Scene3D({ id, world, labels, label, hold, holdStacked, outro = 0, header, backdrop, route, routeLabel, className = '', children }) {
+export default function Scene3D({ id, world, labels, label, hold, holdStacked, outro = 0, header, route, routeLabel, className = '', children }) {
     const ref = useRef(null);
     const canvasRef = useRef(null);
 
@@ -131,7 +130,6 @@ export default function Scene3D({ id, world, labels, label, hold, holdStacked, o
             style={{ '--hold': hold, '--hold-stacked': holdStacked ?? hold }}
         >
             <div className="scene3d-stage">
-                {backdrop && <div className="scene3d-backdrop">{backdrop}</div>}
                 <canvas className="scene3d-canvas" ref={canvasRef} aria-hidden="true" />
                 {header}
                 <div className="scene3d-beats">{children}</div>
