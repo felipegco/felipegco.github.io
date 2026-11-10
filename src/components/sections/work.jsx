@@ -17,7 +17,7 @@ function ProjectDetail({ project, index, dict, lang }) {
                 {page && <a href={`/${lang}/${page}`} className="button" data-open={index}>{dict.inside}</a>}
                 {project.code && <a href={project.code} target="_blank" rel="noopener noreferrer">{dict.code}</a>}
                 {project.demo && <a href={project.demo} target="_blank" rel="noopener noreferrer">{dict.demo}</a>}
-                {!project.code && <span className="private">{dict.private}</span>}
+                {!project.code && <span className="private">{project.private ?? dict.private}</span>}
             </div>
         </div>
     );

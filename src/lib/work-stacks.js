@@ -6,7 +6,7 @@ export const STACKS = {
     emove: { layers: ['MariaDB', 'JPA', 'Java 17 · Spring Boot 3', 'Spring Security', 'Next.js'], core: 2, topper: 'pin' },
     greentech: { layers: ['PostgreSQL 16', 'Django REST Framework', 'JWT', 'Docker Compose'], core: 1, topper: 'greenhouse' },
     triagem: { layers: ['Redis', 'Ollama · Llama 3.1', 'Groq API', 'n8n'], core: 3, topper: 'chat' },
-    clinicare: { layers: ['MariaDB', 'JPA', 'Java 17 · Spring Boot 3', 'Swagger', 'React'], core: 2, topper: 'calendar' },
+    helmetcrop: { layers: ['Win32', 'Direct3D 11 · HLSL', 'C++20 · OpenXR', 'iRacing SDK', 'Dear ImGui'], core: 2, topper: 'helmet' },
     notch: { layers: ['macOS', 'Swift', 'SwiftUI'], core: 2, topper: 'notch' },
     atoll: { layers: ['macOS', 'Swift', 'SwiftUI'], core: 2, topper: 'atoll' },
 };

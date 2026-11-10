@@ -8,9 +8,11 @@ import {
     CapsuleGeometry,
     ConeGeometry,
     CylinderGeometry,
+    DoubleSide,
     Group,
     Mesh,
     MeshStandardMaterial,
+    PlaneGeometry,
     SphereGeometry,
     SRGBColorSpace,
     TorusGeometry,
@@ -43,6 +45,94 @@ function label(tokens, text, index, core) {
     ctx.fillStyle = core ? '#0a0a0a' : tokens.muted;
     ctx.font = `500 44px ${font}`;
     ctx.fillText(String(index + 1).padStart(2, '0'), canvas.width - 56, 74);
+    const texture = new CanvasTexture(canvas);
+    texture.colorSpace = SRGBColorSpace;
+    texture.anisotropy = 4;
+    return texture;
+}
+
+// O capacete do HelmetCrop: uma esfera deformada, mais longa que larga, com a
+// queixeira para a frente e a base reta. d é a direção na esfera unitária
+// (x para o lado, y para cima, z para a frente).
+const s01 = (v, a, b) => smooth(span(v, a, b));
+
+function shape(d, radius, out) {
+    const chin = s01(d.z, 0.2, 0.85) * s01(d.y, 0.05, -0.55);
+    const rim = -0.62 - 0.14 * s01(d.z, -0.3, 0.9);
+    return out.set(
+        d.x * 0.86 * radius,
+        Math.max(d.y * 0.94 * radius - 0.04 * chin, rim),
+        d.z * 1.08 * radius + 0.17 * chin * radius,
+    );
+}
+
+function helmetGeometry(radius) {
+    const geometry = new SphereGeometry(1, 96, 64);
+    const position = geometry.attributes.position;
+    const d = new Vector3();
+    for (let i = 0; i < position.count; i++) {
+        shape(d.fromBufferAttribute(position, i), radius, d);
+        position.setXYZ(i, d.x, d.y, d.z);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+}
+
+// Um recorte na frente da casca, com borda lisa: largura angular (yaw), altura
+// central (y) e meia altura, com as pontas arredondadas
+function helmetPatch(radius, yaw, y, half) {
+    const geometry = new PlaneGeometry(2, 2, 64, 16);
+    const position = geometry.attributes.position;
+    const d = new Vector3();
+    for (let i = 0; i < position.count; i++) {
+        const u = position.getX(i);
+        const v = position.getY(i);
+        const h = y + v * half * Math.max(0, 1 - u ** 4) ** 0.25;
+        const ring = Math.sqrt(1 - h * h);
+        d.set(ring * Math.sin(u * yaw), h, ring * Math.cos(u * yaw));
+        shape(d, radius, d);
+        position.setXYZ(i, d.x, d.y, d.z);
+    }
+    geometry.computeVertexNormals();
+    return geometry;
+}
+
+// A pintura: casca na cor do texto, duas faixas por cima e um risco que sobe da
+// queixeira para a nuca, na cor de destaque
+function livery(tokens) {
+    const W = 1024;
+    const H = 512;
+    const canvas = document.createElement('canvas');
+    canvas.width = W;
+    canvas.height = H;
+    const ctx = canvas.getContext('2d');
+    const rgb = (color) => {
+        ctx.fillStyle = color;
+        ctx.fillRect(0, 0, 1, 1);
+        return ctx.getImageData(0, 0, 1, 1).data;
+    };
+    const base = rgb(tokens.ink);
+    const accent = rgb(tokens.accent);
+    const image = ctx.createImageData(W, H);
+    for (let row = 0; row < H; row++) {
+        const theta = ((row + 0.5) / H) * Math.PI;
+        for (let col = 0; col < W; col++) {
+            const phi = ((col + 0.5) / W) * Math.PI * 2;
+            // Mesma convenção da SphereGeometry
+            const x = -Math.cos(phi) * Math.sin(theta);
+            const y = Math.cos(theta);
+            const z = Math.sin(phi) * Math.sin(theta);
+            const stripes = y > -0.05 && Math.abs(Math.abs(x) - 0.13) < 0.045 && !(z > 0 && y < 0.42);
+            const swoosh = Math.abs(x) > 0.3 && Math.abs(y - (-0.3 - 0.28 * z)) < 0.055;
+            const color = stripes || swoosh ? accent : base;
+            const k = (row * W + col) * 4;
+            image.data[k] = color[0];
+            image.data[k + 1] = color[1];
+            image.data[k + 2] = color[2];
+            image.data[k + 3] = 255;
+        }
+    }
+    ctx.putImageData(image, 0, 0);
     const texture = new CanvasTexture(canvas);
     texture.colorSpace = SRGBColorSpace;
     texture.anisotropy = 4;
@@ -105,27 +195,59 @@ const TOPPERS = {
         };
     },
 
-    // CliniCare: a agenda, com um horário marcado
-    calendar({ mats }) {
+    // HelmetCrop: um capacete fechado de corrida, com a viseira que sobe e desce
+    helmet({ mats, own, tokens }) {
         const group = new Group();
-        const page = box(1.5, 1.3, 0.16, mats.body);
-        page.position.y = 0.7;
-        const header = box(1.5, 0.3, 0.2, mats.accent);
-        header.position.y = 1.2;
-        group.add(page, header);
-        for (const x of [-0.4, 0.4]) {
-            const ring = cylinder(0.05, 0.22, mats.ink);
-            ring.position.set(x, 1.4, 0);
-            group.add(ring);
+        const helmet = new Group();
+        helmet.scale.setScalar(0.95);
+        helmet.position.y = 0.95 * 0.76 + 0.02;
+        helmet.rotation.y = 1.45; // de perfil para a câmera, com a queixeira e a viseira
+        group.add(helmet);
+
+        const shell = new Mesh(helmetGeometry(1), new MeshStandardMaterial({ map: livery(tokens), roughness: 0.3, metalness: 0.1 }));
+        // A abertura dos olhos, escura, que aparece com a viseira levantada
+        const portMat = new MeshStandardMaterial({ color: '#060606', roughness: 0.8 });
+        const port = new Mesh(helmetPatch(1.005, 0.9, 0.1, 0.2), portMat);
+        const glassMat = new MeshStandardMaterial({ color: tokens.accent, roughness: 0.12, metalness: 0.6, side: DoubleSide });
+        own.push(shell.geometry, shell.material, shell.material.map, port.geometry, portMat, glassMat);
+        shell.castShadow = true;
+
+        // A viseira gira no eixo dos dois parafusos laterais
+        const PIVOT = 0.1;
+        const visor = new Group();
+        visor.position.y = PIVOT;
+        const glass = new Mesh(helmetPatch(1.03, 1.45, 0.11, 0.27), glassMat);
+        glass.position.y = -PIVOT;
+        glass.castShadow = true;
+        own.push(glass.geometry);
+        visor.add(glass);
+        for (const side of [-1, 1]) {
+            const screw = cylinder(0.09, 0.05, mats.dim);
+            screw.rotation.z = Math.PI / 2;
+            screw.position.set(side * 0.88, PIVOT, 0.02);
+            helmet.add(screw);
         }
-        for (let row = 0; row < 3; row++) {
-            for (let col = 0; col < 4; col++) {
-                const cell = box(0.24, 0.18, 0.04, row === 1 && col === 2 ? mats.accent : mats.dim);
-                cell.position.set(-0.48 + col * 0.32, 0.86 - row * 0.26, 0.09);
-                group.add(cell);
-            }
+
+        // Entradas de ar: duas no queixo e uma no alto, e o aerofólio atrás
+        for (const y of [-0.46, -0.56]) {
+            const vent = box(0.32, 0.05, 0.08, mats.dim);
+            vent.position.set(0, y, 1.13);
+            vent.rotation.x = 0.5;
+            helmet.add(vent);
         }
-        return { group };
+        const scoop = box(0.26, 0.08, 0.3, mats.dim);
+        scoop.position.set(0, 0.86, 0.36);
+        scoop.rotation.x = 0.4;
+        const wing = box(0.8, 0.05, 0.34, mats.accent);
+        wing.position.set(0, 0.7, -0.9);
+        wing.rotation.x = -0.75;
+        helmet.add(shell, port, visor, scoop, wing);
+
+        return {
+            group,
+            // Fica baixada, sobe, espera e desce, em ciclo
+            tick: (t) => { visor.rotation.x = -0.85 * smooth(span(Math.sin(t * 0.7), -0.35, 0.35)); },
+        };
     },
 
     // Simple Notch: a tampa do MacBook, com a ilha que cresce e encolhe

@@ -52,14 +52,13 @@
         "stack": "n8n, Groq API, Ollama with Llama 3.1, Redis"
       },
       {
-        "id": "clinicare",
-        "name": "CliniCare",
-        "meta": "Spring Boot API and React",
-        "year": "2025",
-        "desc": "Scheduling for dental clinics. A layered REST API with Spring Security and OpenAPI docs, and a React site with staff login.",
-        "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
-        "code": "https://github.com/felipegco/clinicare-backend",
-        "demo": "https://felipegco.github.io/clinicare-frontend/"
+        "id": "helmetcrop",
+        "name": "HelmetCrop",
+        "meta": "OpenXR layer in C++",
+        "year": "2026",
+        "desc": "Puts the iRacing driver in VR inside a helmet. The game stops rendering what the helmet covers, which saves GPU time. The visor drops at the press of a wheel button, with lenses written as a shader, and the helmet moves with the telemetry under braking, through corners and over kerbs.",
+        "stack": "C++20, OpenXR, Direct3D 11, HLSL, iRacing SDK, Dear ImGui, CMake",
+        "private": "Private repository"
       },
       {
         "id": "notch",

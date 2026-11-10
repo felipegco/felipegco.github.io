@@ -52,14 +52,13 @@
         "stack": "n8n, Groq API, Ollama com Llama 3.1, Redis"
       },
       {
-        "id": "clinicare",
-        "name": "CliniCare",
-        "meta": "API Spring Boot e React",
-        "year": "2025",
-        "desc": "Agendamento para clínicas odontológicas. API REST em camadas com Spring Security e documentação OpenAPI, e um site em React com login para os funcionários.",
-        "stack": "Java 17, Spring Boot 3, JPA, MariaDB, Swagger, React",
-        "code": "https://github.com/felipegco/clinicare-backend",
-        "demo": "https://felipegco.github.io/clinicare-frontend/"
+        "id": "helmetcrop",
+        "name": "HelmetCrop",
+        "meta": "Camada OpenXR em C++",
+        "year": "2026",
+        "desc": "Coloca quem pilota no iRacing em VR dentro de um capacete. O jogo deixa de renderizar o que o capacete cobre, o que economiza GPU. A viseira desce por um botão do volante, com lentes feitas num shader, e o capacete balança com a telemetria nas frenagens, nas curvas e nas zebras.",
+        "stack": "C++20, OpenXR, Direct3D 11, HLSL, iRacing SDK, Dear ImGui, CMake",
+        "private": "Repositório privado"
       },
       {
         "id": "notch",
