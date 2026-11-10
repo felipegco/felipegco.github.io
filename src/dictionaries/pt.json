@@ -22,6 +22,7 @@
     "title": "Projetos",
     "code": "Código",
     "demo": "Ver online",
+    "wip": "Em andamento",
     "private": "Repositório privado, projeto de cliente",
     "projects": [
       {
@@ -36,6 +37,7 @@
       },
       {
         "id": "greentech",
+        "wip": true,
         "name": "GreenTech ERP",
         "meta": "API Django, em equipe",
         "year": "2026",
@@ -53,6 +55,7 @@
       },
       {
         "id": "helmetcrop",
+        "wip": true,
         "name": "HelmetCrop",
         "meta": "Camada OpenXR em C++",
         "year": "2026",

@@ -105,6 +105,7 @@ export default function Work({ dict, lang }) {
                             >
                                 <strong>{project.name}</strong>
                                 <span>{project.meta}, {project.year}</span>
+                                {project.wip && <small className="wip">{dict.wip}</small>}
                             </a>
                         ) : (
                             <button
@@ -117,6 +118,7 @@ export default function Work({ dict, lang }) {
                             >
                                 <strong>{project.name}</strong>
                                 <span>{project.meta}, {project.year}</span>
+                                {project.wip && <small className="wip">{dict.wip}</small>}
                             </button>
                         )}
                         <div className="work-mobile">

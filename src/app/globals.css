@@ -585,6 +585,41 @@ pre {
   color: var(--ink);
 }
 
+/* Projeto em andamento: uma etiqueta pequena ao lado do subtítulo, com um ponto que pulsa */
+.work-name .wip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: baseline;
+  margin-left: -12px;
+  padding: 3px 9px;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: 999px;
+  font-size: 0.72rem;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.work-name .wip::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: wip-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes wip-pulse {
+  50% { opacity: 0.3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work-name .wip::before {
+    animation: none;
+  }
+}
+
 .work-aside {
   grid-column: 8 / -1;
   grid-row: 2;
@@ -1645,6 +1680,12 @@ html.js .hero-title .line + .line {
 
   .work-name span {
     color: var(--accent);
+  }
+
+  .work-name .wip {
+    align-self: flex-start;
+    margin-left: 0;
+    color: var(--muted);
   }
 
   .work-mobile {

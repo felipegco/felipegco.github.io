@@ -22,6 +22,7 @@
     "title": "Projects",
     "code": "Code",
     "demo": "Live site",
+    "wip": "In progress",
     "private": "Private repository, client project",
     "projects": [
       {
@@ -36,6 +37,7 @@
       },
       {
         "id": "greentech",
+        "wip": true,
         "name": "GreenTech ERP",
         "meta": "Django API, team project",
         "year": "2026",
@@ -53,6 +55,7 @@
       },
       {
         "id": "helmetcrop",
+        "wip": true,
         "name": "HelmetCrop",
         "meta": "OpenXR layer in C++",
         "year": "2026",
